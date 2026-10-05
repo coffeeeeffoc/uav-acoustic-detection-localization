@@ -1,0 +1,13 @@
+.tools/
+.python-packages/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# Bulk audio/video and reproducible synthetic arrays
+*.wav
+*.mp4
+/data/synthetic/**/*.npz
+/赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/

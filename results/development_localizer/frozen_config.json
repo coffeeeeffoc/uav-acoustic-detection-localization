@@ -1,0 +1,280 @@
+{
+  "frozen": true,
+  "development_only": true,
+  "fresh_data_used": false,
+  "source_sha256": "6edd9b9b46f13bf5c601711827083f0a8a0aa8c4204916ffd458187e0c978f95",
+  "feature_sha256": "290328899f2de68e098962d97217092773792c7e78c4c508fd9105ea4a22cbcc",
+  "input_archive_sha256": "c21a6b97f0fadf5324adff68c814ee27c2a38ee492460a5f2598c7cefa733c8c",
+  "input": {
+    "shape": [
+      1600,
+      8
+    ],
+    "sample_rate_hz": 8000,
+    "frame_seconds": 0.2,
+    "sound_speed_mps": 343.0,
+    "array_m": [
+      [
+        -0.015624999999999997,
+        0.0075000000000000015,
+        0.0
+      ],
+      [
+        0.184375,
+        0.0075000000000000015,
+        0.0
+      ],
+      [
+        0.088375,
+        0.1695,
+        0.0
+      ],
+      [
+        -0.088625,
+        0.1875,
+        0.0
+      ],
+      [
+        -0.209625,
+        0.0305,
+        0.0
+      ],
+      [
+        -0.126625,
+        -0.1465,
+        0.0
+      ],
+      [
+        0.04037500000000001,
+        -0.1825,
+        0.0
+      ],
+      [
+        0.127375,
+        -0.0735,
+        0.0
+      ]
+    ]
+  },
+  "grid": {
+    "azimuth_deg": [
+      0,
+      357,
+      3
+    ],
+    "elevation_deg": [
+      0,
+      87,
+      3
+    ],
+    "extra_zenith": true,
+    "n": 3601
+  },
+  "spectrum": {
+    "short_fft": 512,
+    "hop": 256,
+    "segments": 5,
+    "window": "periodic Hann",
+    "full_map_fft": 1600,
+    "feature_fft": 2048,
+    "correlation_interpolation": 8,
+    "map_band_hz": [
+      200,
+      3000
+    ],
+    "feature_median_bins": 31,
+    "median_mode": "nearest",
+    "gaussian_sigma_bins": 1,
+    "gaussian_mode": "reflect",
+    "floor": 1e-15
+  },
+  "candidate_generation": {
+    "maps": [
+      "phat",
+      "full_excess",
+      "harmonic_1",
+      "harmonic_2",
+      "harmonic_3"
+    ],
+    "f0_hz": [
+      80,
+      240,
+      2
+    ],
+    "comb_harmonics": 12,
+    "comb_weight_exponent": -0.5,
+    "f0_hypotheses": 3,
+    "f0_separation_hz": 20,
+    "map_peaks": [
+      3,
+      2,
+      2,
+      2,
+      2
+    ],
+    "within_map_nms_deg": 20,
+    "across_map_exclusion_deg": 7,
+    "other_source_min_separation_deg_strict": 15,
+    "null_denominator_floor": 0.1,
+    "harmonic_floor": 0.02,
+    "harmonic_scale": 0.98,
+    "harmonic_width_max_hz": [
+      8,
+      "0.012*f"
+    ],
+    "raw_phat_first": true
+  },
+  "features": {
+    "raw_dimension": 149,
+    "no_null_drop": [
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      129,
+      133,
+      137
+    ],
+    "spectrum_bands_hz": [
+      [
+        80,
+        3000
+      ],
+      [
+        80,
+        400
+      ],
+      [
+        400,
+        1000
+      ],
+      [
+        1000,
+        2000
+      ],
+      [
+        2000,
+        3000
+      ]
+    ],
+    "ratio_bands_hz": [
+      [
+        200,
+        800
+      ],
+      [
+        800,
+        1600
+      ],
+      [
+        1600,
+        3000
+      ]
+    ],
+    "contrast_quantiles": [
+      0.5,
+      0.9,
+      0.99
+    ],
+    "capture_quantiles": [
+      0.25,
+      0.5,
+      0.9
+    ],
+    "harmonic_widths_hz": [
+      5,
+      10,
+      20
+    ]
+  },
+  "fit": {
+    "target": "exp(-(spherical_error_deg/10)^2) for positive; 0 for negative",
+    "positive_weight_group": "target>=exp(-1)",
+    "group_weight": "n_other/n_near",
+    "standard_deviation_floor": 0.05,
+    "standardized_clip": [
+      -8,
+      8
+    ],
+    "anchor_max_each_group": 128,
+    "anchor_seed": 90210,
+    "width": 1.0,
+    "ridge": 0.1,
+    "regularized_intercept": true,
+    "distance_normalizer": "2*width^2*selected_dimension",
+    "grouped_folds": 5,
+    "fold_seed": 90210,
+    "fold_split": "permute separately for label 0 and label 1, then cyclic fold assignment; all candidates in trial stay together"
+  },
+  "models": {
+    "full": {
+      "path": "results/development_localizer/candidate_ranker_model.npz",
+      "sha256": "6338fad6611cc7b411387eb926cc3e7f9c981af434ce04f68b778e1f22524eed",
+      "selected_dimension": 149
+    },
+    "no_null": {
+      "path": "results/development_localizer/candidate_ranker_no_null_model.npz",
+      "sha256": "c311f34098767523df7a04eb26625e02e06e0c467c8759312e2562adf4d0536b",
+      "selected_dimension": 104
+    }
+  },
+  "runtime": {
+    "executable": "C:\\Users\\15211\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "threads_requested": 1,
+    "timer": "perf_counter_ns elapsed processing time",
+    "probe": "40 fixed old -5dB frames per model",
+    "excluded": [
+      "constructor/model load",
+      "warm-up",
+      "NPZ input",
+      "200ms acquisition window"
+    ]
+  },
+  "commands": {
+    "self_test": "python code/improved_localizer.py --self-test",
+    "reproduce_old_development": "python code/improved_localizer.py --develop-ranker --finalize"
+  },
+  "command_note": "Do not refit or rewrite shipped artifacts while parent fresh evaluation runs. Commands document reproducibility only."
+}

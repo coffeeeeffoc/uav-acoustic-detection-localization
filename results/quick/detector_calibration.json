@@ -1,0 +1,8 @@
+{
+  "threshold": 1.748491674229872,
+  "order_statistic_1_based": 77,
+  "n": 80,
+  "target_fpr": 0.05,
+  "rule": "strictly greater than threshold",
+  "validation_fpr": 0.0375
+}

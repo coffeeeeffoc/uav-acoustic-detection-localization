@@ -1,0 +1,197 @@
+[
+  {
+    "id": "echohawk2026",
+    "authors": [
+      "David Shulman"
+    ],
+    "title": "EchoHawk: A Reproducible Acoustic Pipeline for Drone Detection, Classification, and Direction-Finding, with a Cautionary Study of Session-Level Data Leakage",
+    "year": 2026,
+    "venue": "arXiv preprint arXiv:2606.29589v2; peer review not established",
+    "doi": "10.48550/arXiv.2606.29589",
+    "url": "https://arxiv.org/abs/2606.29589v2",
+    "access_date": "2026-10-02",
+    "evidence": [
+      {
+        "url": "https://arxiv.org/pdf/2606.29589v2",
+        "kind": "author_preprint",
+        "verified": "Read model, features, estimators, evaluation protocol and limitations; locally saved PDF and extraction."
+      },
+      {
+        "url": "https://github.com/shulm/echohawk/tree/ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf",
+        "kind": "author_repository",
+        "verified": "Inspected features.py, beamforming.py, simulate.py and models.py at pinned commit; no execution or reproduction."
+      }
+    ],
+    "notes": {
+      "reading_scope": "Sections3-6,8-11 and selected repository source; reported numerical scores not reproduced and not transferred to this project.",
+      "version_caution": "Abstract landing page and versioned v2 body differ in illustrative scores. Use versioned v2 PDF for content. PDF typeset date and HTML rendered date also differ; bibliography uses year2026 and identifier v2 only.",
+      "license": "Preprint CC BY4.0; saved code MIT; original LICENSE retained.",
+      "local_pdf": "references/improved/echohawk_2606.29589v2.pdf",
+      "commit": "ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf"
+    }
+  },
+  {
+    "id": "noiseweight",
+    "authors": [
+      "Jean-Marc Valin",
+      "François Michaud",
+      "Jean Rouat"
+    ],
+    "title": "Robust localization and tracking of simultaneous moving sound sources using beamforming and particle filtering",
+    "year": 2007,
+    "venue": "Robotics and Autonomous Systems, 55(3), 216–228",
+    "doi": "10.1016/j.robot.2006.08.004",
+    "url": "https://jmvalin.ca/papers/valin_localization.pdf",
+    "evidence": [
+      {
+        "url": "https://jmvalin.ca/papers/valin_localization.pdf",
+        "verified": "原出版页核对书目与摘要；作者网站公开原稿，已下载并核对4.2节频谱加权。"
+      }
+    ],
+    "access_date": "2026-10-02",
+    "notes": "SNR先验驱动的逐麦克风频率掩码与白化互相关结合，并引入混响噪声项；是noise-aware weighting先例，不是无人机数据。仅精读相关节，不声称通读全部跟踪实验。",
+    "existing_bibliography_id": "noiseweight"
+  },
+  {
+    "id": "phatbeta",
+    "authors": [
+      "Kevin D. Donohue",
+      "Jens Hannemann",
+      "Henry G. Dietz"
+    ],
+    "title": "Performance of phase transform for detecting sound sources with microphone arrays in reverberant and noisy environments",
+    "year": 2007,
+    "venue": "Signal Processing, 87(7), 1677–1691",
+    "doi": "10.1016/j.sigpro.2007.01.013",
+    "url": "https://scholars.uky.edu/en/publications/performance-of-phase-transform-for-detecting-sound-sources-with-m/",
+    "evidence": [
+      {
+        "url": "https://scholars.uky.edu/en/publications/performance-of-phase-transform-for-detecting-sound-sources-with-m/",
+        "verified": "作者大学机构页与出版商摘要核实作者、题名、年、卷期页码、DOI。"
+      }
+    ],
+    "access_date": "2026-10-02",
+    "notes": "已读摘要和出版商结论片段，未取得本地全文。PHAT-beta调节保留幅度量；窄带目标可能受完全白化伤害，beta不是普适最优常数。",
+    "existing_bibliography_id": "phatbeta"
+  },
+  {
+    "id": "harmonics",
+    "authors": [
+      "Seçkin Uluskan"
+    ],
+    "title": "Precise acoustic drone localization and tracking via drone noise: Steered response power - phase transform around harmonics",
+    "year": 2024,
+    "venue": "International Journal of Aeroacoustics, 23(5–6), 558–577",
+    "doi": "10.1177/1475472X241259082",
+    "url": "https://journals.sagepub.com/doi/abs/10.1177/1475472X241259082",
+    "evidence": [
+      {
+        "url": "https://journals.sagepub.com/doi/abs/10.1177/1475472X241259082",
+        "kind": "publisher_article_page_and_abstract",
+        "verified": "SAGE原始页核实单作者、完整题名、DOI、23(5–6)、558–577、在线首发2024-06-14与卷期2024-09；已读完整摘要。页面标记Restricted access。"
+      },
+      {
+        "url": "https://api.crossref.org/works/10.1177/1475472X241259082",
+        "kind": "publisher_deposited_metadata_and_abstract",
+        "verified": "Crossref返回相同作者、题名、卷期页码、在线/印刷日期及原始摘要，独立复核SAGE记录。"
+      },
+      {
+        "url": "https://akademik.eskisehir.edu.tr/seckinuluskan/makaleler",
+        "kind": "author_institution_publication_list",
+        "verified": "作者Eskişehir Technical University机构页的检索可见条目给出同名论文、作者、2024、23、558–577与DOI；该条目期号简写5，规范著录采用SAGE/Crossref的5–6。直接打开该页面时工具未抽取出正文。"
+      }
+    ],
+    "access_date": "2026-10-02",
+    "notes": {
+      "method": "原始摘要明确提出DFT-Harmonics，仅处理谐波频率邻域，再将其并入SRP-PHAT形成SRP-Harmonics。摘要报告用真实麦克风阵列录音定位/跟踪无人机，并报告Kaiser窗后对人工白噪声与自然风噪声的鲁棒性。",
+      "limitations": "摘要未提供基频估计、谐波邻域宽度、Kaiser参数、搜索网格和误差数字；不能据摘要声称已完整掌握可复现算法。未读正文，不能断言文中完全未使用noise/coherence权重。谐波失配与强同频干扰的影响是待检验分析方向，不是本次已核实的论文实验结论。",
+      "reading_scope": "已读SAGE完整摘要、元数据与Crossref原始摘要；未取得或通读付费正文，未观看实验视频，未核实全部公式/实验配置。",
+      "recommended_reading": "最优先取得正文核对DFT-Harmonics频率集合、谐波周围带宽、Kaiser窗、SRP目标函数以及普通SRP-PHAT比较的设置。",
+      "target_and_array_scope": "已确认被定位声源是无人机自身噪声，不是用机载麦克风寻找地面说话人；所读摘要未明确阵列地面安装方式、麦克风数量/布局，不能将这些细节标为已全文核实。",
+      "prior_art_relevance": "直接相关、优先级最高：谐波邻域选频加SRP-PHAT已有明确原始算法先例，不能仅凭这一组合主张新颖性。对新增噪声/相干性权重，应逐公式比较其区别；本次不下完整新颖性结论。",
+      "supplementary_harmonic_prior_art": {
+        "id": "chang_2018_harmonic_energy_weighted_doa",
+        "authors": [
+          "Xianyu Chang",
+          "Chaoqun Yang",
+          "Xiufang Shi",
+          "Pengfei Li",
+          "Zhiguo Shi",
+          "Jiming Chen"
+        ],
+        "title": "Feature Extracted DOA Estimation Algorithm Using Acoustic Array for Drone Surveillance",
+        "year": 2018,
+        "venue": "2018 IEEE 87th Vehicular Technology Conference (VTC Spring), Porto, Portugal, 3–6 June 2018, pp. 1–5",
+        "doi": "10.1109/VTCSpring.2018.8417601",
+        "url": "https://doi.org/10.1109/VTCSpring.2018.8417601",
+        "evidence": [
+          {
+            "url": "https://api.crossref.org/works/10.1109/VTCSpring.2018.8417601",
+            "kind": "publisher_deposited_metadata",
+            "verified": "Crossref在线返回六位作者及顺序、准确题名、2018-06、VTC Spring、1–5与DOI；该记录没有摘要。"
+          },
+          {
+            "url": "https://www.ieeevtc.org/vtc2018spring/final-program.pdf",
+            "kind": "official_conference_program",
+            "verified": "IEEE会议官方节目单第39页的3P MIMO Systems II第7项列出本文及全部六位作者；封面核实Porto、2018-06-03至06-06及VTC Spring。此为节目单，不是论文正文。"
+          },
+          {
+            "url": "https://sites.google.com/view/pengfei-pub/home",
+            "kind": "coauthor_publication_list",
+            "verified": "共作者Pengfei Li个人页列出同名论文和全部作者，但会议季节误写VTC-Fall；采用Crossref和官方节目单纠正。"
+          },
+          {
+            "url": "https://www.researchgate.net/publication/325555605_Feature_Extracted_DOA_Estimation_Algorithm_Using_Acoustic_Array_for_Drone_Surveillance",
+            "kind": "original_abstract_mirror_not_publisher_full_text",
+            "verified": "已读页面Abstract中原论文摘要的转录，明确说明谐波选频、逐谐波MUSIC、按谐波能量比例加权DOA及仿真/现场实验。它不是出版商原页，方法属于摘要镜像级核实，不声称出版社正文已读取。"
+          },
+          {
+            "url": "https://ieeexplore.ieee.org/document/8417601/",
+            "kind": "publisher_access_attempt",
+            "verified": "IEEE原始入口为JavaScript/机器人验证页；另一个abstract入口工具报告不可访问。未取得论文PDF。"
+          }
+        ],
+        "access_date": "2026-10-02",
+        "method": "先在频域估计并选择无人机声信号的谐波频率，对每个选中谐波用MUSIC估计DOA，再以对应谐波能量成比例的权重融合各DOA估计；摘要说明进行了仿真和现场实验。",
+        "limitations": "这是DOA估计，不自动提供完整三维位置或距离。摘要没有谐波峰选择阈值、源数估计、阵列布局、角度跨界处理或定量误差，不能补写这些细节。强干扰谐波获得过高能量权重的风险属于分析推断，不是已核实的作者实验结论。",
+        "reading_scope": "书目信息由Crossref、官方节目单和共作者页核实；方法只读到原摘要的ResearchGate镜像，没有论文全文，也没有直接读取成功的IEEE摘要。未读节目单的其他论文，不研究数据集。",
+        "target_and_array_scope": "摘要明确讨论外部入侵无人机的声学测向，不是机载阵列听地面声源；但地面固定安装与几何配置未从所阅摘要得到直接核实，应保留此证据边界。",
+        "prior_art_relevance": "谐波/频率选择加能量加权已有2018年的直接无人机算法先例。其权重作用于逐谐波DOA结果，不能冒称它已提出noise/coherence加权SRP；与Uluskan形成不同处理阶段的两个先例。",
+        "bibliographic_correction": "VTC Spring，非共作者个人页所写VTC Fall；首作者为Xianyu Chang，不能照抄部分二次引用中的Zhang。",
+        "inclusion": "按最新指令仅作为notes补充，不加入主引用数组、不增加正式引用条数。"
+      }
+    },
+    "source_id": "uluskan_2024_srp_harmonics",
+    "existing_bibliography_id": "harmonics"
+  },
+  {
+    "id": "dreier2024",
+    "authors": [
+      "Christian Dreier",
+      "Michael Vorländer"
+    ],
+    "title": "Drone auralization model with statistical synthesis of amplitude and frequency modulations",
+    "year": 2024,
+    "venue": "Acta Acustica, 8, article 35 (13 pages)",
+    "doi": "10.1051/aacus/2024026",
+    "url": "https://publications.rwth-aachen.de/record/992962",
+    "access_date": "2026-10-02",
+    "evidence": [
+      {
+        "url": "https://publications.rwth-aachen.de/record/992962",
+        "kind": "author_institution_record",
+        "verified": "Institutional catalog confirms authors, title, year2024, Acta Acustica8, article35, pages1-13 and journal DOI; repository DOI10.18154/RWTH-2024-08485 is distinct."
+      },
+      {
+        "url": "https://publications.rwth-aachen.de/record/992962/files/992962.pdf",
+        "kind": "institution_hosted_original_article",
+        "verified": "Parallel research read abstract, portions of sections1-3 and captions through page6; details recorded in discrimination_sources.md. Subsequent access timed out; no local PDF retained."
+      }
+    ],
+    "notes": {
+      "reading_scope": "Relevant original-paper text, not full-paper/figure/supplement review; no experiments run.",
+      "name_note": "Paper author Christian Dreier; institutional catalog expands Christian Georg Dreier.",
+      "claim_boundary": "Physical motivation for tonal/modulation/broadband features only; no drone-versus-engine validation or universal bandwidth threshold."
+    }
+  }
+]

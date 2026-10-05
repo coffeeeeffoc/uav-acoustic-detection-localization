@@ -1,0 +1,16 @@
+[
+  {
+    "path": "paper/English_Main.docx",
+    "figures": 3,
+    "equations": 9,
+    "data_tables": 4,
+    "sha256": "8598c9caf024cadbb07f5906d19e2eff006472463b5587c88f6acba1c0c5ca3e"
+  },
+  {
+    "path": "paper/Chinese_Translation.docx",
+    "figures": 3,
+    "equations": 9,
+    "data_tables": 4,
+    "sha256": "934fc4c895b8d2c5e7edb7b4efda9a4aa8f4bcdb962524bc4645678b301cdcf2"
+  }
+]

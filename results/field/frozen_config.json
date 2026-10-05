@@ -1,0 +1,65 @@
+{
+  "timestamp_utc": "2026-10-04T18:53:51.966331+00:00",
+  "files": {
+    "code/field_data.py": "6d9b326055df1bcc7013b92c1545564a0699c68501fafe243b0bfaedf62df9ae",
+    "code/field_algorithm.py": "ac45d804870d56ef3d0c89da9acfc36a3b7fbecf56081400513455af9279ca2a",
+    "code/field_ranker.py": "f4a6026b3c07c6e04d77997fd71e294a5868db95d4ec3c18fdc357b39b007984",
+    "code/develop_field_discriminative.py": "b33b8be4fa4d5b64ee40d76aac01fdc875b399b0ebd6433e2645e1ed882b3fb2",
+    "code/finalize_field_model.py": "9e8a3696112e1cb59476e40013028b5364977d760575fd6ad789cbbfae8ccca1",
+    "code/evaluate_field.py": "0badc4b39335e53d9257fab15e09d6775f6d56bf019ce0b85bfbd977d185c6d1",
+    "code/summarize_field.py": "b6bfe571d9d693aaaf143135347a073fe1386ef0dfdfdc97b6a7c61ec9479009",
+    "research/real_data/protocol.md": "b579d43b1ac23b62672e75d3ed6b5c5c5e4af3a7d76a4ab0d1ad441f6908df76",
+    "results/field/source_manifest.json": "8f274a187987b2ed21be0d3344a92d05e03849ef2ddef29034e72b2cc0acb581",
+    "results/field/inventory.json": "2f2a69f0779c8d68f7d3ece693957040aefe2080847119dccb377bab774f5e49",
+    "results/field/discriminative_features.npz": "26a48f204de11fdd8799eb7d2aad27704c8f4c6437c5031de96470a208e61f17",
+    "results/field/discriminative_selection.json": "8d5c770ab76148e1f2b9c782a125845fd9f73e7522f7a82b47a1044f99eba956",
+    "results/field/no_hard_negatives_selection.json": "efe5d96674b8de707af7a09a47f0a0f34625e9b52b7f1cde51f794b9e250f68d",
+    "results/field/pre_freeze_verification.json": "e8800b9b1869bf79754de7d446f779d1d122768840385bdc43729f69b4e08ee3",
+    "results/field/discriminative_model.npz": "2c564a90abdb8b11fcea767ccdc8c508c407455ed8d8bd45ba0348eb48df973d",
+    "results/field/no_hard_negatives_model.npz": "d76bc6707e0c21cafc35ec476a2c4e7d0210884ad95d9152910b22220e332391"
+  },
+  "development_site": 1,
+  "test_sites": [
+    2,
+    3
+  ],
+  "noise_interval_s": [
+    0,
+    5
+  ],
+  "calibration_interval_s": [
+    5,
+    10
+  ],
+  "negative_test_interval_s": [
+    10,
+    30
+  ],
+  "positive_test_interval_s": [
+    0,
+    30
+  ],
+  "block_s": 0.2,
+  "calibration_n": 25,
+  "alpha": 0.05,
+  "rank": 25,
+  "detection_rule": "score > max(calibration scores)",
+  "methods": [
+    "phat",
+    "scot",
+    "coherence",
+    "reference",
+    "ranker",
+    "no_hard_negatives"
+  ],
+  "proposed": "Direction-conditioned coherence ranking, four PHAT proposals and 24 frequency bands",
+  "python": "3.12.14",
+  "numpy": "2.2.6",
+  "scipy": "1.15.3",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "threads": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1"
+  }
+}

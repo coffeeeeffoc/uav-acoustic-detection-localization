@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "checks": [
+    "exact counts, disjoint trial seeds, frozen threshold and all detection flags",
+    "summary means/recall/false alarms reproduce directly from raw CSV",
+    "held outputs distinguished from detections, state expires after six misses",
+    "ROC handles perfect/reversed/tied scores and bootstrap constant-unit invariant",
+    "eight prespecified positive/negative trials reconstruct bit-exact float32 waveforms and estimates",
+    "all validation/test/sensitivity/sequence NPZ audio arrays readable, finite, correct shape/rate/labels",
+    "executed source hash matches current experiment; every artifact manifest SHA256 matches"
+  ],
+  "reconstructed_trial_ids": [
+    "pos-0-2-0",
+    "neg-0-0",
+    "pos-1-2-0",
+    "neg-1-0",
+    "pos-2-2-0",
+    "neg-2-0",
+    "pos-3-2-0",
+    "neg-3-0"
+  ],
+  "npz_recordings_audited": 3304,
+  "audio_frames_audited": 6160,
+  "core_audio_bytes": 300606100,
+  "core_audio_mib": 286.6803169250488
+}

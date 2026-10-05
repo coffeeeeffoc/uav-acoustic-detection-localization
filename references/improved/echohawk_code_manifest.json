@@ -1,0 +1,36 @@
+{
+  "access_date": "2026-10-02",
+  "commit": "ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf",
+  "files": [
+    {
+      "path": "references/improved/echohawk_source/echohawk/features.py",
+      "source_url": "https://raw.githubusercontent.com/shulm/echohawk/ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf/echohawk/features.py",
+      "bytes": 3945,
+      "sha256": "ad845c8114e0514925c92b1eb3a7e81d06951c1b3ddef356753564d36c071d0c"
+    },
+    {
+      "path": "references/improved/echohawk_source/echohawk/beamforming.py",
+      "source_url": "https://raw.githubusercontent.com/shulm/echohawk/ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf/echohawk/beamforming.py",
+      "bytes": 6829,
+      "sha256": "447293db72795ab646b0ee9cc6b57ce2a994ce684160f059b8505603228ccaa4"
+    },
+    {
+      "path": "references/improved/echohawk_source/echohawk/simulate.py",
+      "source_url": "https://raw.githubusercontent.com/shulm/echohawk/ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf/echohawk/simulate.py",
+      "bytes": 6486,
+      "sha256": "30639d0b866688c5642e17791e4e58b746ec17c935817808297977b5d527af78"
+    },
+    {
+      "path": "references/improved/echohawk_source/echohawk/models.py",
+      "source_url": "https://raw.githubusercontent.com/shulm/echohawk/ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf/echohawk/models.py",
+      "bytes": 2651,
+      "sha256": "1efe468de85b2404f023c0e2bf8229a0ecb1333264fd44bba6a2d185f6f094ac"
+    },
+    {
+      "path": "references/improved/echohawk_source/LICENSE",
+      "source_url": "https://raw.githubusercontent.com/shulm/echohawk/ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf/LICENSE",
+      "bytes": 1070,
+      "sha256": "cb7f1fea6d134f898d588987bc408e024038b66e794666bbe7ee7ebd28adea27"
+    }
+  ]
+}

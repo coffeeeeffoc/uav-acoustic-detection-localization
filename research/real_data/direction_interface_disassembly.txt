@@ -1,0 +1,348 @@
+# pydisasm version 6.3.0
+# CPython Python bytecode 3.11 (3495)
+#   Disassembled from CPython Python 3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]
+# Timestamp in code: 1779890877 (2026-05-27 22:07:57)
+# Source code size mod 2**32: 1454 bytes
+# Method Name:       <module>
+# Filename:          E:\SCup\demo_release_v2\demo_release\python demo\_private_build\direction_utils.py
+# Argument count:    0
+# Position-only argument count: 0
+# Keyword-only arguments: 0
+# Number of locals:  0
+# Stack size:        2
+# Flags:             0x01000000 (0x1000000)
+# First Line:        1
+# Constants:
+#    0: 0
+#    1: ('annotations',)
+#    2: None
+#    3: 'res_x'
+#    4: 'int'
+#    5: 'res_y'
+#    6: 'target_x_1based'
+#    7: 'target_y_1based'
+#    8: 'return'
+#    9: 'tuple[float, float]'
+#   10: <Code311 code object get_direction at 0x1e28347e5d0, file E:\SCup\demo_release_v2\demo_release\python demo\_private_build\direction_utils.py>, line 6
+#   11: ('res_x', 'int', 'res_y', 'int', 'target_x_1based', 'int', 'target_y_1based', 'int', 'return', 'tuple[float, float]')
+# Names:
+#    0: __future__
+#    1: annotations
+#    2: math
+#    3: get_direction
+
+  0:           0 RESUME               0
+
+  1:           2 LOAD_CONST           (0)
+               4 LOAD_CONST           (('annotations',))
+               6 IMPORT_NAME          (__future__)
+               8 IMPORT_FROM          (annotations)
+              10 STORE_NAME           (annotations)
+              12 POP_TOP
+
+  3:          14 LOAD_CONST           (0)
+              16 LOAD_CONST           (None)
+              18 IMPORT_NAME          (math)
+              20 STORE_NAME           (math)
+
+  6:          22 LOAD_CONST           (('res_x', 'int', 'res_y', 'int', 'target_x_1based', 'int', 'target_y_1based', 'int', 'return', 'tuple[float, float]'))
+              24 LOAD_CONST           (<Code311 code object get_direction at 0x1e28347e5d0, file E:\SCup\demo_release_v2\demo_release\python demo\_private_build\direction_utils.py>, line 6)
+              26 MAKE_FUNCTION        (annotation)
+              28 STORE_NAME           (get_direction)
+              30 LOAD_CONST           (None)
+              32 RETURN_VALUE
+
+
+# Method Name:       get_direction
+# Filename:          E:\SCup\demo_release_v2\demo_release\python demo\_private_build\direction_utils.py
+# Argument count:    4
+# Position-only argument count: 0
+# Keyword-only arguments: 0
+# Number of locals:  23
+# Stack size:        8
+# Flags:             0x01000003 (0x1000000 | NEWLOCALS | OPTIMIZED)
+# First Line:        6
+# Constants:
+#    0: None
+#    1: 0.5
+#    2: 65.0
+#    3: 1.0
+#    4: 2.0
+#    5: 2
+#    6: 0
+# Names:
+#    0: math
+#    1: sqrt
+#    2: tan
+#    3: radians
+#    4: atan2
+#    5: pi
+#    6: abs
+#    7: cos
+#    8: degrees
+# Varnames:
+#	res_x, res_y, target_x_1based, target_y_1based, f_theta_fy, f_sec_res_inverse, f_x_tmp, f_y_tmp, target_roll, target_pitch, tan_roll, tan_pitch, tan_roll_2, tan_pitch_2, z, x, y, target_direction_ew, target_direction_ns, tag_ew, tag_ns, direction_pitch, direction_angle
+# Positional arguments:
+#	res_x, res_y, target_x_1based, target_y_1based
+# Local variables:
+#    4: f_theta_fy
+#    5: f_sec_res_inverse
+#    6: f_x_tmp
+#    7: f_y_tmp
+#    8: target_roll
+#    9: target_pitch
+#   10: tan_roll
+#   11: tan_pitch
+#   12: tan_roll_2
+#   13: tan_pitch_2
+#   14: z
+#   15: x
+#   16: y
+#   17: target_direction_ew
+#   18: target_direction_ns
+#   19: tag_ew
+#   20: tag_ns
+#   21: direction_pitch
+#   22: direction_angle
+
+  6:           0 RESUME               0
+
+  7:           2 LOAD_GLOBAL          (NULL + math)
+              14 LOAD_ATTR            (sqrt)
+              24 LOAD_CONST           (0.5)
+              26 PRECALL              1
+              30 CALL                 1
+              40 LOAD_GLOBAL          (NULL + math)
+              52 LOAD_ATTR            (tan)
+              62 LOAD_GLOBAL          (NULL + math)
+              74 LOAD_ATTR            (radians)
+              84 LOAD_CONST           (65.0)
+              86 PRECALL              1
+              90 CALL                 1
+             100 PRECALL              1
+             104 CALL                 1
+             114 BINARY_OP            (/)
+             118 STORE_FAST           (f_theta_fy)
+
+  8:         120 LOAD_CONST           (1.0)
+             122 LOAD_FAST            (res_x)
+             124 LOAD_CONST           (1.0)
+             126 BINARY_OP            (-)
+             130 BINARY_OP            (/)
+             134 STORE_FAST           (f_sec_res_inverse)
+
+ 10:         136 LOAD_FAST            (target_x_1based)
+             138 LOAD_FAST            (res_x)
+             140 LOAD_CONST           (2.0)
+             142 BINARY_OP            (/)
+             146 BINARY_OP            (-)
+             150 LOAD_CONST           (0.5)
+             152 BINARY_OP            (+)
+             156 LOAD_FAST            (f_sec_res_inverse)
+             158 BINARY_OP            (*)
+             162 STORE_FAST           (f_x_tmp)
+
+ 11:         164 LOAD_FAST            (target_y_1based)
+             166 LOAD_FAST            (res_y)
+             168 LOAD_CONST           (2.0)
+             170 BINARY_OP            (/)
+             174 BINARY_OP            (-)
+             178 LOAD_CONST           (0.5)
+             180 BINARY_OP            (+)
+             184 LOAD_FAST            (f_sec_res_inverse)
+             186 BINARY_OP            (*)
+             190 STORE_FAST           (f_y_tmp)
+
+ 13:         192 LOAD_GLOBAL          (NULL + math)
+             204 LOAD_ATTR            (atan2)
+             214 LOAD_FAST            (f_x_tmp)
+             216 LOAD_FAST            (f_theta_fy)
+             218 PRECALL              2
+             222 CALL                 2
+             232 LOAD_GLOBAL          (math)
+             244 LOAD_ATTR            (pi)
+             254 LOAD_CONST           (2.0)
+             256 BINARY_OP            (/)
+             260 BINARY_OP            (+)
+             264 STORE_FAST           (target_roll)
+
+ 14:         266 LOAD_GLOBAL          (NULL + math)
+             278 LOAD_ATTR            (atan2)
+             288 LOAD_FAST            (f_y_tmp)
+             290 LOAD_FAST            (f_theta_fy)
+             292 PRECALL              2
+             296 CALL                 2
+             306 LOAD_GLOBAL          (math)
+             318 LOAD_ATTR            (pi)
+             328 LOAD_CONST           (2.0)
+             330 BINARY_OP            (/)
+             334 BINARY_OP            (+)
+             338 STORE_FAST           (target_pitch)
+
+ 16:         340 LOAD_GLOBAL          (NULL + math)
+             352 LOAD_ATTR            (tan)
+             362 LOAD_FAST            (target_roll)
+             364 PRECALL              1
+             368 CALL                 1
+             378 STORE_FAST           (tan_roll)
+
+ 17:         380 LOAD_GLOBAL          (NULL + math)
+             392 LOAD_ATTR            (tan)
+             402 LOAD_FAST            (target_pitch)
+             404 PRECALL              1
+             408 CALL                 1
+             418 STORE_FAST           (tan_pitch)
+
+ 18:         420 LOAD_FAST            (tan_roll)
+             422 LOAD_FAST            (tan_roll)
+             424 BINARY_OP            (*)
+             428 STORE_FAST           (tan_roll_2)
+
+ 19:         430 LOAD_FAST            (tan_pitch)
+             432 LOAD_FAST            (tan_pitch)
+             434 BINARY_OP            (*)
+             438 STORE_FAST           (tan_pitch_2)
+
+ 20:         440 LOAD_GLOBAL          (NULL + abs)
+             452 LOAD_FAST            (tan_roll)
+             454 LOAD_FAST            (tan_pitch)
+             456 BINARY_OP            (*)
+             460 PRECALL              1
+             464 CALL                 1
+             474 LOAD_GLOBAL          (NULL + math)
+             486 LOAD_ATTR            (sqrt)
+             496 LOAD_FAST            (tan_roll_2)
+             498 LOAD_FAST            (tan_pitch_2)
+             500 BINARY_OP            (+)
+             504 LOAD_FAST            (tan_roll_2)
+             506 LOAD_FAST            (tan_pitch_2)
+             508 BINARY_OP            (*)
+             512 BINARY_OP            (+)
+             516 PRECALL              1
+             520 CALL                 1
+             530 BINARY_OP            (/)
+             534 STORE_FAST           (z)
+
+ 21:         536 LOAD_FAST            (z)
+             538 LOAD_FAST            (tan_roll)
+             540 UNARY_NEGATIVE
+             542 BINARY_OP            (/)
+             546 STORE_FAST           (x)
+
+ 22:         548 LOAD_FAST            (z)
+             550 LOAD_FAST            (tan_pitch)
+             552 UNARY_NEGATIVE
+             554 BINARY_OP            (/)
+             558 STORE_FAST           (y)
+
+ 24:         560 LOAD_GLOBAL          (NULL + math)
+             572 LOAD_ATTR            (atan2)
+             582 LOAD_FAST            (z)
+             584 LOAD_FAST            (x)
+             586 UNARY_NEGATIVE
+             588 PRECALL              2
+             592 CALL                 2
+             602 STORE_FAST           (target_direction_ew)
+
+ 25:         604 LOAD_GLOBAL          (NULL + math)
+             616 LOAD_ATTR            (atan2)
+             626 LOAD_FAST            (z)
+             628 LOAD_FAST            (y)
+             630 UNARY_NEGATIVE
+             632 PRECALL              2
+             636 CALL                 2
+             646 STORE_FAST           (target_direction_ns)
+
+ 27:         648 LOAD_GLOBAL          (NULL + math)
+             660 LOAD_ATTR            (tan)
+             670 LOAD_FAST            (target_direction_ew)
+             672 PRECALL              1
+             676 CALL                 1
+             686 STORE_FAST           (tag_ew)
+
+ 28:         688 LOAD_GLOBAL          (NULL + math)
+             700 LOAD_ATTR            (tan)
+             710 LOAD_FAST            (target_direction_ns)
+             712 PRECALL              1
+             716 CALL                 1
+             726 STORE_FAST           (tag_ns)
+
+ 30:         728 LOAD_GLOBAL          (NULL + math)
+             740 LOAD_ATTR            (atan2)
+             750 LOAD_GLOBAL          (NULL + abs)
+             762 LOAD_FAST            (tag_ew)
+             764 LOAD_FAST            (tag_ns)
+             766 BINARY_OP            (*)
+             770 PRECALL              1
+             774 CALL                 1
+             784 LOAD_GLOBAL          (NULL + math)
+             796 LOAD_ATTR            (sqrt)
+             806 LOAD_FAST            (tag_ew)
+             808 LOAD_FAST            (tag_ew)
+             810 BINARY_OP            (*)
+             814 LOAD_FAST            (tag_ns)
+             816 LOAD_FAST            (tag_ns)
+             818 BINARY_OP            (*)
+             822 BINARY_OP            (+)
+             826 PRECALL              1
+             830 CALL                 1
+             840 PRECALL              2
+             844 CALL                 2
+             854 STORE_FAST           (direction_pitch)
+
+ 31:         856 LOAD_FAST            (direction_pitch)
+             858 LOAD_GLOBAL          (math)
+             870 LOAD_ATTR            (pi)
+             880 LOAD_CONST           (2)
+             882 BINARY_OP            (/)
+             886 COMPARE_OP           (>)
+             892 POP_JUMP_FORWARD_IF_FALSE (to 924)
+
+ 32:         894 LOAD_GLOBAL          (math)
+             906 LOAD_ATTR            (pi)
+             916 LOAD_FAST            (direction_pitch)
+             918 BINARY_OP            (-)
+             922 STORE_FAST           (direction_pitch)
+
+ 34:     >>  924 LOAD_GLOBAL          (NULL + math)
+             936 LOAD_ATTR            (atan2)
+             946 LOAD_GLOBAL          (NULL + math)
+             958 LOAD_ATTR            (cos)
+             968 LOAD_FAST            (target_direction_ew)
+             970 PRECALL              1
+             974 CALL                 1
+             984 LOAD_GLOBAL          (NULL + math)
+             996 LOAD_ATTR            (cos)
+            1006 LOAD_FAST            (target_direction_ns)
+            1008 PRECALL              1
+            1012 CALL                 1
+            1022 PRECALL              2
+            1026 CALL                 2
+            1036 STORE_FAST           (direction_angle)
+
+ 35:        1038 LOAD_FAST            (direction_angle)
+            1040 LOAD_CONST           (0)
+            1042 COMPARE_OP           (<)
+            1048 POP_JUMP_FORWARD_IF_FALSE (to 1086)
+
+ 36:        1050 LOAD_FAST            (direction_angle)
+            1052 LOAD_GLOBAL          (math)
+            1064 LOAD_ATTR            (pi)
+            1074 LOAD_CONST           (2.0)
+            1076 BINARY_OP            (*)
+            1080 BINARY_OP            (+=)
+            1084 STORE_FAST           (direction_angle)
+
+ 38:     >> 1086 LOAD_GLOBAL          (NULL + math)
+            1098 LOAD_ATTR            (degrees)
+            1108 LOAD_FAST            (direction_angle)
+            1110 PRECALL              1
+            1114 CALL                 1
+            1124 LOAD_GLOBAL          (NULL + math)
+            1136 LOAD_ATTR            (degrees)
+            1146 LOAD_FAST            (direction_pitch)
+            1148 PRECALL              1
+            1152 CALL                 1
+            1162 BUILD_TUPLE          2
+            1164 RETURN_VALUE
+

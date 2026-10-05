@@ -1,0 +1,18 @@
+{
+  "development_only": true,
+  "trial_grouped_folds": 5,
+  "positive_trials": 1000,
+  "negative_trials": 1000,
+  "candidate_rows": 8750,
+  "feature_count": 149,
+  "mean_deg": 17.631875627725243,
+  "within10_rate": 0.747,
+  "candidate_oracle_mean_deg": 13.220408771021807,
+  "candidate_oracle_within10_rate": 0.803,
+  "oracle_is_diagnostic_not_an_algorithm": true,
+  "all_training_model": "candidate_ranker_model.npz",
+  "width": 1.0,
+  "ridge": 0.1,
+  "anchors_per_class_max": 128,
+  "feature_sha256": "ec00dab0ee976b04ff02dcf4696efb2b60f3a5796d4cbd5f33c7262b10aa2a6b"
+}

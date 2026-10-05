@@ -1,0 +1,31 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "C:\\Users\\15211\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700KF",
+  "logical_cpus": 20,
+  "thread_environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "packages": {
+    "contourpy": "1.4.0",
+    "cycler": "0.12.1",
+    "fonttools": "4.66.1",
+    "kiwisolver": "1.5.1",
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "packaging": "26.3",
+    "pillow": "12.3.0",
+    "PyMuPDF": "1.26.1",
+    "pyparsing": "3.3.3",
+    "python-dateutil": "2.9.0.post0",
+    "scipy": "1.15.3",
+    "six": "1.17.0"
+  },
+  "setup_seconds_excluded": 0.005812799994600937,
+  "experiment_wall_seconds": 24.149256700009573,
+  "timing_definition": "perf_counter_ns; frontend plus one SRP search; warm-up, geometry setup, synthesis, file I/O, plotting and 200-ms acquisition excluded; host loaded state not controlled"
+}

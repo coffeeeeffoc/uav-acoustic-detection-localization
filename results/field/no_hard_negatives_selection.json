@@ -1,0 +1,25 @@
+{
+  "candidates": [
+    {
+      "alpha": 0.1,
+      "balanced_oof_mse": 0.08516611406164568
+    },
+    {
+      "alpha": 1.0,
+      "balanced_oof_mse": 0.08432070026655955
+    },
+    {
+      "alpha": 10.0,
+      "balanced_oof_mse": 0.08055264697840939
+    },
+    {
+      "alpha": 100.0,
+      "balanced_oof_mse": 0.08479048156968097
+    }
+  ],
+  "selected_alpha": 10.0,
+  "samples": 998,
+  "positive": 598,
+  "excluded": 781,
+  "feature_digest": "26a48f204de11fdd8799eb7d2aad27704c8f4c6437c5031de96470a208e61f17"
+}

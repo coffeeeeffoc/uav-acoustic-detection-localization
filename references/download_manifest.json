@@ -1,0 +1,101 @@
+[
+  {
+    "id": "yang2025_neural_drone",
+    "url": "https://eurasip.org/Proceedings/Eusipco/Eusipco2025/pdfs/0000256.pdf",
+    "path": "references/papers/yang2025_neural_drone.pdf",
+    "bytes": 1006874,
+    "sha256": "03d41eb060c3370cf016318493e0d569d8a8b9aa25a139c190bd4c8521c69b5e",
+    "access_date": "2026-10-02",
+    "status": "downloaded"
+  },
+  {
+    "id": "safavi2025_ddl",
+    "url": "https://personalpages.surrey.ac.uk/w.wang/papers/Safavi%20et%20al_MLSP_2025.pdf",
+    "path": "references/papers/safavi2025_ddl.pdf",
+    "bytes": 5576815,
+    "sha256": "a6d1d5060638ad8e24a267b8b514e95992af9f1fb44f375ef6ebe69848f94c54",
+    "access_date": "2026-10-02",
+    "status": "downloaded"
+  },
+  {
+    "id": "gupta2025_droneaudioset",
+    "url": "https://proceedings.neurips.cc/paper_files/paper/2025/file/adececbc73a58724db0f3c0d5c77f338-Paper-Datasets_and_Benchmarks_Track.pdf",
+    "path": "references/papers/gupta2025_droneaudioset.pdf",
+    "bytes": 9543344,
+    "sha256": "ceeb16889e02a18bbac50b3a2c2e67c8eccaa51fba7c64dfaeb69d7161781724",
+    "access_date": "2026-10-02",
+    "status": "downloaded"
+  },
+  {
+    "id": "brumann2024_auxiliary",
+    "url": "https://eurasip.org/Proceedings/Eusipco/Eusipco2024/pdfs/0000917.pdf",
+    "path": "references/papers/brumann2024_auxiliary.pdf",
+    "bytes": 660881,
+    "sha256": "000ea03a22157cd96ec28b7301fd877a3294b92f92bca050ddea06715c7d4db1",
+    "access_date": "2026-10-02",
+    "status": "downloaded"
+  },
+  {
+    "id": "rodriguez2025_acoustic_imaging",
+    "url": "https://arxiv.org/pdf/2508.00307",
+    "path": "references/papers/rodriguez2025_acoustic_imaging.pdf",
+    "bytes": 2545634,
+    "sha256": "686a7fb285c68307f84e97e8b46c5675c146bb181ee856cd07f8e295ab4fff35",
+    "access_date": "2026-10-02",
+    "status": "downloaded"
+  },
+  {
+    "id": "grinstein2024_srp_review",
+    "url": "https://arxiv.org/pdf/2405.02991",
+    "path": "references/papers/grinstein2024_srp_review.pdf",
+    "bytes": 1101483,
+    "sha256": "d6a0ad311d2940a6361bea828414b58eea901f5a7b90c34182720bee64b98d89",
+    "access_date": "2026-10-02",
+    "status": "downloaded"
+  },
+  {
+    "id": "jekaterynczuk2025_uavirbase",
+    "url": "https://mdpi-res.com/d_attachment/applsci/applsci-15-05378/article_deploy/applsci-15-05378.pdf",
+    "path": "references/papers/jekaterynczuk2025_uavirbase.pdf",
+    "bytes": 7216430,
+    "sha256": "9a9e496fc6155c1243a1ab2c053573c5f583d8f4900b82a18757c134f2a92fcd",
+    "access_date": "2026-10-02",
+    "status": "downloaded"
+  },
+  {
+    "id": "valin2007_robust_localization",
+    "url": "https://jmvalin.ca/papers/valin_localization.pdf",
+    "path": "references/papers/valin2007_robust_localization.pdf",
+    "bytes": 898297,
+    "sha256": "48598755fd24d4d8d5dbc703d13c58b393cf690629e5c17286ef7ae4bf4d1b5b",
+    "access_date": "2026-10-02",
+    "status": "downloaded"
+  },
+  {
+    "id": "knapp_carter_1976_gcc",
+    "url": "https://www.ee.iitb.ac.in/course/~sachinnayak/finalpaper2.pdf",
+    "path": "references/papers/knapp_carter_1976_gcc.pdf",
+    "bytes": 2895325,
+    "sha256": "8459b1ff1d0defd8cad60fa77bdeac18346b74d24897e2aafb42cfd067379ba3",
+    "access_date": "2026-10-02",
+    "status": "downloaded",
+    "notes": "Public institutional course-hosted original scan; no open redistribution license asserted."
+  },
+  {
+    "id": "salvati_2017_gsg_arxiv_v4",
+    "url": "https://arxiv.org/pdf/1512.03261",
+    "path": "references/papers/salvati_2017_gsg_arxiv_v4.pdf",
+    "bytes": 2075049,
+    "sha256": "25e13f2db9ae31ef145e5053cdeb34f0726119ffdee692af6005554a9472da64",
+    "access_date": "2026-10-02",
+    "status": "downloaded",
+    "notes": "Author arXiv manuscript v4; supplementary source, not in the 19 core citations."
+  },
+  {
+    "id": "heutschi2020_synthesis",
+    "url": "https://acta-acustica.edpsciences.org/articles/aacus/pdf/2020/06/aacus200056.pdf",
+    "access_date": "2026-10-02",
+    "status": "failed",
+    "error": "HTTP 403; no local PDF saved. Publisher indexed abstract/metadata read."
+  }
+]

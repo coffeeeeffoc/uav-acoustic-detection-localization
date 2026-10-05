@@ -1,0 +1,1494 @@
+## Page 1
+第 50 卷 第 12 期
+2022 年 12 月
+华 南 理 工 大 学 学 报 （ 自 然 科 学 版 ）
+Journal of South China University of Technology
+（Natural Science Edition ）
+Vol. 50 No. 12
+December 2022
+无人机声学定位技术综述
+陈鹏 陈洋 王威
+（ 长安大学 信息工程学院，陕西  西安 710061）
+摘 要： 近年来“低小慢”无人机的过快增长，肆意飞行严重威胁了城市安防和公众
+安全。如何在复杂低空环境下有效地定位“低小慢”无人机，成为亟待解决的社会问
+题。由于雷达、光电探测等手段存在盲区、辐射强度弱等问题，导致近距离定位效果
+不理想。声学定位因其传感器成本低，阵列布放形式灵活，近距离定位误差较小，有
+效地补充了雷达、光电等定位方法的缺陷。文中对无人机声学定位方法进行了综述，
+分析了无人机噪声的频谱，发现这些噪声信号具有很强的线谱结构，这些线谱具有丰
+富的谐频成分和很高的信噪比，且抗干扰能力较强。首先结合旋翼噪声的声学特性得
+出了从时域角度和频域角度定位无人机的可行性；接着介绍了声学定位方法的原理，
+并给出了算法仿真结果，比较了时域和频域定位方法的均方根误差；然后统计了近年
+来国内外高校基于声学定位的低空无人机的实现方法，发现基于到达时间差 （ TDOA） 的
+平面阵列使用最广，定位效果较好；最后对未来低空无人机声学定位进行了展望。
+关键词：声学定位；低空无人机；时域分析；频域分析；到达时间差；平面阵
+中图分类号：TN911.7 文章编号： 1000 -565X（2022）12-0109 -15
+近年来，随着飞行控制技术的进步，多旋翼无
+人机 （UAV，以下简称无人机 ） 广泛应用于航拍、地
+质勘测、地图绘制、消防应急等领域
+［1］。由于行业
+规范的滞后以及无人机厂商的激烈竞争，无人机的
+更新迭代频率高，且逐渐趋于低操作门槛、大载
+荷、长航程。无人机技术的进步在极大提高各行业
+效率的同时，也滋长了“黑飞”行为，如无人机入
+侵机场造成航班延误，在高价值区域进行非法偷拍
+等。为了规范无人机的飞行行为，政府部门和相关
+无人机技术公司推出了一系列政策，如为无人机划
+定禁飞区，实行无人机飞行执照制度等
+［2-4］。
+然而，上述政策仅仅从制度角度对常规无人机
+进行了限制，难以应对组装及改装无人机的“黑
+飞” 。如何对无人机进行探测和反制是无人机领域
+内亟待解决的问题。目前对无人机的探测手段主要
+有雷达探测
+［5-6］、射频探测［7］、图像探测［8-9］、光电
+探测［10］和声学探测［11-17］等。雷达探测技术利用了无
+人机反射回来的电波信号来测量无人机的速度、方
+位等信息，将雷达手段应用在低空无人机的探测上
+存在着探测盲区。无人机飞行高度低、低空区域环
+境复杂、杂波干扰严重等因素导致了雷达探测性能
+不佳。射频探测采用频谱感知技术 （即检测无人机
+和控制器之间的射频信号） ，其通信信号的独特性
+可以用来检测和反制低空无人机。为了增强无人机
+在低空区域的抗干扰能力，大多数厂商设计无人机
+通信机制时常采用跳频传输，这导致想要在短时间
+doi： 10. 12141/j. issn. 1000 -565X. 220277
+收稿日期：2022-05-16
+基金项目： 中国博士后科学基金资助项目 （2019M660049XB） ；国家自然科学基金资助项目 （61871059，61901057） ；陕西
+省重点研发计划项目 （2021KWZ-08）
+Foundation items ：Supported by the China Postdoctoral Science Foundation （2019M660049XB） ， the National Natural Science 
+Foundation of China （61871059，61901057） and the Key R&D Project of Shaanxi Province （2021KWZ-08）
+作者简介：陈鹏 （1992-） ，男，博士，讲师，主要从事声学信号处理、阵列信号处理研究。E-mail：pchen@chd. edu. cn
+
+## Page 2
+第 50 卷华 南 理 工 大 学 学 报（ 自 然 科 学 版 ）
+内获取窄带信号频段变得很困难。图像探测法首先
+得到摄像头捕捉到的图像，然后采用深度学习方法
+进行特征提取，进而识别无人机。此方法受限于摄
+像头的分辨率，想要通过提升镜头的质量来提高检
+测率，代价会非常昂贵。光电探测利用光电传感器
+对无人机进行检测，由于无人机具有“低小慢”的
+特点，其红外辐射、光辐射太小，利用传感器检测
+信号误差太大。
+声学探测通过对声学传感器阵列接收到的无人
+机噪声进行信号处理，探测并跟踪低空无人机。噪
+声的谐波特性表现在频谱带宽内出现周期性的谱
+峰。正是因为其独特的谐波成分，声学探测得以适
+用于检测多旋翼和固定翼无人机。声学探测的困难
+点在于低信噪比下对无人机信号的识别。随着阵列
+信号处理技术的发展，传统声学定位算法不断地更
+新迭代，发展出一系列精度高、抗干扰类算法，使
+得声学技术补充了雷达、光电探测在低空无人机检
+测的短板。
+本文针对无人机旋翼噪声这类特殊声源，剖析
+了其声学特性，在时域和频域中对声学定位算法进
+行了分析对比，给出了时域和频域定位方法的优缺
+点，并统计了近年来国内外基于声学定位低空无人
+机的实现方法，最后对目前低空无人机声学定位系
+统存在的问题以及改进方法进行了讨论。
+1　声学定位方法简述
+声学探测具有全天候、全被动、低成本的特
+点，在检测低空无人机上准确度较高，近年来颇受
+众多学者的关注。声学定位技术按照计算量可分为
+波 束 形 成 器 技 术
+［18-23］、 高 分 辨 率 空 间 谱 估 计 技
+术［24-35］、时延估计技术［36-45］。其中时延估计技术属
+于时域波达方向 （DOA） 估计法，波束形成器技术和
+空间谱估计技术属于频域 DOA 估计法。声学探测
+技术的原理是：通过有规则的阵列传感器采集无人
+机旋翼所发出的声信号，并对声信号进行提取、分
+析，再运用信号处理方法完成对声源目标的定位。
+下面介绍声源定位算法的发展历程和现状。
+波束形成器技术的基本思想是通过将各阵元的
+输出信号进行加权求和，在一段时间内将阵列波束
+指引到一个方向，这个方向就是空域内信号能量最
+大的方向。根据这个思想，可以得到期望信号最大
+输出功率的导向向量，即 DOA 方向。波束形成器
+因加权向量求解方式的不同，可分为静态波束形成
+器和自适应波束形成器。静态波束形成器加权向量
+通常事先已设计好，不受接收数据的影响，算法复
+杂度低，抗干扰能力弱。自适应波束形成器的核心
+在于可以实时通过对接收数据的分析，自动地调节
+加权向量的构成比例，增强期望方向的权值，抑制
+干扰和噪声。其中最为经典的是 Capon 波束形成
+器
+［20］，理想情况下 Capon 波束形成器可以让期望信
+号无失真通过，并且使波束输出噪声的方差最小。
+在过去的几十年发展中，诸多学者研究了在存在模
+型误差的情况下如何提高自适应波束形成器的性
+能，如对角加载法
+［21］、特征空间法［22］、独立数据微
+分约束法［23］等。这些方法虽然在一定程度上增强了
+自适应波束形成器的稳健性，但适用范围也是有挑
+剔性的。对角加载样本矩阵求逆的方法，虽然可以
+减小噪声特征值的扩散，使信号子空间和噪声子空
+间保持正交，但对角加载量一般难以选取，直到现
+在学界也没有给出对角加载量选取的标准，选取不
+当则会导致性能失效。特征空间法在低信噪比下无
+法准确估计出信源数，也会造成极大的误差。波束
+形成技术理论上具有优良的性能，但在实际应用中
+却不尽如人意。在实际的阵列阵型中不可避免地会
+存在各种误差，如阵元标定误差、阵元响应误差、
+接收信号相干等，误差的存在，使得波束形成器的
+性能难以达到理论的效果。再者阵列孔径不可能为
+无限大，频率分辨率不可能达到无限小，导致了传
+统的波束形成法难以突破瑞利限。
+超瑞利限的方法称为超分辨方法。多重信号分
+类算法 （MUSIC） 是Schmidt
+［26］提出的，它突破了传
+统波束形成器估计信源 DOA 的瑞利限，这是一个
+伟大的跨越。 1986 年 Paulraj 等［27］提出了旋转不变
+子 空 间 法 （ESPRIT） ， 随 后Rao 等［28］提 出 了 一 维
+Root-MUSIC 算法，Viberg 等［29］提出了加权子空间拟
+合法 （WSF） ，后续又有许多窄带高分辨率算法被相
+继 提 出［30-31］。 在 高 分 辨 率 空 间 谱 估 计 技 术 中 以
+MUSIC 为代表的子空间类方法颇受关注。因其在任
+何形状阵列下都可以得到高分辨率效果，当信源不
+相干时，在高信噪比下可以得到渐进无偏的估计
+量，是最接近克拉美 -罗界 （CRB） 的一类超分辨率
+谱估计技术。 Root-MUSIC 利用多项式求解代替了
+谱峰搜索，可以看作是 MUSIC 算法的另一种表达
+形式，但此法减小了大量的计算量。究其原因是省
+去了对样本矩阵求逆的步骤。 ESPRIT 算法利用了
+子空间的旋转不变性，即利用了阵列间的移不变性
+而引起的信号子空间的旋转不变性，但因为阵列的
+特殊性， ESPRIT 算法并不适用于所有阵型，如均
+110
+
+## Page 3
+第 12 期 陈鹏 等：无人机声学定位技术综述
+匀圆阵等，不过此方法不需要对全局进行搜索，只
+需进行多次特征分解即可求得较为精确的解，运算
+速度较快。 ESPRIT 算法按照计算方式可分为最小
+二乘法 （LS）
+［27］和全局最小二乘法 （TLS）［32］。WSF 算
+法结合了不同的方位估计算法，在信源不相干的情
+况下协方差矩阵的误差估计达到了最小。但 WSF
+算法对参数设置的要求高，且运算量巨大。频域
+DOA 估计法都是假设信源是远场窄带的情况，对于
+无人机噪声这类宽带信号，可以将宽带信号进行滤
+波处理，滤过后的信号可以视为窄带信号，均适用
+于各种经典谱估计算法。下面列举近年来一些学者
+在 MUSIC 算法的贡献。如 Wang 等
+［33］提出了空间平
+滑 MUSIC 算法，解决了信源相干时信号子空间扩
+散到噪声子空间问题，但此方法间接降低了阵列孔
+径，无法分辨角度相近的信源，在估计非相干信源
+时性能较差，且计算量大。邓艳容等［34］针对远场宽
+带相干源信号，提出了改进的宽带信源  MUSIC 算
+法，取得了较好的 DOA 估计效果。李蜀丰等 ［35］结
+合了时延估计技术和 MUSIC 算法，将不同阵元间的
+时延误差引入导向矩阵中，降低了传统 MUSIC 算法
+空间谱中伪峰出现的概率。限于篇幅，在 MUSIC 算
+法的基础上发展出的一系列算法不详细罗列。
+时延估计技术是在时域估计信号 DOA 的方法。
+根据检测方法的不同，时延估计可分为主动时延估
+计和被动时延估计［40］。主动时延估计 （如雷达、声
+呐等） 通过接收目标的回波，利用滤波技术获得时
+延，从而计算出目标的距离。被动时延估计利用了
+同声源信号到达不同阵元之间的时间延迟，即到达
+时间差来估计目标位置。此类方法原理简单，只要
+获得时延，根据阵列的结构就可以估算出距离信
+息。计算量相比波束形成器技术和高分辨率谱估计
+技术要小得多。被动时延估计技术的实时性强，结
+合多种权函数，大体上可分为 4 类：广义互相关
+（GCC） 法
+［36-37，41］、最小均方 （LMS） 自适应滤波法［42］、
+互功率谱相位 （CSP） 法［38］、二次相关 （SC） 法［43-45］。
+广义互相关法在基本互相关的基础上通过增加权函
+数滤除噪声和干扰的影响。 LMS 自适应滤波法需要
+不断的迭代，以保证互相关值的均方最小，这将会
+带来巨大的计算量。互功率谱相位法在广义互相关
+的基础上再次加权，滤除了幅度信息，仅保留相位
+信息；两次加权后的结果带来更好的抗噪和抗干
+扰。这些方法都是基于功率谱或互相关函数来实
+现，难免少不了傅里叶变换 （FFT） 。傅里叶变换的
+前提是信号为平稳信号，实际中大多数情况下的阵
+列接收信号为非平稳信号，这时使用傅里叶变换很
+容易出现频谱泄露，加大了分析错误的风险。为了
+减小频谱泄露，可以对原信号序列加窗函数，如汉
+宁窗、三角窗、海明窗等，选取合适的窗函数可以
+避免吉布斯效应
+［46］。为了在非平稳信号情况下获得
+更好的时延估计效果，分数阶傅里叶变换［47］提供了
+一个全新的时频分析方法，使得时延不仅出现在分
+数阶傅里叶变换结果的相位中，也与分数阶傅里叶
+域频谱的位置有关。被动时延估计技术虽然计算量
+小，实时性强，但也有一些不足。时延估计对单目
+标定位 （ 如对单目标无人机飞行的捕捉和定位 ） 效果
+较好，但在多目标的噪声分析中效果不理想，时延
+精度易受混响的影响。
+2　无人机声学特性
+无人机的噪声主要来源于其旋翼和电机，而这
+种声源往往是宽带信号 ［48］。无人机在飞行状态时，
+旋翼高速旋转产生下洗气流从而获得升力，旋翼叶
+片气动发出的噪声为宽频噪声。体积较小的无人机，
+其旋翼旋转产生的噪声为载荷噪声，表现为一系列
+离散噪声。无人机的电机产生的噪声属于电磁噪声，
+此类噪声频率较高。当高速旋转的旋翼产生的气流
+流过无人机时，会产生频率较低的气动噪声
+［49-50］。
+多种噪声叠加在一起，构成了具有谐波特征的噪声
+信号。这些谐波由一个基频谐波和高次谐波组成，
+一 般 高 次 谐 波 频 率 为 基 频 谐 波 的 整 数 倍［51］。
+Yakubovskiy 等［52］将多种类型的旋翼无人机产生的谐
+波进行了分类，并给出了谐波基频频率的计算公式。
+无人机声源为宽频噪声，声波能量分布在各个
+频率上。通常得到的无人机采样数据为非平稳信
+号，经典的傅里叶变换对非平稳信号的分析效果不
+佳。为了直观地看出噪声频率分布随时间的变化，
+本文利用短时傅里叶变换 （STFT） 对噪声进行分析。
+图 1 为实验中无人机噪声的时频图，同频率的
+强度大小体现在不同的颜色上。图 2给出了 1 00
+ 0 Hz
+内无人机噪声的频谱。谐波频率分量在时频图中体
+现为明显的线谱，无人机噪声频谱由线谱和线谱间
+成分组成，这就增加了宽带噪声的复杂性。但宽带
+信号会带来更多的信息，这一特性对时域互相关定
+位是有益的。因为互相关法对信号的频带范围较敏
+感，频带范围越大，包含的信号量越多，时延估计
+类方法的均方误差反比于信号等效带宽的平方
+［39］。
+基于这个原理，可以利用时域的信号处理方法实现
+无人机的定位。
+111
+
+## Page 4
+第 50 卷华 南 理 工 大 学 学 报（ 自 然 科 学 版 ）
+无人机的时频图中存在着较明显的线谱，这些
+线谱的信噪比远大于线谱间成分，因此可以将线谱按
+照频率划分，每个线谱的频率附近可视为窄带信号，
+这样就可以使用经典的窄带 DOA 估计方法来定位无
+人机。宽带信号的频率成分较为复杂，划分出的窄带
+信号分解出信号子空间和噪声子空间都不相同，其阵
+列流型是频率的函数。在宽带信号的 DOA 定位中使
+用最多的是非相干信号子空间处理方法 （ISM）
+［53-55］和
+相干信号子空间处理方法 （CSM）［56-57］。这两种方法本
+质上都是将宽带信号转化为窄带信号来实现。非相干
+信号子空间处理方法通过对已分好的各个窄带信号进
+行窄带 DOA 估计，然后将估计结果进行平均得到宽
+带 DOA 估计结果。相干信号子空间处理方法引入了
+聚焦变换，通过聚焦矩阵将各个不同频率的子带聚焦
+在一个频点 （ 参考频率 ） 上，得到一个参考频率的协方
+差矩阵，之后用窄带处理方法得到宽带信号 DOA。
+这种利用了空间所有信息的聚焦变换虽然节省了大量
+的计算，但前提需要对信源来波方向进行预估，预估
+的误差直接影响了CSM的性能。
+3　无人机声学模型
+3. 1　远近场模型判别
+根据无人机与阵列之间的距离不同，噪声信号
+在介质中的传播模型可分为近场模型和远场模型。
+在近场模型中，阵元接收信号不仅和到达角度有
+关，同时也受距离的影响，此时球面波的模型更贴
+近实际。如果声源距离阵列较远，信号到达阵元时
+的相位信息可忽略，入射角度差异相差不大，则可
+用平面波来拟合信号的传播。
+判断远近场的标准为
+L≤2D
+2/λmin （1）
+式中， L 为麦克风阵列中心与无人机位置的距离，
+D 为阵列孔径，λmin 为信号的最小波长。
+依据式 （1） 可以选取合适的模型。图 3 为均匀
+线阵接收声场信号的示意图，可以直观看到，两种
+情况下信号到达阵元时的入射角有差异，因此选取
+合适的模型是保证定位精确的关键。
+3. 2　信号模型
+考虑一个空间存在 l 个波长为 λ 的远场窄带信
+号，这些窄带信号从不同的方向 ϕi (i = 1，2，⋯，l)
+入射到由 M 个阵元组成的均匀直线阵上，阵元间距
+图 1 无人机噪声时频图
+Fig. 1　Time frequency diagram of UAV noise
+图 2 无人机噪声 1 000 Hz内的频谱
+Fig. 2　Spectrum of UAV noise within 1  000 Hz
+图 3　两种声源传播模型示意图
+Fig. 3　Schematic diagram of two sound source propagation models
+112
+
+## Page 5
+第 12 期 陈鹏 等：无人机声学定位技术综述
+为 λ/2。信号可以表示为
+■
+■
+■
+| |
+| |
+si (t) = ui (t)e
+j[ ]ωt + φ(t)
+si (t - τ) = ui (t - τ)e
+j[ ]ω(t - τ) + φ(t - τ)
+   （2）
+式中，ui (t) 为 t 时刻接收信号的幅度， φ(t) 为相位，
+ω 为信号的角频率。信号源为远场窄带信号的情况
+下，信号幅度及相位衰减差距可以忽略，即
+■
+■
+■
+ui (t - τ) ≈ ui (t)
+φ(t - τ) ≈ φ(t) （3）
+因此，延时 τ 时间后的信号为
+si (t - τ) ≈ si (t)e
+-jω0 τ
+，       i = 1，2，⋯，l （4）
+则第 q 个阵元接收信号为
+xq = ∑
+i = 1
+l
+si (t - τi ) + nq (t)，       q = 1，2，⋯，M （5）
+式中，nq（t） 为第q 个阵元在 t 时刻接收的噪声。
+式 （5） 省略了各个阵元对信号的增益，因为阵
+元均为各向同性，其增益可归一化为 1。本文以阵
+列中的第一个阵元为参考阵元，则整个阵列的接收
+信号可表示为
+X (t) =
+■
+■
+|
+|
+|
+|||
+|
+|
+|
+| ■
+■
+|
+|
+|
+|||
+|
+|
+|
+|1 1 ⋯ 1
+e
+-jω0 τ21
+e
+-jω0 τ22
+… e
+-jω0 τ2l
+⋮ ⋮ ⋮
+e
+-jω0 τM1
+e
+-jω0 τM2
+… e
+-jω0 τMl
+■
+■
+|
+|
+|
+|
+||
+|
+|
+|
+| ■
+■
+|
+|
+|
+|
+||
+|
+|
+|
+|s1 (t)
+s2 (t)
+⋮
+sl (t)
++
+■
+■
+|
+|
+|
+|
+||
+|
+|
+|
+| ■
+■
+|
+|
+|
+|
+||
+|
+|
+|
+|n1 (t)
+n2 (t)
+⋮
+nM (t)
+（6）
+a1 = [1    e
+-jω0 τ21
+    ⋯    e
+-jω0 τM1
+]T （7）
+a1 为第一个窄带信号的导向向量， ω0 = 2 πf =
+2πc/λ，c 为声速， τij 为阵列中第 i 号阵元相对于参
+考阵元接收第 j 个信号的相对时延。阵列接收信号
+模型的矢量形式为
+X (t) = AS (t) + N (t) （8）
+式 中 ： A 为 阵 列 流 型 矩 阵 ；S(t)= [ s1 (t)，s2 (t)，
+⋯，sl (t) ]T，为 t 时刻下 l × 1 维的信号包络表达式；
+N (t) ∈ RM × 1，为高斯白噪声矩阵。
+4　无人机噪声的时域定位方法
+时延估计的误差直接影响了估计无人机位置的
+精度，随着信号处理技术的不断发展，快速准确地
+获得信号之间的相对时延，早已成为信号领域的课
+题，成为人们研究的热点问题之一。时延估计技术
+主要有基本互相关算法、广义互相关算法 ［36-37，41］、
+自 适 应 最 小 均 方 滤 波 器 算 法［42，58］和 二 次 相 关 算
+法［43-45］等。基于到达时间差 （TDOA） 的定位方法对
+宽带信号定位具有灵敏度强、相关峰高、定位误差
+小、设备可隐秘安置的特点，可以实现对低空无人
+机的定位。本文从时域 DOA 估计角度出发，首先
+介绍基本互相关算法和广义互相关算法的原理，随
+后通过仿真对相关算法的性能进行了对比。
+4. 1　基本互相关算法
+时延估计技术通过比较两个阵元接收信号的互
+相关函数来估计时间延迟。假设两个等间距为半波
+长的阵元接收声源信号为
+s(t)，由于环境的干扰，
+信号在传输过程中会伴有干扰和噪声，则 t 时刻两
+阵元的接收信号表示为
+■
+■
+■
+x1 (t) = s(t - τ1 ) + n1 (t)
+x2 (t) = s(t - τ2 ) + n2 (t) （9）
+式中： x1 (t) 和 x2 (t) 分别为两阵元接收到的信号；
+τ1、τ2 分别为两通道信号传输的时延； n1 (t)、n2 (t)
+为 高 斯 白 噪 声 ， 假 设 噪 声 和 声 源 信 号s(t) 互 不
+相关。
+为了表示方便，以第一个阵元为参考阵元，则
+式 （9） 可表示为
+■
+■
+■
+x1 (t) = s(t) + n1 (t)
+x2 (t) = s(t - τ12 ) + n2 (t) （10）
+x1 (t) 和 x2 (t) 的互相关函数为
+R12 (τ) = E [ x1 (t) x2 (t + τ) ] = E [ s(t) s(t - τ12 + τ) +
+          s(t)n2 (t + τ) + s(t - τ12 + τ)n1 (t) +
+          n1 (t)n2 (t + τ) ] = Rss (τ - τ12 ) + Rsn2
+(τ) +
+          Rsn1
+(τ - τ12 ) + Rn1 n2
+(τ)                                           (11)
+式中，Rss（ · ） 为信号相关函数，Rsn（ · ） 为信号与噪声
+的相关函数，Rn1 n2
+（ · ） 为噪声相关函数。
+考虑到噪声和信源信号之间的不相关性，则信
+号与噪声之间的互相关函数为
+Rn1 n2
+(τ) = E [ n1 (t)n2 (t + τ) ] = 0 （12）
+式 （11） 修正为
+R12 (τ) = Rss (τ - τ12 ) ，     -∞ < τ < +∞ （13）
+当时延 τ = τ12 时，互相关函数 R12 (τ) 达到最
+大。根据相关函数性质，可以通过求解最大峰值对
+应的 τ 值来估计两路信号之间的时延值。
+4. 2　广义互相关算法
+在实际中，由于采集设备限制，采集到的声学
+数据序列不可能无限长，而且只能处理有限长的采
+样序列，现实场景下环境噪声并非严格不相关，这
+就对基本互相关时延估计提出了巨大的挑战。互相
+关法在信噪比较低时，峰值会淹没在噪声中，严重
+时会出现多个伪峰，导致 DOA 估计不准确。为了
+改善上述情况，诸多学者提出了广义互相关法，利
+用加权函数增强信号的信噪比，使高频部分增强，
+113
+
+## Page 6
+第 50 卷华 南 理 工 大 学 学 报（ 自 然 科 学 版 ）
+低频部分削弱，以提高时延估计精度。
+由维纳-辛钦定理［59］可知，功率谱密度和互相
+关函数为一对傅里叶变换对，即
+R12 (τ) = ∫-∞
++∞
+G12 ( ω)ejωτ dω （14）
+由于噪声和信号间互不相关，噪声之间也不相
+关，即
+G12 ( ω) = x1 ( ω) x*
+2 ( ω) （15）
+式 中 ，x1 (t)、x2 (t)经 过 傅 里 叶 变 换 得 到x1 ( ω)、
+x2 ( ω)，x*
+2
+( ω)为x2 ( ω)的 复 共 轭 ，G12 ( ω)为x1 (t)、x2 (t)
+的功率谱。
+对互功率函数加权再进行逆傅里叶变换，得到
+广义互相关函数
+R12 (τ) = ∫-∞
++∞
+w( ω)G12 ( ω)ejωτ dω （16）
+式中， w( ω) 为加权函数。 w( ω) 有多种表达式，如
+表 1 所示，在不同情景下选取合适的权函数进行处
+理，可以降低噪声对时延估计精度的影响。
+4. 3　时域 DOA 估计仿真结果分析
+时域 DOA 估计仿真中采用宽带信号源，假设
+声源为远场平面波，入射角为 20°，阵元数为 10。
+采 用 基 本 互 相 关 、 多 种 广 义 互 相 关 和 二 次 互 相
+关［43-45］算法，在不同信噪比和快拍数下进行蒙特卡
+洛实验，角度估计均方根误差 （RMSE） 如图4 所示。
+从图中可以看出， GCC-ROTH 算法的性能收敛速度
+较 慢 且 估 计 误 差 较 大 ，GCC-PHAT、 GCC-SCOT、
+GCC-HB、GCC-ML 算法的估计误差收敛速度随信
+噪比的增大比 GCC-ROTH 算法快，且 GCC-PHAT 算
+法的收敛速度比 GCC-SCOT 和 GCC-HB 快。在实际
+环境中，由于存在干扰和噪声，这些因素都会使相
+关函数出现伪峰，广义互相关算法的设计使其具有
+一定的抗噪声抗干扰特性， GCC-PHAT 加权舍弃了
+互频谱的幅值，保留了信号的相位，运算精度得到
+了提高，在实际中得到了广泛的使用。
+时延估计算法虽然灵活多变，在权函数的选取
+上有着较大的选择性，可根据实际情况达到过滤噪
+声和混响的效果。但时延估计算法对信噪比敏感，
+在低信噪比及混响严重的情况下，对目标 DOA 的估
+计性能将大幅度降低。所有的时延估计算法都依赖
+于设备采样速率，在低采样率下时间分辨率低，时
+表 1　加权函数表达式及特性
+Table 1　Weighting function expression and characteristics
+函数名称
+CC
+PHAT
+ROTH
+SCOT
+HB
+ML
+函数表达式
+w（ω）=1
+w（ω）= [ ]G12 ( ω)
+-1
+w（ω）= [ ]G11 ( ω)
+-1
+w（ω）= ■
+■
+■
+■
+G11 ( ω)G22 ( ω)
+-1
+w（ω）= | |G12 ( ω)
+G11 ( ω)G22 ( ω)
+w ( ω) = | |γ12
+2
+G12 ( )ω ( )1 - | |γ12
+2 ，|γ12 |
+2
+= | |G12 ( )ω
+2
+||G11 ( )ω G 22 ( )ω
+函数特性
+当噪声相关时， 基本互相关误差大
+抑制干扰噪声， 锐化峰值， 当信号能量较小时， 误差较大
+对噪声功率大的频带抑制明显， 但会展宽互相关函数峰值， 误差较大
+与 ROTH 相比，SCOT 加权同时考虑了两个通道的影响， 当周围环境噪声
+相关性强时， 等价于ROTH
+对信号中周期成分有抑制作用， 低信噪比下与基本互相关函数效果接近
+动态权值能较好地抑制干扰噪声， 时延估计误差较小， 但受制于噪声的
+先验知识
+图 4　互相关算法的角度估计结果
+Fig. 4　Angle estimation results of cross -correlation algorithm
+114
+
+## Page 7
+第 12 期 陈鹏 等：无人机声学定位技术综述
+延估计精度达不到，而过高的采样率会带来估计成
+本的增加。若有多个目标声源同时被阵列接收到，
+则互相关算法的谱峰会被干扰，在低信噪比下时延
+估计算法将失效。时延估计算法的优势在于计算量
+小，有较好的实时性，适用于对单目标进行定位。
+5　无人机噪声的频域定位方法
+无人机噪声频谱线谱成分明显，容易将宽带信
+号分解出不同频率的子带，进行相关窄带DOA 处理。
+窄带高分辨率定位算法的精度高于时延估计类算
+法
+［38］。基于子空间的定位技术来源于现代高分辨率谱
+估计技术，也是阵列信号处理研究最多、应用最广的
+技术之一。本文从频域角度出发，阐述典型的窄带子
+空间类算法，并通过仿真比较了算法的性能。
+5. 1　MUSIC 算法
+MUSIC 算法是基于窄带信号的子空间算法，是
+较早提出的经典算法。采用 3. 2 节信号模型，假设
+一个具有 M 个全向传感器的阵列，阵列接收 l 个远
+场信号 （l<M） 。M 个阵元等间距排列，相邻阵元间
+距为 d，l 个远场窄带信号 si (t) 入射到阵列上 （i=1，
+2， …，l） ，阵列在某时刻t 的快拍接收信号可看作一
+系列平面波相加，表示为
+X (t) = AS (t) + N (t) （17）
+A = [ a(ϕ1 )，a(ϕ2 )，⋯，a(ϕl ) ] （18）
+式中，a(ϕi ) = ■
+■
+|| ||1，e
+-j2π d sin ϕi
+λ ，⋯，e
+-j2π ( M - 1)d sin ϕi
+λ ■
+■
+|| ||
+T
+，a(ϕi )
+为信号 s(ϕi ) 的导向向量。
+通常情况下将均匀线阵中第一个阵元设为参考
+阵元，阵列整体接收数据协方差矩阵可表示为
+R = E [ X (t) XH (t) ] = E {[ ]( AS (t) + N (t) ·
+        }[ ]AS (t) + N (t)
+H
+= ARs AH + σ2 I （19）
+式中，Rs 为信号相关矩阵。
+高斯白噪声的归一化互谱矩阵为单位矩阵 I，
+互谱矩阵对角线元素相同，均为 σ2。由于声源数量
+l 小 于 阵 元 数M， 认 为ARs AH 是 满 秩 矩 阵 ， 所 以
+式 （19） 可表示为
+R =∑
+i = 1
+M
+λi vi vH
+i = VΛV H = [Vs  Vn ] Λ [ Vs  Vn ]H =
+      Vs ΛsV H
+s + Vn ΛnV H
+n                                             (20)
+式中： V 是以 vi 为元素的列矩阵； Λ 是以特征值 λi
+为元素的对角矩阵； Λs 是期望信号的特征值集合，
+包含 L 个较大特征值； Vs 是信号特征值的特征向
+量，表示信号子空间；Λn 是噪声的特征值集合，包
+含 M-L 个较小特征值； Vn 是噪声特征值的特征向
+量，代表噪声子空间。
+由子空间理论得
+RVn = ARs AHVn + σ2Vn = σ2Vn （21）
+因为 Rs 为满秩非奇异矩阵，所以式 （21） 可变为
+AHVn = 0 （22）
+表明阵列流型矩阵中各个列向量与噪声子空间
+正交，即
+a(ϕi )V H
+n = 0，     i = 1，2，⋯，l （23）
+考虑到实际中采样数据矩阵有限，故可以将样
+本协方差矩阵最大似然估计为［60］
+R  = 1
+U ∑
+u = 1
+U
+X (u) XH (u) （24）
+式中，U 为快拍数。在 Hermitian 空间中，由信号子
+空间和噪声子空间具有完备的正交性，可以得到空
+间谱系数为
+P (ϕ) = 1
+aH (ϕ)VnV H
+n a(ϕ) （25）
+P (ϕ) 的极大值对应的 ϕ 为信源的方向。在直线阵列
+下，阵元数为8，间距为半波长，快拍数为80，两信
+源入射角度分别为 -55°和 20°，MUSIC 算法的角度
+估计在不同 SNR 下的均方根误差仿真结果如图 5（每
+点为 5 000次蒙特卡洛计算结果 ） 所示。
+5. 2　ESPRIT 算法
+ESPRIT 算法利用了两个阵列的移不变特性而
+引起信号子空间的旋转不变性。子空间旋转不变性
+只需要进行特征分解，不需要对每个来波方向进行
+扫描，节省了大量的计算。假设一个包含 M 个阵元
+偶的平面阵列，每个阵元偶包含两个具有相同特性
+的阵元，已知两阵元相差位移向量为 d。有 K 个远
+场窄带信号入射到阵列， K<M。将阵列分为两个平
+移量为 d 的子阵 Z
+x 和 Zy，子阵 Zx 由 x1，x2，…，xM 组
+图 5　MUSIC 均方根误差曲线
+Fig. 5　MUSIC root mean square error curves
+115
+
+## Page 8
+第 50 卷华 南 理 工 大 学 学 报（ 自 然 科 学 版 ）
+成，子阵 Zy 由 y1，y2，…，yM 组成，第 i 个阵元偶的
+接收信号可表示为
+xi (t) = ∑
+j = 1
+K
+ai (ϕj )sj (t) + nxi
+(t)，    i = 1，2，…，M
+（26）
+yi (t)=∑
+j=1
+K
+ai (ϕj )e
+-2πjd sin ϕj
+λ sj (t)+nyi
+(t)，    i=1，2，…，M
+（27）
+子阵 Zx 和 Zy 在 t时刻的输出为
+X (t) = A  s(t) + nx (t) （28）
+Y (t) = A  Φs(t) + ny (t) （29）
+式中： A  = [ a(ϕ1 )，a(ϕ2 )，⋯，a(ϕK ) ]，为阵列流型
+矩阵；nx（t） 、ny（t） 分别为t 时刻子阵 Zx、Zy 接收的
+噪声；Φ ∈ RK × K，其对角元素分别为各阵元偶之间
+的相位延迟，
+Φ = diag {e
+-2πjd sin ϕ1
+λ ，e
+-2πjd sin ϕ2
+λ ，⋯，e
+-2πjd sin ϕK
+λ
+} （30）
+阵列的输出信号为
+Z (t) = ■
+■
+|| || ■
+■
+|| ||X (t)
+Y (t) = Aˉs(t) + nz (t) （31）
+式中，Aˉ = ■
+■
+|| || ■
+■
+|| ||A 
+A  Φ
+，nz (t) = ■
+■
+|| || ■
+■
+|| ||nx (t)
+ny (t) 。在快拍数为 U 的
+情形下，阵列输出向量可表示为
+Z = ■
+■
+|| || ■
+■
+|| ||X
+Y = AˉS + Nz （32）
+根据样本矩阵 Z 估计信号 DOA 方向，则需要
+对 Φ 进行估计。对信号自相关矩阵进行分解，求出
+信号子空间和噪声子空间。信号子空间是由 X 和 Y
+组成，样本矩阵 Y 张成的信号子空间相对于 X 张成
+的子空间旋转了一个空间相位。对自相关矩阵进行
+特征分解得到信号子空间和噪声子空间，即
+R 
+zz = ∑
+i = 1
+2M
+λi vi vH
+i = Vs ΛsV H
+s + Vn ΛnV H
+n （33）
+由于阵元数大于信源数，则必存在一个唯一、
+非奇异的满秩矩阵 T ∈ CK × K，且
+Vs = AˉT （34）
+因为阵列的移不变性， Vs 可分为 VX ∈ CM × K 和
+VY ∈ CM × K。由式 （34） 可得
+Vs = ■
+■
+|| || ■
+■
+|| ||VX
+VY
+= ■
+■
+|| || ■
+■
+|| ||A  T
+A  ΦT
+（35）
+VY = VXT-1 ΦT = VXΨ （36）
+式中，Ψ = T-1 ΦT。可以看出，VX 和 VY 张成的信号
+子 空 间 有 一 定 的 相 似 性 ， 矩 阵Φ 的 对 角 元 素 为
+T-1 ΦT 的特征值。矩阵 Φ 的求解方法有最小二乘
+法［27，61］、总体最小二乘法［32，62］等。
+在入射角度为 60°和-20°时，8 阵元线阵下两种
+求解方法的角度估计均方根误差随SNR 的变化如图6
+所示。从图中可知，随着 SNR 的提高， LS-ESPRIT
+和 TLS-ESPRIT 的 性 能 差 异 逐 渐 变 小 。 由 于TLS-
+ES
+PRIT 求解比 LS-ESPRIT 求解增加了一个构造矩
+阵，因此降低了两个子阵张成信号子空间的误差。
+在低信噪比下， TLS-ESPRIT 的均方根误差比 LS-
+ESPRIT 低，具有更强的抗干扰性。对比可知，全
+局最小二乘子空间旋转不变法可以作为代表和后续
+谱估计方法进行比较。
+5. 3　空间谱估计方法
+波束形成器分为常规波束形成器和自适应波束
+形成器，其中自适应波束形成器最经典的为最小方
+差无畸变响应 （MVDR） 波束形成器。从式 （20） 得到
+的样本协方差矩阵可分解为信号子空间和噪声子空
+间。实际中信号空间也包含着干扰信息，这就导致
+了子空间计算的误差。因此，样本矩阵可修正为
+R = σ2
+s a0 aH
+0
++ ∑
+i = 1
+N
+σ2
+i ai aH
+i
++ σ2
+n I = Rs + Ri + n（37）
+MVDR 波束形成器的原理为：在对期望信号无
+失真输出的情况下，使输出噪声的方差最小，即
+{
+wH a0 = 1
+min wH Rn w （38）
+式中， w 为波束加权向量， a0 为期望信号导向向
+量，wH Rn w 为波束输出噪声功率。求解此类恒等式
+约束二次型最优化问题，可以通过拉格朗日乘子法
+求解闭式解，得到的最优权向量为
+wops = R-1
+i + n a0
+aH
+0 R-1
+i + n a0
+（39）
+图6　LS-ESPRIT 和TLS-ESPRIT 在不同SNR 下的均方根误差
+Fig. 6　Root mean square errors of LS -ESPRIT and TLS -ESPRIT 
+under different SNRs
+116
+
+## Page 9
+第 12 期 陈鹏 等：无人机声学定位技术综述
+当样本矩阵不包含期望信号成分或者干扰和噪
+声的互谱矩阵已知时， MVDR 波束形成器可以达到
+自适应波束形成的最优上限［19］。实际情景下，很难
+将期望信号和干扰信号严格区分开，这样的 MVDR
+波束形成器并不实用，所以采用有限快拍的接收数
+据的互谱矩阵 R 
+x 来代替干扰加噪声互谱矩阵 Ri + n 。
+R 
+x 依据文献 ［60］ 可表示为
+R 
+x = 1
+U ∑
+u = 1
+U
+x(u) xH (u) （40）
+样本矩阵求逆 （SMI） 的空间谱估计为
+P (ϕm ) = 1
+aH
+m[ ]R 
+x
+-1
+am
+（41）
+式中，am 是入射角为 ϕm 的信号的导向向量。
+直接对采样得到的数据矩阵 R 
+x 求逆，其巨大
+的计算量是一方面，如果在微弱声源下对信号的
+DOA 进行估计，则 SMI 方法将存在较大的误差。一
+方面，从特征值分解角度，较小快拍数会导致样本
+协方差矩阵误差增大，噪声特征值分散［21］；另一方
+面，小快拍数增加了信号与干扰噪声的相关性，导
+致协方差矩阵不能严格保证对角阵。
+为了降低噪声特征值的分散，文献 ［18，21］ 分
+别提出了对角加载法 （LSMI） ，即在原样本互谱矩
+阵
+R 
+x 上叠加一个对角阵，
+R
+■
+λ  x = R 
+x + λ  I （42）
+式中，λ  为对角加载值。通过对角加载，对应于信
+号子空间强干扰的大特征值不受影响，噪声子空间
+对应的小特征值会被压缩到 λ  附近。对角加载值的
+选取对波束形成估计性能起到关键的作用。一般取
+λ  = 10σ2
+n，σ2
+n
+为噪声功率，则 LSMI 法下的空间谱
+估计为
+P
+■
+(ϕm ) = 1
+aH
+m[ ]R 
+x + 10σ2
+n I
+-1
+am
+（43）
+5. 4　频域 DOA 估计仿真结果分析
+仿真条件如下：声源为远场窄带信号，阵列为
+8元均匀线阵，阵元间距为半波长，入射角度为-55°
+和 20°，频域 DOA 估计的均方根误差如图 7 所示。
+从图 7（a） 可知，随着信噪比的提高，ESPRIT、
+MUSIC、MVDR 的估计误差下降明显，高信噪比下
+角度估计误差接近，其中 MUSIC 的收敛速度最快，
+性能较优。对角加载波束形成法因为在样本协方差
+矩阵中人为添加了对角矩阵，间接地降低了期望信
+号的成分，抑制了噪声特征值的分散，因此性能优
+图 7　频域 DOA 估计结果
+Fig. 7　Frequency domain DOA estimation results
+117
+
+## Page 10
+第 50 卷华 南 理 工 大 学 学 报（ 自 然 科 学 版 ）
+于 SMI-MVDR。ESPRIT 用对样本矩阵进行特征分
+解代替了求逆过程，因此运算速度较快，但此法牺
+牲了估计精度，误差最大。
+从图 7（b） 可知，随着阵元数的增加，所提及算
+法的误差均得到了改善。然而，运算量和硬件成本
+的增加所付出的代价是昂贵的，实际中可在定位精
+度的期望和成本之间折中考虑。
+当阵元间距超过半波长时，会出现空间混叠，
+表现为栅瓣现象。从图 7（c） 可以看出，阵元间距在
+半波长附近误差较小。从图 7（d） 可以看出，在采样
+频率一定的情况下，增加快拍数相当于扩展了数据
+长度，间接增强了信噪比，能获得较好的定位效果。
+6　现有无人机声学定位系统
+自 20 世纪以来，麦克风阵列的硬件水平和信号
+处理能力得到了飞速发展，国内外研究人员也逐渐
+将麦克风阵列用于无人机探测。潘祺凰［63］设计了四
+元平面矩形阵，通过 GCC 和几何定位法实现了低空
+无人机的定位，理论上最远探测距离为300 m。由于
+在低信噪比下运用广义互相关得到的时延误差太大，
+黄强
+［64］结合了最大似然 （ML） 和相位变换 （PHAT） 权
+函数改进了 TDOA 的时延估计效率，并研究了立体
+七元阵列结构，给出了近距离悬停无人机在阵元间
+距和采样频率影响下的 DOA 估计误差。冯仕轩
+［65］将
+改进的 PHAT 权函数应用到九元十字阵中，在低信
+噪比下降低了 DOA 估计误差。随后，王学猛［66］通过
+融合梅尔倒谱系数和神经网络来识别无人机，采用
+TDOA 成功定位了无人机，搭建了三元“L”型阵列
+实现定位并进行了误差分析。Sedunov 等［67］在户外环
+境下，通过波束形成成功探测到低空无人机，最远
+探测距离可达294 m，并解决了移动源定位算法存在
+的差分多普勒效应引起的去相关问题。在低空无人
+机检测方法上，常先宇
+［68］利用压缩声谱图提取无人
+机噪声的特征向量，提出了一种基于贝叶斯的融合
+检测算法，提升了检测效率，并通过改进的 TDOA
+定位方法成功定位出无人机，其中采用由 8 个阵元
+组成的双四面体阵列结构，最大定位相对误差为
+5%，最远定位距离为 110 m。马春艺等
+［69］建立了复
+杂环境下用于检测微弱声源的非参数模型，提高了
+无人机的检测效率。Sedunov 等
+［70］研究出的无人机声
+学探测系统 （DADS） 最远可探测中小型无人机260 m。
+Dumitrescu 等［71］结合机器学习，在户外搭建了 30 元
+体 积 阵 ， 最 远 可 实 现 380 m 的 无 人 机 追 踪 。
+Kartashov 等［72］在城市环境下，搭建了 12 元平面阵，
+最远可探测100 m内的低空无人机。
+时延估计定位技术的计算量小，实时性好，随
+着设备采样率的提升，时延估计精度得到一定的提
+高。因此目前定位无人机的方法大多采用 TDOA
+法。许多学者也提出了改进的 MUSIC［73-74］和 MVDR
+波束形成器法［75-76］。高分辨率谱估计法虽然能够突
+破瑞利限，但其对空间谱峰搜索的计算量与搜索间
+距成反比，在无人机飞行过程很难得到稳定的采样
+信号，难以获得准确目标的 DOA 信息。波束形成
+器 法 受 其 扫 描 机 制 的 影 响 ， 其 计 算 量 也 远 高 于
+TDOA 法。上述无人机声学定位系统汇总见表 2。
+7　结语
+本文对各类声学定位方法进行了综述，分析了
+各个算法的优缺点，并综合比对了各类算法在无人
+机声学定位场景下的性能差异。
+表 2　现有无人机声学探测方案
+Table 2　Existing UAV acoustic detection schemes
+文献序号
+63
+65
+66
+67
+68
+69
+70
+71
+72
+73
+76
+阵元数
+4
+9
+3
+12
+8
+24
+12
+30
+4
+5
+9
+阵列形式
+矩形平面阵
+十字阵
+“L” 型阵列
+体积阵
+双四面体
+“六臂” 平面阵
+体积阵
+螺旋形体积阵
+平面阵
+线列阵
+正交阵列
+定位方法
+TDOA
+TDOA
+TDOA
+波束形成
+TDOA
+波数形成
+波束形成
+机器学习
+TDOA
+MUSIC
+波束形成
+试验场地
+空旷校园
+空旷校园
+空旷校园
+空旷户外
+空旷校园
+空旷户外
+空旷户外
+空旷户外
+城市环境
+空旷校园
+空旷校园
+最远探测距离/m
+90
+100
+294
+110
+200
+260
+380
+100
+50
+80
+118
+
+## Page 11
+第 12 期 陈鹏 等：无人机声学定位技术综述
+首先分析了无人机噪声的频谱特点，剖析了时
+域和频域 DOA 估计理论对无人机进行声学定位的
+可行性。一方面，在时域方法中列举了各类 TDOA
+的时延求取算法，进行了理论推导，并分析了现有
+时延估计方法存在的问题；另一方面，本文还对频
+域方法的原理进行了阐述，在不同参数下进行了详
+尽的比较。最后给出了当前无人机声学定位系统的
+发展现状，发现国内外高校大多定位方法采取时域
+TDOA 法，平面阵应用广，而频域法应用较少。然
+而，时域和频域各类方法的原理不同，各有优缺
+点。如时域 TDOA 法运算速度快，但对于多目标和
+干扰场景下的检测效果不理想。频域 DOA 法虽然
+可以解决多目标定位问题，但大多数算法基于远场
+窄带假设，且要求信源是不相干的，然而在实际中
+信号大多数是宽带非平稳的，此时巨大的计算量会
+不可避免地降低定位的实时性。上述方法尚不能完
+全解决实际场景下无人机的远距离定位问题，需深
+入研究。目前亟待解决的问题包括：
+（1） 声学阵列接收到的无人机辐射噪声的信噪
+比较低，无人机旋翼噪声常淹没于背景噪声中，因
+此低信噪比下无人机的宽带噪声快速定位值得探索；
+（2） 无人机旋翼噪声具有强烈的谐波特性，如
+何充分利用无人机旋翼的谐波信号进行定位和识
+别，需要进行系统的研究；
+（3） 无人机的辐射噪声特性、声传播特性、周
+边背景噪声特性以及阵列特性都会随着频率而变
+化，因此，综合各种因素，寻找无人机噪声的最优
+探测频段，非常值得研究；
+（4） 无人机噪声频率较低，一般采用大孔径阵
+列进行定位，但大孔径阵列携带不便，难以实用
+化，因此如何利用小孔径阵列对无人机噪声进行定
+位，相关的研究还较少；
+（5） 无人机具有机动性强、噪声低的特性，单
+节点的定位性能可能无法满足高精度的定位要求，
+因此，如何使用多个传感器阵列，构建传感器阵列
+网 络 对 无 人 机 进 行 协 同 探 测 和 定 位 ， 需 要 深 入
+研究。
+参考文献：
+［1］   张静，张科，王靖宇，等．低空反无人机技术现状与发
+展趋势 ［J］ ．航空工程进展，2018，9（1） ：1-8，34．
+ZHANG Jing ， ZHANG Ke ， WANG Jingyu ， et al ． A 
+survey on anti -UAV technology and its future trend ［J］ ．
+Advances in Aeronautical Science and  Engineering ，
+2018，9（1） ：1-8，34．
+［2］   吴浩，徐婧，李刚．无人机探测与反制技术发展现状
+及建议 ［J］ ．飞航导弹，2020（9） ：89-95．
+WU Hao ， XU Jing ， LI Gang ． Development status and 
+suggestions of UAV detection and countermeasure tech⁃
+nology ［J］ ．Aerodynamic Missile Journal ， 2020（9） ：
+89-95．
+［3］   罗俊海，王芝燕．无人机探测与对抗技术发展及应用
+综述 ［J］ ．控制与决策，2022，37（3） ：530-544．
+LUO Junhai ，WANG Zhiyan ．A review of development 
+and application of UAV detection and counter technology 
+［J］ ．Control and Decision ，2022，37（3） ：530-544．
+［4］   何昌见，凌建寿，石凌飞．无人机探测与反制技术现
+状及发展 ［J］ ．警察技术，2019（3） ：4-7．
+HE Changjian ， LING Jianshou ， SHI Lingfei ． Current 
+situation and development of UAV detection and counter 
+technology ［J］ ．Police Technology ，2019（3） ：4-7．
+［5］   吴聪，李海飞，王红，等． PD 雷达探测低慢小目标
+性能分析  ［J］ ．科学技术与工程， 2013，13（28） ：
+8492-8496，8519．
+WU Cong，LI
+  Hai-fei，WANG Hong，et al．Influence of 
+analysis of PD radar detecting LSS -targets ［J］ ．Science 
+Technology and Engineering ， 2013， 13（28） ：8492-
+8496，8519．
+［6］   戚春，张聃，蔡云泽．基于交互式多模型的红外／雷达
+低小慢目标跟踪算法研究  ［J］ ．上海航天，2012，29
+（6） ：37-41．
+QI Chun，ZHANG Dan，CAI Yun-ze．Algorithms for low 
+altitude target tracking based on interacting multiple model 
+of dual -mode infrared/radar ［J］ ．Aerospace Shanghai ，
+2012，29（6） ：37-41．
+［7］   AZARI M M ，SALLOUHA H ，CHIUMENTO A ，et al ．
+Key technologies and system trade -offs for detection and 
+localization of amateur drones ［J］ ．IEEE Communica⁃
+tions Magazine ，2018，56（1） ：51-57．
+［8］   周同，郭俊幸，余振滔．一种基于图像探测的无人机
+识别方法：CN111652067A ［P］ ．2020-09-11．
+［9］   GANTI S R ， KIM Y ． Implementation of detection and 
+tracking mechanism for small UAS ［C］∥ Proceedings of 
+2016 International Conference on Unmanned Aircraft Sys⁃
+tems．Arlington：IEEE，2016：1254-1260．
+［10］   何绍溟，李若萱，陶宏，等．一种基于雷达和光电
+探测系统的反低慢小无人机方法： CN113138381A 
+［P］ ．2021-07-20．
+［11］   OMOLOGO M ，SVAIZER P ．Acoustic source location 
+in noisy and reverberant environment using CSP analysis 
+［C］∥ Proceedings of 1996 IEEE International Confe -
+119
+
+## Page 12
+第 50 卷华 南 理 工 大 学 学 报（ 自 然 科 学 版 ）
+rence on Acoustics ， Speech， and Signal Processing ．
+Atlanta：IEEE，1996：921-924．
+［12］   DING Guoru，WU Qihui，ZHANG Linyuan，et al．An 
+amateur drone surveillance system based on the cognitive 
+internet of things ［J］ ．IEEE Communications Maga⁃
+zine，2018，56（1） ：29-35．
+［13］   UDDIN Z，NEBHEN J，ALTAF M，et al．Independent 
+vector analysis inspired amateur drone detection through 
+acoustic signals ［J］ ．IEEE Access，2021，9：63456- 
+63462．
+［14］   SHI Zhiguo ，CHANG Xianyu，YANG Chaoqun，et al．
+An acoustic-based surveillance system for amateur drones 
+detection and localization ［J］ ．IEEE Transactions on 
+Vehicular Technology ，2020，69（3） ：2731-2739．
+［15］   MEZEI J ，MOLNAR A ．Drone sound detection by cor⁃
+relation ［C］∥ Proceedings of IEEE the 11th Interna⁃
+tional Symposium on Applied Computational Intelligence 
+and Informatics ．Timisoara：IEEE，2016：509-517．
+［16］   ANWAR M Z，KALEEM Z，JAMALIPOUR A．Machine 
+learning inspired sound -based amateur drone detection 
+for public safety applications ［J］ ．IEEE Transactions 
+on Vehicular Technology ，2019，68（3） ：2526-2534．
+［17］   王威，安腾飞，欧建平．无人机被动音频探测和识
+别技术研究 ［J］ ．声学技术，2018，37（1） ：89-93．
+WANG Wei ， AN Teng -fei， OU Jian -ping． Research 
+on audio detection and recognition of UAV technology 
+［J］ ．Technical Acoustics ，2018，37（1） ：89-93．
+［18］   COX H ，ZESKIND R ，OWEN M M ．Robust adaptive 
+beamforming ［J］ ．IEEE Transactions on Acoustics ，
+Speech，and Signal Processing，1987，35（10） ：1365- 
+1376．
+［19］   陈鹏．基于协方差矩阵重构的稳健自适应波束形成
+方法研究 ［D］ ．西安：西北工业大学，2019．
+［20］   CAPON J ． High-resolution frequency-wave number spec⁃
+trum analysis ［J］ ．Proceedings of the IEEE ， 1969，
+57（8） ：1408-1418．
+［21］   CARLSON B ． Covariance matrix estimation errors and 
+diagonal loading in adaptive arrays ［J］ ．IEEE Tran -
+sactions on Aerospace and Electronic Systems ， 1988，
+24（4） ：397-401．
+［22］   CHANG L，YEH C C．Performance of DMI and eigenspace-
+based beamformers ［J］ ．IEEE Transactions on Antennas 
+and Propagation ，1992，40（11） ：1336-1347．
+［23］   GERSHMAN A B ，NICKEL U，BOHME J F．Adaptive 
+beamforming algorithms with robustness against jammer 
+motion ［J］ ．IEEE Transactions on Signal Processing ，
+1997，45（7） ：1878-1
+885 ．
+［24］   邵元，杨超，郭辉．近场相干声源三维定位 MUSIC
+算法 ［J］ ．计算机与数字工程，2021，49（5） ：1013-
+1017．
+SHAO Yuan，YANG Chao，GUO Hui．Three-dimensional 
+localization algorithm of near -field coherent sound source 
+based on rectangular microphone array ［J］ ．Computer 
+and Digital Engineering ，2021，49（5） ：1013-1017．
+［25］   殷作亮．基于麦克风阵列的 MUSIC 声源定位算法研
+究 ［D］ ．哈尔滨：哈尔滨工业大学，2008．
+［26］   SCHMIDT R ． Multiple emitter location and signal para -
+meter estimation ［J］ ．IEEE Transactions on Antennas 
+and Propagation ，1986，34（3） ：276-280．
+［27］   PAULRAJ A ，ROY R，KAILATH T．A subspace rota⁃
+tion approach to signal parameter estimation ［J］ ．Pro⁃
+ceedings of the IEEE ，1986，74（7） ：1044-1046．
+［28］   RAO B D ， HARI K ． Performance analysis of root -
+MUSIC ［C］∥ Proceedings of the Twenty -Second Asilo⁃
+mar Conference on Signals ， Systems and Computers ．
+Pacific Grove：IEEE，1988：578-582．
+［29］   VIBERG M ，OTTERSTEN B ．Sensor array processing 
+based on subspace fitting ［J］ ．IEEE Transactions on 
+Signal Processing ，1991，39（5） ：1110-1121．
+［30］   KUNDU D ． Modified MUSIC algorithm for estimating 
+DOA of signals ［J］ ．Signal Processing，1996，48（1） ：
+85-90．
+［31］   ZHANG Xiaofei ，LV Wen，SHI Ying ，et al．A novel 
+DOA estimation algorithm based on eigen space ［C］∥ 
+Proceedings of 2007 International Symposium on Micro⁃
+wave， Antenna， Propagation and EMC Technologies 
+for Wireless Communications．Hangzhou：IEEE，2007：
+551-554．
+［32］   ROY R，PAULRAJ A，KAILATH T．Estimation of signal 
+parameters via rotational invariance techniques：ESPRIT 
+［C］∥ Proceedings of 1986 IEEE Military Communica⁃
+tions Conference： Communications-Computers： Teamed 
+for the  90’s．Monterey：IEEE，1986：41.6.1-41.6.5．
+［33］   WANG Bu -hong， WANG Yong -liang， CHEN Hui ．
+Weighted spatial smoothing for direction -of-arrival esti⁃
+mation of coherent signals ［C］∥ Proceedings of IEEE 
+Antennas and Propagation Society International Sympo⁃
+sium．San Antonio：IEEE，2002：668-671．
+［34］   邓艳容，李嘉栋，张法碧，等．基于远场声源定位的
+改进 MUSIC 算法研究  ［J］ ．电子技术应用，2018，
+44（12） ：69-72．
+DE
+NG Yanrong ， LI Jiadong ， ZHANG Fabi ， et al ．
+Research on improved MUSIC algorithm based on far 
+field sound source localization ［J］． Application of 
+120
+
+## Page 13
+第 12 期 陈鹏 等：无人机声学定位技术综述
+Electronic Technology ，2018，44（12） ：69-72．
+［35］   李蜀丰，徐永绍，刘秉政，等．基于改进 MUSIC 的
+声源定位方法  ［J］ ．电子测量与仪器学报， 2021，
+35（8） ：212-219．
+LI Shufeng ， XU Yongshao ， LIU Bingzheng ， et al ．
+Sound source localization method based on improved 
+MUSIC ［J］ ．Journal of Electronic Measurement and 
+Instrumentation ，2021，35（8） ：212-219．
+［36］   唐浩洋，陈子为，黄维．基于麦克风阵列的 GCC 时
+延估计算法分析  ［J］ ．计算机系统应用，2019，28
+（12） ：140-145．
+TANG Hao -yang， CHEN Zi -wei， HUANG Wei ．
+Analysis of GCC time delay estimation algorithm based 
+on microphone array ［J］ ．Computer Systems and Ap⁃
+plications，2019，28（12） ：140-145．
+［37］   KNAPP C ， CARTER G ． The generalized correlation 
+method for estimation of time delay ［J］ ．IEEE Tran -
+sactions on Acoustics ，Speech，and Signal Processing ，
+1976，24（4） ：320-327．
+［38］   王震．基于互功率谱相位时延估计的声源定位系统
+研究 ［D］ ．天津：天津大学，2010．
+［39］   行鸿彦，唐娟．时延估计方法的分析  ［J］ ．声学技
+术，2008，27（1） ：110-114．
+XING Hong -yan，TANG Juan ．Analysis and survey of 
+algorithms for time -delay estimation ［J］． Technical 
+Acoustics，2008，27（1） ：110-114．
+［40］   QUAZI A H ．An overview on the time delay estimate in 
+active and passive systems for target localization ［J］ ．
+IEEE Transactions on Acoustics ， Speech， and Signal 
+Processing，1981，29（3） ：527-533．
+［41］   景思源，冯西安，张亚辉．广义互相关时延估计声定
+位算法研究 ［J］ ．声学技术，2014，33（5） ：464-468．
+JING Siyuan，FENG Xian，ZHANG Yahui．Research on 
+generalized cross -correlation delay estimation sound 
+localization algorithm ［J］ ．Acoustics Technology，2014，
+33（5） ：464-468．
+［42］   YOUN D ，AHMED N，CARTER G．On using the LMS 
+algorithm for time delay estimation ［J］ ．IEEE Tran -
+sactions on Acoustics ，Speech，and Signal Processing ，
+1982，30（5） ：798-801．
+［43］   唐 娟 ， 行 鸿 彦 ． 基 于 二 次 相 关 的 时 延 估 计 方 法 
+［J］ ．计算机工程，2007，33（21） ：265-267．
+TANG Juan ， XING Hong -yan． Time delay estimation 
+based on second correlation ［J］ ．Computer Enginee -
+ring，2007，33（21） ：265-2
+67 ．
+［44］   窦慧晶，王千龙，张雪．基于二次相关的广义互相
+关时差估计算法  ［J］ ．北京工业大学学报， 2016，
+42（2） ：197-202．
+DOU Huijing，WANG Qianlong，ZHANG Xue．Genera-
+lized cross -correlation algorithm based on second corre⁃
+lation ［J］ ．Journal of Beijing University of Technology ，
+2016，42（2） ：197-202．
+［45］   周康辉，董万胜，刘恒毅，等．利用二次相关改进
+的广义互相关时延估计算法  ［J］ ．数据采集与处
+理，2013，28（6） ：801-806．
+ZHOU Kanghui，DONG Wansheng，LIU Hengyi，et al．
+Improved generalized cross correlation method for time 
+delay estimation by using second correlation ［J］ ．Journal 
+of Data Acquisition and Processing ， 2013， 28（6）：
+801-806．
+［46］   王秀芳，张光华，陈雪松．消除数字滤波器中 Gibbs
+现 象 的 研 究 ［J］ ． 信 号 处 理 ，2003， 19（增 刊） ：
+13-16．
+WANG Xiufang，ZHANG Guanghua，CHEN Xuesong ．
+A study of eliminating Gibbs phenomenon in digital filter 
+［J］ ．Signal Processing，2003，19（Suppl） ：13-16．
+［47］   马金铭，苗红霞，苏新华，等．分数傅里叶变换理论
+及其应用研究进展  ［J］ ．光电工程，2018，45（6） ：
+170747/1-24．
+MA Jinming ，MIAO Hongxia ，SU Xinhua ，et al．Re⁃
+search progress in theories and applications of the frac⁃
+tional Fourier transform ［J］． Opto-Electronic Engi⁃
+neering，2018，45（6） ：170747/1-24．
+［48］   夏天，吴春玉，张勇．基于多旋翼无人机噪声分析的
+维修性探究 ［J］ ．中国新通信，2019，21（17） ：239．
+XIA Tian ，WU Chunyu ，ZHANG Yong ．Research on 
+maintainability based on noise analysis of multi -rotor 
+UAV ［J］． China New Telecommunications ， 2019，
+21（17） ：239．
+［49］   蔺诚毅，吴亚锋，陈耿．无人机螺桨噪声主动控制实
+验 ［J］ ．科学技术与工程，2014，14（9） ：265-268．
+LIN Cheng-yi，WU Ya-feng，CHEN Geng．Active noise 
+control experiment for unmanned aerial vehicle propeller 
+［J］ ．Science Technology and Engineering ，2014，14
+（9） ：265-268．
+［50］   李鹏．飞机螺旋桨噪声及降噪分析  ［J］ ．装备制造
+技术，2009（8） ：37-38．
+LI Peng．The analysis of aircraft propeller noise and de⁃
+creasing ［J］ ．Equipment Manufacturing Technology ，
+2009（8） ：37-38．
+［51］   程翠．基于声纹多谐波分析的无人机检测与定位研
+究 ［D］ ．杭州：浙江大学，2
+ 018．
+［52］   YAKUBOVSKIY A ，SALLOUM H ，SUTIN A ，et al ．
+Feature extraction for acoustic classification of small air⁃
+121
+
+## Page 14
+第 50 卷华 南 理 工 大 学 学 报（ 自 然 科 学 版 ）
+craft ［C］∥ Proceedings of 2015 IEEE Workshop on 
+Applications of Signal Processing to Audio and Acous⁃
+tics．New Paltz：IEEE，2015：1-5．
+［53］   GUANING S ， MORF M ． The signal subspace ap⁃
+proach for multiple wide -band emitter location ［J］．
+IEEE Transactions on Acoustics ， Speech， and Signal 
+Processing，1983，31（6） ：1502-1522．
+［54］   WAX M ， SHAN T J ， KAILATH T ． Spatio-temporal 
+spectral analysis by eigen structure methods ［J］ ．IEEE 
+Transactions on Acoustics，Speech，and Signal Processing，
+1984，32（4） ：817-827．
+［55］   ARGENTIERI S ， DANES P ． Broadband variations of 
+the MUSIC high -resolution method for sound source loca -
+lization in robotics ［C］∥ Proceedings of 2007 IEEE/ 
+RSJ International Conference on Intelligent Robots and 
+Systems．San Diego：IEEE，2007：2009-2014．
+［56］   申一伟．基于宽带阵列参数估计的数字波束形成研
+究 ［D］ ．西安：西安电子科技大学，2017．
+［57］   居太亮．基于麦克风阵列的声源定位算法研究  ［D］ ．
+成都：电子科技大学，2006．
+［58］   IZYDORCZYK J ．Time delay estimation using the LMS 
+adaptive filter ［J］ ．IFAC Proceedings Volumes，2006，
+39（21） ：298-303．
+［59］   WIENER N ．Generalized harmonic analysis ［J］ ．Acta 
+Mathematica，1930，55（1） ：117-258．
+［60］   REED I S ， MALLETT J D ， BRENNAN L E ． Rapid 
+convergence rate in adaptive arrays ［J］ ．IEEE Transac⁃
+tions on Aerospace and Electronic Systems ， 1974， 10
+（6） ：853-863．
+［61］   刘艳，杨力生，黄卫华． ESPRIT 算法估计性能分析  
+［J］ ．信息技术，2011（3） ：100-102，106．
+LIU Yan，YANG Li-sheng，HUANG Wei-hua．Analysis 
+for the performance of ESPRIT algorithm ［J］ ．Informa⁃
+tion Technology ，2011（3） ：100-102，106．
+［62］   黄宇，柏正尧，黄振，等．采用小波分析和 TLS-
+ESPRIT 的 DOA 估计算法  ［J］ ．计算机仿真，2015，
+32（5） ：209-212．
+HUANG Yu ， BAI Zheng -yao， HUANG Zhen ， et al ．
+Joint DOA estimation algorithm using wavelet analysis 
+and TLS -ESPRIT ［J］ ．Computer Simulation ， 2015，
+32（5） ：209- 212．
+［63］   潘祺凰．基于小型麦克风阵列的低空无人飞行器探
+测系统研究 ［D］ ．南京：南京理工大学，2017．
+［64］   黄强．低空无人机被动声探测定位方法研究  ［D］ ．
+成都：电子科技大学， 2018．
+［65］  
+ 冯仕轩．基于麦克风阵列的无人机定位方法研究  
+［D］ ．西安：西安电子科技大学，2019．
+［66］   王学猛．微弱声源智能采集的无人机被动探测系统
+研究与实现 ［D］ ．成都：电子科技大学，2018．
+［67］   SEDUNOV A ，SALLOUM H ，SUTIN A ，et al．UAV 
+passive acoustic detection ［C］∥ Proceedings of 2018 
+IEEE International Symposium on Technologies for 
+Homeland Security ．Woburn：IEEE，2018：1-6．
+［68］   常 先 宇 ． 基 于 声 阵 列 的 无 人 机 检 测 及 定 位 系 统 
+［D］ ．杭州：浙江大学，2019．
+［69］   马春艺，张君，鲍明，等．声场空频特征非参数融合无
+人机声学探测 ［J］ ．信号处理，2019，35（9） ：1590-
+1598．
+MA Chunyi ， ZHANG Jun ， BAO Ming ， et al ． UAV 
+acoustic detection based on non -parametric fusion of 
+spatial-frequency characteristics of sound field ［J］．
+Journal of Signal Processing ， 2019， 35（9） ：1590-
+1598．
+［70］   SEDUNOV A ， HADDAD D ， SALLOUM H ， et al ．
+Stevens drone detection acoustic system and experi⁃
+ments in acoustics UAV tracking ［C］∥ Proceedings of 
+2019 IEEE International Symposium on Technologies 
+for Homeland Security ．Woburn：IEEE，2019：1-7．
+［71］   DUMITRESCU C ， MINEA M ， COSTEA I M ， et al ．
+Development of an acoustic system for UAV detection 
+［J］ ．Sensors，2020，20（17） ：4870/1-27．
+［72］   KARTASHOV V，OLEYNIKOV V，KORYTTSEV I，et 
+al．Use of acoustic signature for detection ，recognition 
+and direction finding of small unmanned aerial vehicles 
+［C］∥ Proceedings of IEEE the 15th International Confe -
+rence on Advanced Trends in Radioelectronics， Telecom⁃
+munications and Computer Engineering ． Lviv-Slavske：
+IEEE，2020：1-4．
+［73］   张坤．基于嵌入式的麦克风阵列声源定位系统算法
+研究 ［D］ ．西安：西安工业大学，2018．
+［74］   ZHANG Xianyu ，YANG Chaoqun，SHI Xiufang，et al.
+Feature extracted DOA estimation algorithm using acoustic 
+array for drone surveillance ［C］∥ Proceedings of IEEE the 
+87th Vehicular Technology Conference ． Porto： IEEE，
+2018：1-5．
+［75］   BLANCHARD T ，THOMAS J H，RAOOF K．Acoustic 
+signature analysis for localization estimation of unmanned 
+aerial vehicles using few number of microphones ［C］∥ 
+Proceedings of the 2nd Franco -Chinese Acoustic Confe -
+rence．Le Mans：EDP Sciences，2019：1-6．
+［76］   郭俊峰．基于麦克风阵列的小型无人机侦测及定位
+方案设计 ［D］ ．重庆：重庆邮电大学，2018．
+122
+
+## Page 15
+第 12 期 陈鹏 等：无人机声学定位技术综述
+Review for UAV Acoustic Positioning
+CHEN Peng CHEN Yang WANG Wei
+（School of Information Engineering ，Chang’an University ，Xi’an 710061，Shaanxi，China）
+Abstract：In recent years, the rapid growth of “low, small and slow ” UAVs （Unmanned Aerial Vehicles） and their 
+uncontrolled flying have posed a serious threat to urban security and public safety.  How to effectively locate “low, 
+small and slow ” UAVs in complex low -altitude situations has become an urgent social problem.  Due to the blind 
+spot and weak radiation intensity of radar and photoelectric detection, the effect of close range positioning is not 
+ideal.  Acoustic positioning, effectively compensates for the disadvantages of radar and photoelectric positioning 
+methods due to its low sensor cost, flexible array placement and small positioning error.  This paper summarized the 
+acoustic positioning methods for UAVs.  The spectrum of UAV noise was analyzed and it found that these noise sig⁃
+nals have a strong line spectrum structure.  These line spectra are rich in harmonic frequency components, have a 
+high signal -to-noise ratio and are highly resistant to interference.  Firstly, the acoustic characteristics of rotor noise 
+were integrated to derive the capability of locating the UAV from both time and frequency domain perspectives.  
+Secondly the principles of acoustic localization methods were introduced and the algorithm simulation results were 
+given.  It also compared the root mean square error of the time domain and frequency domain localization methods.  
+Next, the implementation methods of acoustic -based localization of low -altitude UAVs in universities at home and 
+abroad in recent years were counted, and it found that the planar array based on time difference of arrival (TDOA) is 
+most widely used and has better localization effect.  Finally, acoustic localization of low -altitude UAVs in the future 
+was prospected.
+Key words ： acoustic positioning ； low-altitude unmanned aerial vehicle ； time domain analysis ； frequency 
+domain analysis ；time difference of arrival ；planar array
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+首批入选！我校获批中国科协全国科普教育基地
+全国科普教育基地，是由中国科协认定，面向社会和公众开放，具有科普和教育功能的示范性场所，是中国科协积
+极推进科普工作的社会化、群众化、经常化，为实施“科教兴国”战略和提高公众科学文化素质服务而设置的。 2022 年
+11 月 29 日中国科协公布了 2021—2025 年度第一批补充认定的全国科普教育基地名单。
+华南理工大学科普教育基地依托图书馆、制浆造纸工程国家重点实验室、发光材料与器件国家重点实验室、亚热带
+建筑科学国家重点实验室及各学院、学生社团，学校深入践行科普使命，举办了各类科普活动，展示了党的十八大以来，
+在以习近平同志为核心的党中央坚强领导下学校科技创新取得的新进展、新成就，讲述学校广大科技工作者追求真理、
+淡泊名利、勇攀高峰、敢为人先的创新故事，面向社会公众开展各类科普活动和科技服务，以实际行动推动科技创新成
+果和科学普及活动惠及于民。
+在每年的全国科普工作日、全国科技活动周、全国科技工作者日等重要主题日，通过举办各类主题科普活动，普及
+重大科技成果；举办全国青年少年高校科学营、全国优秀大学生暑期夏令营、青少年科学竞赛等活动，培育青少年的科
+学思维和工程思维；通过举办中国国际“互联网 +”大学生创新创业大赛，将科普与学生创新创业能力培养有机结合；大
+力弘扬科学家精神，展示科技界优秀典型、生动实践和成就经验，积极宣传高水平科技自立自强的重大意义，涵养优良
+学风；通过“大手拉小手”科普活动，学院教师、学生科学技术协会、学生科普协会深入中小学开展形式多样、生动活
+泼的科普活动。
+科普花开结硕果，砥砺奋进再扬帆。华南理工大学将以入选全国科普教育基地为契机，以习近平新时代中国特色社
+会主义思想为指导，以华工智慧和华工担当，认真贯彻落实党的二十大精神，发扬成绩，再接再厉，不断提升科普公共
+服务能力，为全面建设社会主义现代化强国提供基础支撑，为推动构建人类命运共同体作出积极贡献。
+123

@@ -1,0 +1,62 @@
+[
+  {
+    "number": 1,
+    "id": "chen",
+    "doi": "10.12141/j.issn.1000-565X.220277"
+  },
+  {
+    "number": 2,
+    "id": "gcc",
+    "doi": "10.1109/TASSP.1976.1162830"
+  },
+  {
+    "number": 3,
+    "id": "srp",
+    "doi": "10.1007/978-3-662-04619-7_8"
+  },
+  {
+    "number": 4,
+    "id": "srpreview",
+    "doi": "10.1186/s13636-024-00377-z"
+  },
+  {
+    "number": 5,
+    "id": "noiseweight",
+    "doi": "10.1016/j.robot.2006.08.004"
+  },
+  {
+    "number": 6,
+    "id": "phatbeta",
+    "doi": "10.1016/j.sigpro.2007.01.013"
+  },
+  {
+    "number": 7,
+    "id": "brumann",
+    "doi": "10.23919/EUSIPCO63174.2024.10715232"
+  },
+  {
+    "number": 8,
+    "id": "harmonics",
+    "doi": "10.1177/1475472X241259082"
+  },
+  {
+    "number": 9,
+    "id": "yang",
+    "doi": "10.23919/EUSIPCO63237.2025.11226465"
+  },
+  {
+    "number": 10,
+    "id": "ddl",
+    "doi": "10.1109/MLSP62443.2025.11204285"
+  },
+  {
+    "number": 11,
+    "id": "uavirbase",
+    "doi": "10.3390/app15105378"
+  },
+  {
+    "number": 12,
+    "id": "field_acquisition",
+    "source": "Original acquisition description and channel metadata; see results/field/source_manifest.json"
+  }
+]

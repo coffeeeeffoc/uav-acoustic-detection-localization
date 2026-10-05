@@ -1,0 +1,45 @@
+{
+  "version": "SCCR algorithm paper, frozen fresh evaluation",
+  "visual_review_passed": true,
+  "pages_reviewed": {
+    "en": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "zh": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "method": "Rendered every PDF page at 1.5x; inspected full-page contact sheets and detailed equation/table/title pages; reinspected Chinese pages 1-4 after title and terminology correction.",
+  "checks": [
+    "No clipped body, captions, tables or formula images observed.",
+    "Title, reference lists, figure legends and result tables remain legible.",
+    "Chinese title no longer leaves a one-character final line.",
+    "Six bilingual tables and 16 numbered equations match; 21 references renumbered by first appearance."
+  ],
+  "pdf_sha256": {
+    "en": "57d1f838671f9bd18d92b7981f5a9f0a977e28122f660d16a67093ba6c091d29",
+    "zh": "cd1f7f880886e7aa80cbf096e934f58f3f9c2d3cbde4dd953f88d810a7b4fb9a"
+  },
+  "rendered_pages": "results/document_qa/improved/",
+  "limits": [
+    "Generic scholarly layout, not a target venue template.",
+    "Local checks are not a formal similarity report."
+  ]
+}

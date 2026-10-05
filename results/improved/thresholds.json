@@ -1,0 +1,15 @@
+{
+  "thresholds": {
+    "harmonic_coherence": 1.745612220980299,
+    "spectral": -0.054029560368121565,
+    "proposed": -0.18837965075192642
+  },
+  "n": 800,
+  "order": 761,
+  "rule": "strict score > threshold",
+  "validation_fpr": {
+    "harmonic_coherence": 0.04875,
+    "spectral": 0.04875,
+    "proposed": 0.04875
+  }
+}

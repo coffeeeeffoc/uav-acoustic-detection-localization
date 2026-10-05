@@ -1,0 +1,769 @@
+## PDF page 1
+Acoustic Imaging for UA V Detection: Dense Beamformed Energy Maps
+and U-Net SELD
+Belman Jahir Rodr ´ıguez1 Sergio F . Chevtchenko1 Marcelo Herrera Mart´ınez2 Yeshwanth Bethi1 Saeed Afshar 1
+1 International Centre for Neuromorphic Systems (ICNS), Western Sydney University, Australia
+2 Universidad de San Buenaventura, Colombia
+Abstract—We introduce a U-net model for 360° acoustic source
+localization formulated as a spherical semantic segmentation task. Rather
+than regressing discrete direction-of-arrival (DoA) angles, our model
+segments beamformed audio maps (azimuth × elevation) into regions of
+active sound presence. Using delay-and-sum (DAS) beamforming on a
+custom 24-microphone array, we generate signals aligned with drone GPS
+telemetry to create binary supervision masks. A modified U-Net, trained
+on frequency-domain representations of these maps, learns to identify
+spatially distributed source regions while addressing class imbalance via
+the Tversky loss. Because the network operates on beamformed energy
+maps, the approach is inherently array-independent and can adapt to
+different microphone configurations and can be transferred to different
+microphone configurations with minimal adaptation. The segmentation
+outputs are post-processed by computing centroids over activated regions,
+enabling robust DoA estimates. Our dataset includes real-world open-field
+recordings of a DJI Air 3 drone, synchronized with 360° video and
+flight logs across multiple dates and locations. Experimental results show
+that U-net generalizes across environments, providing improved angular
+precision, offering a new paradigm for dense spatial audio understanding
+beyond traditional Sound Source Localization (SSL). We additionally
+validate the same beamforming-plus-segmentation formulation on the
+DCASE 2019 TAU Spatial Sound Events benchmark, showing that the
+approach generalizes beyond drone acoustics to multiclass Sound Event
+Localization and Detection (SELD) scenarios.
+Index Terms—sound-source localization, SELD, beamforming, semantic
+segmentation, U-Net, drone acoustics.
+1. INTRODUCTION
+SSL is a fundamental task in spatial audio analysis, with applications
+ranging from surveillance, security, search and rescue, environmental
+monitoring, and wildlife tracking [1]. SSL is often reduced to
+estimating the DoA of sound sources. The DoA is usually defined
+as the azimuth and elevation angle of the direction of the audio
+source while ignoring the distance to it. Microphone arrays can be
+steered to act as spatial filters, which enables manipulation of the
+array’s directivity (also referred to as beamforming). [2]. Traditional
+SSL techniques rely on signal processing algorithms such as time-
+difference of arrival (TDOA), generalized cross-correlation with
+phase transform (GCC-PHAT) [3], Steered-response power-phase
+transform (SRP-PHAT) [4] and multiple signal classification (MUSIC)
+[5], or beamforming methods like (DAS) [6]. While effective in
+controlled environments, these approaches degrade in performance
+under noise, reverberation, or when dealing with moving sources
+and complex acoustic scenes. Recent deep learning methods have
+achieved notable improvements in accuracy and robustness, even
+in challenging scenarios with noise, reverberation, and multiple
+simultaneous sources [7]. In outdoor long-range scenarios, localization
+performance is frequently SNR-limited by propagation and non-
+stationary ambient noise. As distance increases, high-frequency UA V
+components attenuate rapidly and background noise becomes partially
+spatially coherent (e.g., wind, vegetation, traffic), reducing effective
+array gain. This motivates hybrid designs where a computationally
+simple beamformer produces an interpretable spatial map, and learning
+is used to denoise and regularize the map structure rather than
+operating directly on raw multichannel waveforms. In recent years,
+the use of multichannel audio processing and visual perception has
+gained traction [8], particularly with the use of microphone arrays
+and beamforming to create spatial energy maps [9] essentially turning
+sound into images, some of those systems are known as acoustic
+cameras. [10].
+The Acoustic ”imaging” enables the use of powerful computer
+vision architectures, especially convolutional neural networks (CNNs),
+to perform spatial reasoning on sound scenes. However, most deep
+learning-based SSL models outputs direction-of-arrival (DOA) angles
+or coordinates, typically via classification or regression. Few have
+explored frame-based spatial segmentation of the full acoustic field
+analogous to semantic segmentation in images.
+In this work, we propose a novel spherical segmentation framework
+for localizing sound sources using microphone arrays. Inspired by
+the image recognition paradigm in computer vision like YOLO [11]
+or Deeplapv3 [12], we develop a U-Net-based architecture [13] that
+performs binary segmentation over a 2D spherical acoustic image
+(azimuth × elevation) derived from DAS beamforming. Instead of
+regressing point estimates of direction, our model learns to segment the
+acoustic field, highlighting regions in space where sound sources are
+present. This formulation enables spatial mapping of targets such as
+drones. To enable supervised learning, we construct a labeled dataset
+based on real-world recordings of a DJI Air 3 drone in open-field
+conditions on different days and locations. The dataset is publicly
+available. [14] 1 It includes 24-channel audio, GPS-aligned binary
+masks and 360° video.
+Our approach provides a scalable way to learn acoustic semantic
+segmentation, supporting generalization to other sound sources beyond
+drones. Potential applications include drone detection and tracking,
+acoustic camera visualization, multi-source scene understanding, and
+real-time sound field monitoring.
+The main contributions are:
+• Segmentation formulation for SSL/SELD:we re-parameterize
+localization as dense spatial mask prediction over azimuth–
+elevation maps, enabling joint detection and localization via
+a single output representation.
+• Beamforming-to-image pipeline for 360 ◦ maps:we build
+frequency-binned beamformed map tensors and introduce a
+polar reprojection for hemisphere coverage to better match
+convolutional spherical distortions.
+• Real open-field UA V dataset with GPS supervision:we provide
+a field dataset with synchronized multichannel audio and drone
+telemetry for learning spatial segmentation under realistic outdoor
+recordings.
+• Cross-domain validation on TAU Spatial:we re-cast DCASE
+2019 Task 3 into multiclass spatial segmentation and demonstrate
+that the same formulation generalizes beyond drones.
+1https://doi.org/10.26183/07nm-4p35
+arXiv:2508.00307v4  [eess.AS]  17 Jul 2026
+## PDF page 2
+2. RELATED WORK
+Acoustic perception tasks explicitly distinguish three sequential
+objectives: detection, classification, and localization. Many classical
+SSL systems tackle them in isolation rather than in an integrated
+pipeline [1]. Recent Sound Event Detection, Localisation and Classi-
+fication(SELD/SELC) systems, also referred to as SSL, encompass
+two tasks: sound event detection (SED) and DoA, which are separate
+outputs of the neural network. The SED branch performs a multi-
+label classification task, and the DoA branch performs a multi-output
+regression task, as cited in [15] and [16].
+Our work resolves SELD/SELC as a semantic-segmentation prob-
+lem; the resulting mask simultaneously answers: (i) is there a source?
+(detection), (ii) where is it? (localisation) and through class specific
+training (iii) what type is it? (classification).
+Conceptually, this paper keeps the SELD/SE objective but changes
+the output parameterization: instead of predicting class-wise event
+activity and DoA regression, we predict class-wise spatial occupancy
+masks over an azimuth–elevation grid. DoA estimates are then obtained
+by simple geometric post-processing (centroiding).
+2.1. Classical Sound-Source Localisation (SSL)
+In early SSL systems, DAS beamformer was the central processing
+block because it is algorithmically simple, computationally light, and
+easy to implement in hardware [17]. Later refinements improved
+robustness under real-world conditions: GCC-PHAT and SRP-PHAT
+introduce phase-based spectral weighting to combat reverberation [18],
+[19], while the Minimum Variance Distortionless Response (MVDR)
+beamformer assigns microphone-specific weights that minimise noise
+without distorting the desired direction [20].
+High-resolution sub -space methods go a step further. MUSIC
+[5] and ESPRIT [21] give sharper peaks, but assume narrow -band,
+non-coherent sources and perfect array calibration.
+In practice, classical methods do a good job atlocalisinga single
+source in low-noise scenes, and with thresholding they can give a basic
+detectionflag. They do not, however, offerclassification. Performance
+also drops when the number of active sources grows or when the
+room is highly reverberant [22].
+2.2. Deep Learning (DL) for SSL
+Large audio datasets and cheaper GPUs have made deep learning
+attractive for SSL [1]. Different deep learning architectures have been
+explored:
+• CNNslearn spatial–spectral patterns directly from spectrograms
+or MFCCs [23].
+• RNNsand gated variants track moving sources by modelling
+temporal context [24].
+• Graph Neural Networkscapture the geometry of distributed
+microphone arrays [25].
+• Hybrid modelsmix CNN encoders with RNN or Transformer
+decoders for stronger temporal cues [26], [27].
+• U-Net family: Encoder–decoder U -Nets have become popular
+because skip connections recover lost details in downsampling
+and give rich per-pixel output. Leeet al.reach sub -degree
+accuracy for overlapping sources by correcting the problems
+associated with DAS beam at low frequency and suppressing
+side-lobes at high frequency [28]. Building on this idea, Zhou
+et al.introduced audio -visual segmentation (A VS) in which a
+TPA VI-conditioned U-Net injects audio cues at every scale to
+produce pixel-wise masks of thevisiblesounding objects [29].
+Other works add a second head so that the same network performs
+sound-event detection and localisation (SELD) simultaneously,
+while Dense -U-Net further extends the concept to dynamic,
+high-noise audio-visual scenes [30]. Unlike A VS, our approach
+removes the dependency on vision, thereby enabling efficacy
+even when the source lies outside the camera’s field -of-view or
+under poor visibility.
+Deep networks often produce false positives when trained exclu-
+sively on segments that contain sources. [31] show that incorporating
+silenceframes into the training set improves robustness to background
+noise and prevents ghost detections. Inspired by this finding, we
+augment our drone dataset with “no -drone” recordings, enabling the
+Tversky-loss to direct the U-Net to learn a calibrated decision boundary
+between the presence and absence of sound source of interest.
+2.3. Gap Analysis and Motivation
+Speed vs. Robustness.Classical DAS -based methods offer low
+computational latency but lose resolution and struggle with heavy
+noise or many sources. Fully trained DL models can be robust to
+noise and can detect, localize, and classify, but they usually require
+large training sets.
+Hybrid path.By keeping a DAS front -end and adding a light
+U-Net back-end we can:
+- Keep end-to-end with low latency for real time applications.
+- Learn to sharpen beams and suppress artifacts.
+- Output detection, localization, and class labels in one shot —
+matching the three functional blocks proposed by [1].
+- A multiclass validation on DCASE 2019 TAU Spatial Sound
+Events, showing that the segmentation formulation remains competi-
+tive in DoA accuracy beyond drone data.
+This mixed strategy directly addresses the open issues listed in
+recent surveys [7], [8] and forms the basis of the method introduced
+in the present study.
+3. METHODOLOGY
+3.1. System Overview
+Figure 1 shows an overview of the proposed system pipeline. It
+consists of a custom microphone array for capturing multichannel
+audio, DAS beamforming to generate spatial energy maps, dataset
+construction with GPS-based labeling, a U-Net segmentation model,
+and a centroid-based post-processing step for estimating the direction
+of arrival (DOA).
+3.2. Microphone Array Design and Recording Setup
+We assembled a 24-channel microphone array using six Rode
+microphones mounted on each of the three legs of a standard tripod,
+forming an upright tetrahedral array as shown in Fig. 2.
+The remaining six microphones were arranged in a horizontal
+circular ”yellow” ring. The array geometry provides progressive
+inter-microphone distances ranging from 4 cm to 1.1 m, optimizing
+for spatial aliasing and directional resolution in the frequency band
+between approximately 200 Hz and 4000 Hz, based on the array
+aperture and the speed of sound. Four Zoom F6 multichannel recorders
+(6 channels each) were synchronized via a synthetic impulse: channel
+1 of every unit is placed at the array origin, the impulse is played once,
+and all files are shifted until their peak samples coincide, yielding
+±1 sample at 48 kHz (7 mm acoustic error). An Insta360 X4 camera
+was mounted on the top to capture visual reference of drone takeoff
+and synchronize audio and flight logs temporally.
+## PDF page 3
+Fig. 1: The overall End-to-end pipeline: multichannel acquisition→DAS beamforming over azimuth/elevation→spectral binning→polar reprojection→
+U-Net segmentation→centroid-based DoA estimation.
+Fig. 2: 24 channels microphone array
+3.3. Field Recordings and Data Acquisition
+A total of six open-field recording sessions were conducted using a DJI
+Air 3 drone, across three different dates and two distinct locations.
+Each session produced 24-channel synchronized audio recordings
+xn(t) signals in .wav format, 360° video files, and GPS log files
+from the drone’s onboard telemetry. The GNSS (Global Navigation
+Satellite System) on the DJI Air 3 provides ±0.5 m position accuracy.
+An additional log file was recorded with the drone stationary at
+the array’s location to define the Cartesian origin (0,0,0) for GPS
+transformation and reference position. This reference enabled accurate
+computation of azimuth and elevation angles relative to the array.
+3.4. Beamforming Map Construction and Spectral Feature Ex-
+traction
+Each GPS log point from the drone is transformed to a Cartesian
+coordinate system with the microphone array origin at (0,0,0) . The
+azimuth (ϕ) and elevation (θ) are then calculated as:
+ϕ= arctan 2(y, x), θ= arcsin
+ 
+zp
+x2 +y 2 +z 2
+!
+(1)
+For beamforming, the DAS output y(t) in a direction (ϕ, θ) is
+computed by delaying the signals at each microphone xn(t) by a
+steering delayτ n and summing, N is the number of microphones:
+y(t;ϕ, θ) = 1
+N
+NX
+n=1
+xn(t−τ n(ϕ, θ))(2)
+In general, beamforming relies on the far-field assumption that
+the sources are far away and the waves become planar at the array
+position [2]. Given the position vector of each microphone pn in
+the array, the delay τn is obtained via the projection of pn onto the
+direction vector:
+τn = 1
+c ·(p n ·u ϕ,θ),(3)
+uϕ,θ =
+
+
+cosθcosϕ
+cosθsinϕ
+sinθ
+
+ .(4)
+where c is the speed of sound in air (typically chosen as 343 m/s).
+The signals are then shifted by these delays, and their average yields
+the beamformed output for a given steering direction. This approach
+is repeated for all directions (ϕ, θ) in a discretized spatial grid to
+construct a full acoustic energy map. The acoustic beamformed maps
+were initially computed over a 2D rectangular grid covering azimuth
+angles in [−180◦,180 ◦] and elevation angles in [0◦,90 ◦], using a
+resolution of 4◦ in both dimensions. For each azimuth-elevation
+pair, a DAS beamforming algorithm was applied to align and sum
+time-delayed microphone signals over a 100 ms window, sampled
+at 48 kHz. This yields a time-domain waveform of 4800 samples
+per spatial direction, producing a 3D tensor snapshot with shape
+(A×E×T) , where A is the number of azimuth bins, E the number
+of elevation bins, andTthe number of time samples.
+To convert these maps into a spectral representation, each time-
+domain waveform is transformed using the FFT. Frequency-domain
+features are computed by applying the real-valued FFT directly to
+each 4800-sample time-domain frame, using a rectangular window
+and no overlap between consecutive frames. Only the 200–2200 Hz
+band is retained, corresponding to the dominant energy of the DJI
+Air 3 drone, uniformly divided into F = 16 bins, which are globally
+normalized across spatial directions per frame. The result is a tensor
+of shape (A × E × F ).
+To better align with the spherical nature of the acoustic scene
+and reduce distortion in convolutional layers, the (A×E×F) data
+is reprojected into a polar grid. In this transformation, elevation is
+## PDF page 4
+mapped to radial distance from the center (with 90◦ at the center
+and 0◦ at the outer edge), and azimuth is mapped to angular position
+around the circle. The resulting spatial layout is a square grid of size
+(2E×2E) , where the angular geometry is preserved. The final input
+tensorXused for learning has shape(2E×2E×F).
+3.5. Dataset Construction and GPS-Based Labeling
+The dataset was recorded in multiple sessions. The training set
+comprises 30 minutes of drone flight from March 2025, along with
+an additional 22 minutes of drone flight from November 2024, plus
+approximately 5 minutes of ambient noise, all at Site 1. Test 2 consists
+of 20 minutes of drone flight and approximately 5 minutes of ambient
+noise from March 2025, also at Site 1. Test 1 includes 3 minutes
+of drone flight and 1 minute of ambient noise from October 2024,
+recorded at Site 2, under unseen environmental conditions. Each
+flight session is treated as an independent data segment to prevent
+information leakage during training and evaluation.
+Synchronized GPS logs from the drone are converted into spherical
+coordinates relative to the microphone array origin. Each 100 ms
+frame is annotated using a radial angular threshold δ= 10 ◦ around the
+ground-truth direction of arrival (DOA): all pixels within this threshold
+are labeled as 1 (drone-present), and the rest as 0 (drone-absent). This
+creates binary segmentation masksY∈ {0,1} 2E×2E .
+This labeling strategy compensates for beamforming limitations,
+such as reduced spatial resolution at low frequencies (due to wider
+beamwidth) and the presence of side lobes at high frequencies. By
+allowing spatial tolerance, the model is encouraged to learn smoother
+and physically grounded segmentation masks, consistent with prior
+studies on acoustic source mapping [28].
+3.6. Dataset Representation
+Each training example is a pair (X,Y) where the input tensor X∈
+R2E×2E×F encodes the beamformed spectral information in polar
+coordinates, and the label Y∈ {0,1} 2E×2E is the corresponding
+binary segmentation mask.
+3.7. U-Net Architecture and Hyperparameter Optimization
+We implemented a modified U-Net architecture that accepts rectangular
+or polar input tensors with shape (2E×2E×F) and outputs a binary
+segmentation mask ˆY∈[0,1] 2E×2E . The architecture consists of
+an encoder with downsampling convolutional blocks, followed by a
+symmetric decoder with upsampling layers. Skip connections bridge
+corresponding encoder and decoder levels to preserve any spatial
+details lost during the downsampling. Optional attention gates [32]
+can be applied to skip connections, the bottleneck, or both. The
+number of base filters, depth of the encoder–decoder path, kernel size,
+and attention configuration are all tunable hyperparameters.
+To optimize the model configuration, we used the Optuna framework
+to search the hyperparameter space, selecting the configuration that
+minimized loss computed on the Test 2 split (Site 1, matched
+conditions); Test 1 (Site 2, unseen conditions) remained fully held
+out throughout training and model selection. We found 16 FFT bins,
+64 base filters, depth 3, 3×3 kernels, lr= 0.005 , and skip-attention.
+We use task-specific loss functions depending on label sparsity and
+class structure. For binary drone segmentation we employ the Tversky
+loss to explicitly control the FP/FN trade-off under severe foreground
+sparsity. For multiclass TAU Spatial we use a multilabel Dice + BCE-
+with-logits objective with per-class positive weights computed from
+training pixels, which stabilizes learning when class frequencies differ
+markedly.
+3.8. Inference and Evaluation
+At test time, the U-Net outputs are thresholded, and a centroid is
+computed over active regions in the predicted mask to estimate the
+DOA. This estimation is obtained as the centroid of the active pixel
+setS={(i, j) : ˆYi,j = 1}in the predicted mask:
+( ˆϕ, ˆθ) = 1
+|S|
+X
+(i,j)∈S
+(ϕi,j, θi,j)(5)
+computed after thresholding (0.5 on the sigmoid output) and a 3×3
+erosion, with fallback to the unfiltered mask if erosion removes all
+active pixels. Metrics are computed per 100 ms frame, then averaged
+over full trajectories to expose range-dependent accuracy.
+4. RESULTS
+The results were obtained using two test datasets:Test 2, collected in
+March 2025 at the original site, andTest 1in October 2024, recorded
+at a different location and time under unseen conditions using the
+same DJI Air 3 drone and no-drone scenarios.
+Fig. 3: Instance comparison at 101 m between beamforming localization and
+U-Net inference.
+On the left side of the Fig. 3, the beamforming energy map is
+presented as a function of azimuth and elevation. The black X indicates
+the ground truth position of the drone (Log ref), extracted from
+synchronized GPS flight logs, while the red dot shows the location of
+maximum energy in the beamforming map (BF). It is visually evident
+that the beamforming-based estimation does not align with the true
+drone position.
+On the right side, the U-Net creates binary segmentation output
+is displayed in polar coordinates. The black squares represent
+the segmented region predicted by the model. The blue triangle
+corresponds to the centroid of the predicted region. It can be observed
+that the U-Net model provides a significantly more accurate estimation
+of the drone’s position, closely matching the ground truth at a distance
+at 101 meters between the drone and the microphone array.
+4.1. Performance Analysis by Distance Range
+False Negative Rate (FNR).Fig. 4 shows the FNR as a function of
+source-array distance, grouped into three bins: 0–50 m, 50–100 m, and
+100–200 m. A prediction is classified as a false negative if no output
+is generated or if the predicted centroid standard deviation exceeds
+10◦ over the last 3 observations, indicating high spatial uncertainty. In
+both datasets, the beamforming approach exhibits higher FNRs across
+all bins, particularly in the 100–200 m range, where signal energy
+is weaker. In contrast, the U-Net segmentation model maintains a
+lower FNR in many cases, suggesting greater robustness to acoustic
+attenuation and environmental variability.
+Angular Error.Fig. 5 reports the mean angular error in degrees for
+each method and dataset. Beamforming shows increasing error with
+## PDF page 5
+Fig. 4: False Negative Rate (FNR) across distance bins for Test 2 and Test 1
+datasets.
+Fig. 5: Mean angular error across distance bins for Test 2 and Test 1 datasets.
+distance, especially beyond 100 m. The U-Net model consistently
+outperforms beamforming, with lower average angular errors across all
+distance bins. Notably, in the 50–100 m bin—where localization tends
+to be challenging—the model shows stable and accurate predictions
+even under environmental mismatch in theTest 1dataset.
+During a five-minute recording with no drone present, we compared
+the false -positive rates. Because there is no target signal in this
+scenario, performance was evaluated by measuring the standard
+deviation. Beamforming produced a 67.0% false-positive rate, whereas
+the U -Net reduced this to just 14.9%, demonstrating a substantial
+improvement.
+Furthermore, both the false negative rate and the angular localization
+error can be mitigated by employing multiple synchronized devices
+with higher microphone density. This is possible within our framework
+due to the use of low-cost hardware components, enabling scalable
+deployments. These results confirm that the U-Net-based approach
+generalizes better than conventional beamforming across varying test
+conditions and distances.
+Comparison against classical SSL baselines (Test 1).Figure 6
+compares the proposed U-Net against representative classical SSL
+pipelines on the unseenTest 1condition.
+For each method, a position estimate is extracted per frame and
+compared to the GPS-derived ground truth using the spherical angular
+distance, results are aggregated by distance range.
+Across short-to-mid ranges, the classical baselines exhibit com-
+parable trends, but their angular error increases at longer distances
+(approximately 90 m), consistent with reduced effective SNR and
+increasing sensitivity to interference and sidelobe structure in the
+beamformed maps. In contrast, the U-Net maintains substantially
+lower error over the same distance, indicating that is able to suppress
+spurious peaks. While the U-Net error also increases with distance,
+Fig. 6: Test 1: mean spherical angular error versus distance for classical SSL
+baselines (DAS FD, DAS TD — frequency and time-domain implementations
+of delay-and-sum beamforming, respectively —, MUSIC, MVDR, SRP-PHAT)
+and the proposed U-Net segmentation approach.
+its degradation is markedly slower, supporting the conclusion that
+learning a spatial mask over the full azimuth-elevation field provides
+improved robustness compared to selecting a single maximum-
+response direction.
+4.2. Multiclass Evaluation on the DCASE 2019 TAU Spatial Sound
+Events Dataset
+To further validate the generality of the proposed segmentation-based
+formulation, we evaluated the model on the DCASE 2019 Task 3
+TAU Spatial Sound Events dataset (Task 3) [33], a widely adopted
+benchmark for multiclass (SELD).
+4.2.1. Dataset and Preprocessing:The TAU Spatial dataset consists
+of synthetically generated spatial sound scenes to a tetrahedral four-
+microphone array. Each recording contains between one and two
+simultaneously active sound events, positioned at a fixed distance of
+1 m and 2 m from the array, with a SNR of approximately 30 dB. The
+dataset provides time-aligned annotations in azimuth and elevation
+for multiple sound event classes.
+To ensure methodological consistency with the proposed drone
+pipeline, the dataset was reprocessed into beamformed acoustic maps
+and converted into a multiclass semantic segmentation task. A regular
+tetrahedral array geometry was assumed, with an effective radius
+of 4.2 cm. For each 100 ms audio chunk, delay-and-sum (DAS)
+beamforming was applied over a discrete azimuth–elevation grid. This
+produced a three-dimensional beamformed tensor indexed by azimuth,
+elevation, and time.
+Each beamformed time-domain signal was transformed into the
+frequency domain using the real-valued FFT. We preserve strict parity
+with the feature extraction pipeline used in the drone experiments.
+Magnitude spectra were extracted, restricted to the frequency range
+100–10,000 Hz, and globally normalized using z-score statistics
+computed over the training set. The normalized spectra were then
+grouped into F contiguous frequency bins (we use F= 64 for TAU
+Spatial and F= 16 for UA V). In the TAU Spatial case, we do not
+apply the polar reprojection used in the UA V pipeline: the elevation
+annotations are confined to a limited range ( −40◦ to 40◦), so the
+azimuth–elevation mask remains well-conditioned on the rectangular
+grid without the severe geometric warping observed in hemispherical
+maps. In contrast, the UA V experiments span the upper hemisphere
+## PDF page 6
+Fig. 7: DCASE multiclass pipeline.
+Fig. 8: Example on TAU Spatial (DCASE 2019).Left:normalized DAS
+beamformed spatial map for a single 100 ms frame (visualized as a 2D azimuth–
+elevation energy map).Right:U-Net prediction rendered as a composite label
+map (per-pixel argmax over class probabilities); the ground-truth active class
+for this frame ispageturn.
+(0◦ to 90◦ elevation), where sampling and label geometry become
+increasingly distorted near the zenith, motivating the polar (radial-
+elevation) mapping adopted for the drone setting.
+To ensure methodological consistency with the proposed drone
+pipeline, the dataset was reprocessed into DAS beamformed acoustic
+maps and converted into a multiclass semantic segmentation task, as
+summarized in Fig. 7.
+4.2.2. Multiclass Label Construction:For each time frame, class-
+specific binary segmentation masks were generated by comparing
+the ground-truth event direction with every steering direction in the
+azimuth–elevation 4◦ grid. Grid points within an angular tolerance
+of 10◦ from the annotated direction were labeled as active for the
+corresponding class. This procedure resulted in one binary mask per
+sound class.
+4.2.3. Network Architecture and Training Protocol:The same U-
+Net architecture used in the UA V experiments was employed for the
+DCASE benchmark, with minor adaptations for multiclass output. The
+network processes beamformed acoustic maps and predicts a dense
+segmentation mask with one output channel per sound class. Training
+was performed in a multilabel setting using a combined Dice and
+binary cross-entropy loss. To compensate for severe class imbalance
+and sparse spatial labels, per-class positive weights were computed
+from the training set based on the ratio of negative to positive pixels.
+Model selection and early stopping were driven by the macro-averaged
+F1 score across classes.
+4.2.4. Results and Discussion:The segmentation-based U-Net
+achieves competitive performance on the TAU Spatial dataset despite
+operating on beamformed energy maps rather than raw multichannel
+signals.
+Fig. 8 shows a qualitative example of the proposed map-to-mask
+multiclass pipeline on TAU Spatial. Starting from a single-frame
+DAS beamformed map, the U-Net outputs class-specific regions in
+the azimuth–elevation grid, effectively transforming a broad and
+often ambiguous beamformer response into a structured semantic
+Table 1: TAU Spatial 2019 (DCASE Task 3) results: detection F-score and
+mean DoA angular error.
+Model F1 (%) DoA Error ( ◦)
+SELDnet [34] 94.7 3.7
+Baseline SELDnet [33] 83.1 38.1
+w2v-SELD [15] 94.7 4.7
+U-Net (eval, up to two sources) 68.0 4.9
+U-Net (one-source subset) 79.0 3.0
+mask. Occasional multiple disconnected detections within the same
+class can arise due to the limited aperture of the tetrahedral four-
+microphone array and the sidelobe structure of DAS, which can
+yield competing spatial hypotheses within a single frame. This
+observation motivates temporal context (multi-frame input) and/or
+lightweight spatial association to improve robustness under overlapping
+events and transient classes. Table 1 situates the proposed pipeline
+against established SELD baselines on TAU Spatial 2019. On the full
+evaluation condition (up to two overlapping sources), the segmentation-
+based U-Net presents an overall F-score of ≈68% with a mean DoA
+error of 4.9◦, improving to 79% F-score and 3.0◦ DoA error when
+restricting to frames containing a single active source. In contrast,
+strong end-to-end SELD systems such as SELDnet and w2v-SELD
+report ∼94–95% F-score with ∼3.7–4.7◦ DoA error, while the DCASE
+baseline SELDnet exhibits a pronounced degradation in localization
+error (38.1 ◦). Overall, these results support that reframing SELD as
+dense semantic segmentation over spatial acoustic maps can preserve
+competitive localization accuracy, while the drop under overlapping
+sources is consistent with the lack of explicit temporal association
+and multi-instance tracking in a purely frame-wise segmentation
+formulation. To address this limitation, we are currently developing a
+temporal variant that ingests multiple consecutive map frames (i.e.,
+increased temporal receptive field) to better capture event dynamics
+and improve F-score, particularly on TAU Spatial where many classes
+are impulsive/transient (e.g., knock, drawer, doorslam, keyboard) and
+thus benefit from temporal context. This differs from the original UA V-
+driven design target, where the acoustic signature is comparatively
+sustained and temporally stable, making single-frame segmentation
+more viable. Finally, we note that the ground-truth mask design
+should be consistent with the effective array resolution: with fewer
+microphones the beamformer main lobe is wider (lower angular
+resolution), which motivates using a larger angular mask tolerance,
+whereas denser/larger-aperture arrays can support a tighter (smaller)
+mask due to a narrower main lobe.
+These results demonstrate that reframing SELD as a dense semantic
+segmentation problem over spatial acoustic maps is not limited to
+drone acoustics, but generalizes to established multiclass benchmarks.
+Overall, this experiment confirms that the proposed beamforming-plus-
+segmentation paradigm provides a possible flexible and array-agnostic
+alternative to conventional SELD architectures, while maintaining
+competitive localization accuracy and robust detection behavior across
+domains.
+5. CONCLUSION AND FUTURE WORK
+This work presents a U-Net framework for sound source localiza-
+tion (SSL) that reinterprets beamformed acoustic maps as spatial
+segmentation tasks over the spherical field. By applying U-Net-
+based convolutional architectures to azimuth–elevation representations
+of DAS beamformed audio, we address classical limitations in
+beamforming—such as low-frequency blurring and high-frequency
+side lobes—thus enhancing angular resolution and robustness. Trans-
+forming beamformed maps into polar coordinates further aligns the
+## PDF page 7
+spatial layout with spherical geometry, reducing distortion and better
+supporting CNN-based learning, as emphasized in DeepWave [10].
+Unlike end-to-end models requiring raw microphone inputs or fixed
+array geometries, the proposed U-Net model operates on preprocessed
+spatial representations, enabling transfer across different microphone
+array configurations. Combined with real-world drone recordings and
+GPS-based supervision, the method demonstrates robust generalization
+across distances and recording conditions, providing a practical
+solution for low-latency outdoor acoustic perception.
+Beyond the UA V scenario, we further validated the proposed
+beamforming-plus-segmentation paradigm on the DCASE 2019 TAU
+Spatial Sound Events dataset, a standard benchmark for multiclass
+SELD. Despite relying on beamformed energy maps rather than
+raw multichannel waveforms, the segmentation-based formulation
+achieves competitive direction-of-arrival accuracy when compared
+to established SELDnet-style architectures. This result confirms
+that dense spatial mask prediction constitutes a viable alternative
+parameterization of SELD, in which detection and localization emerge
+jointly from semantic segmentation of the acoustic field.
+Future work will focus on extending the framework to handle spatio-
+temporal dynamics via recurrent or attention-based models such as
+Mask R-CNN [35], YOLACT++ [36], or VisTR [37], enabling explicit
+temporal association, multi-source instance tracking, and improved
+performance under overlapping sound events. Additional directions
+include synthetic data generation for broader acoustic diversity and
+multi-array fusion for scalable real-time deployments.
+By framing SSL and SELD as semantic segmentation tasks on
+beamformed spatial representations, this work bridges classical array
+signal processing and modern computer vision, opening new directions
+for high-resolution, interpretable, and deployable acoustic scene
+understanding.
+REFERENCES
+[1] J. Martinez-Carranza and C. Rascon, “A Review on Auditory Perception
+for Unmanned Aerial Vehicles,”Sensors, vol. 20, no. 24, p. 7276, Dec.
+2020. [Online]. Available: https://www.mdpi.com/1424-8220/20/24/7276
+[2] M. R. Bai, J. Ih, and J. Benesty,Acoustic Array Systems:
+Theory, Implementation, and Application, 1st ed. Wiley, Jan. 2013.
+[Online]. Available: https://onlinelibrary.wiley.com/doi/book/10.1002/
+9780470827253
+[3] N. K. Chaudhary, S. Verma, and A. Aditya, “Sound Source Localization
+using GCC-PHAT with TDOA Estimation,”Journal of Basic and Applied
+Engineering Research, vol. 1, no. 11, 2014.
+[4] E. Grinstein, E. Tengan, B. C ¸akmak, T. Dietzen, L. Nunes,
+T. Van Waterschoot, M. Brookes, and P. A. Naylor, “Steered
+Response Power for Sound Source Localization: a tutorial review,”
+EURASIP Journal on Audio, Speech, and Music Processing, vol.
+2024, no. 1, p. 59, Nov. 2024. [Online]. Available: https://asmp-
+eurasipjournals.springeropen.com/articles/10.1186/s13636-024-00377-z
+[5] R. Schmidt, “Multiple emitter location and signal parameter
+estimation,”IEEE Transactions on Antennas and Propagation,
+vol. 34, no. 3, pp. 276–280, Mar. 1986. [Online]. Available:
+https://ieeexplore.ieee.org/document/1143830/
+[6] V . Perrot, M. Polichetti, F. Varray, and D. Garcia, “So you
+think you can DAS? A viewpoint on delay-and-sum beamforming,”
+Ultrasonics, vol. 111, p. 106309, Mar. 2021. [Online]. Available:
+https://linkinghub.elsevier.com/retrieve/pii/S0041624X20302444
+[7] P.-A. Grumiaux, S. Kiti ´c, L. Girin, and A. Gu ´erin, “A survey of sound
+source localization with deep learning methods,”The Journal of the
+Acoustical Society of America, vol. 152, no. 1, pp. 107–151, Jul. 2022.
+[Online]. Available: https://pubs.aip.org/jasa/article/152/1/107/2838290/A-
+survey-of-sound-source-localization-with-deep
+[8] G. Jekatery ´nczuk and Z. Piotrowski, “A Survey of Sound Source
+Localization and Detection Methods and Their Applications,”Sensors,
+vol. 24, no. 1, p. 68, Dec. 2023. [Online]. Available: https:
+//www.mdpi.com/1424-8220/24/1/68
+[9] Y . Wang, Z. Deng, J. Zhao, V . F. Kopiev, D. Gao, and W.-L. Chen,
+“Progress in beamforming acoustic imaging based on phased microphone
+arrays: Algorithms and applications,”Measurement, vol. 242, p. 116100,
+Jan. 2025. [Online]. Available: https://linkinghub.elsevier.com/retrieve/
+pii/S0263224124019857
+[10] M. Simeoni, S. Kashani, P. Hurley, and M. Vetterli, “DeepWave: A
+Recurrent Neural-Network for Real-Time Acoustic Imaging,”Proceedings
+of the 33rd International Conference on Neural Information Processing
+Systems, 2019.
+[11] J. Redmon, S. Divvala, R. Girshick, and A. Farhadi, “You Only
+Look Once: Unified, Real-Time Object Detection,” May 2016,
+arXiv:1506.02640 [cs]. [Online]. Available: http://arxiv.org/abs/1506.
+02640
+[12] L.-C. Chen, G. Papandreou, F. Schroff, and H. Adam, “Rethinking
+Atrous Convolution for Semantic Image Segmentation,” Dec. 2017,
+arXiv:1706.05587 [cs]. [Online]. Available: http://arxiv.org/abs/1706.
+05587
+[13] O. Ronneberger, P. Fischer, and T. Brox, “U-Net: Convolutional Networks
+for Biomedical Image Segmentation,” May 2015, arXiv:1505.04597 [cs].
+[Online]. Available: http://arxiv.org/abs/1505.04597
+[14] B. J. Rodriguez, S. Chevtchenko, and S. Afshar, “UA V Acoustic
+Localization Dataset: 24-Channel Beamformed Recordings of a DJI Air
+3 Drone with Synchronized GPS Flight Logs,” Jul. 2026, size: 46 GB,
+DOI: 10.26183/07nm-4p35. [Online]. Available: https://research-data.
+westernsydney.edu.au/published/1f8cceb0801b11f189a547c836cf5bee
+[15] O. L. d. Santos, K. Rosero, and R. d. A. Lotufo, “w2v-SELD: A Sound
+Event Localization and Detection Framework for Self-Supervised Spatial
+Audio Pre-Training,” Dec. 2023, arXiv:2312.06907 [eess]. [Online].
+Available: http://arxiv.org/abs/2312.06907
+[16] S. Adavanne, A. Politis, and T. Virtanen, “Direction of arrival
+estimation for multiple sound sources using convolutional recurrent
+neural network,” Aug. 2018, arXiv:1710.10059 [cs]. [Online]. Available:
+http://arxiv.org/abs/1710.10059
+[17] B. Van Veen and K. Buckley, “Beamforming: a versatile approach to
+spatial filtering,”IEEE ASSP Magazine, vol. 5, no. 2, pp. 4–24, Apr.
+1988. [Online]. Available: http://ieeexplore.ieee.org/document/665/
+[18] C. Knapp and G. Carter, “The generalized correlation method for
+estimation of time delay,”IEEE Transactions on Acoustics, Speech, and
+Signal Processing, vol. 24, no. 4, pp. 320–327, Aug. 1976. [Online].
+Available: http://ieeexplore.ieee.org/document/1162830/
+[19] J. H. DiBiase, “A High-Accuracy, Low-Latency Technique for Talker
+Localization in Reverberant Environments Using Microphone Arrays,”
+PhD Thesis, Brown University, Rhode Island, 2000.
+[20] J. Capon, “High-resolution frequency-wavenumber spectrum analysis,”
+Proceedings of the IEEE, vol. 57, no. 8, pp. 1408–1418, 1969. [Online].
+Available: http://ieeexplore.ieee.org/document/1449208/
+[21] R. Roy and T. Kailath, “ESPRIT-estimation of signal parameters
+via rotational invariance techniques,”IEEE Transactions on Acoustics,
+Speech, and Signal Processing, vol. 37, no. 7, pp. 984–995, Jul. 1989.
+[Online]. Available: http://ieeexplore.ieee.org/document/32276/
+[22] C. Rascon and I. Meza, “Localization of sound sources in robotics:
+A review,”Robotics and Autonomous Systems, vol. 96, pp. 184–210,
+2017. [Online]. Available: https://linkinghub.elsevier.com/retrieve/pii/
+S0921889016304742
+[23] T.-H. Tan, Y .-T. Lin, Y .-L. Chang, and M. Alkhaleefah, “Sound Source
+Localization Using a Convolutional Neural Network and Regression
+Model,”Sensors, vol. 21, no. 23, p. 8031, Dec. 2021. [Online]. Available:
+https://www.mdpi.com/1424-8220/21/23/8031
+[24] S. Adavanne, A. Politis, and T. Virtanen, “Localization, Detection and
+Tracking of Multiple Moving Sound Sources with a Convolutional
+Recurrent Neural Network,” Apr. 2019, arXiv:1904.12769 [cs]. [Online].
+Available: http://arxiv.org/abs/1904.12769
+[25] A. Bertrand, “Applications and trends in wireless acoustic sensor
+networks: A signal processing perspective,” in2011 18th IEEE
+Symposium on Communications and Vehicular Technology in the
+Benelux (SCVT). Ghent, Belgium: IEEE, Nov. 2011, pp. 1–6. [Online].
+Available: http://ieeexplore.ieee.org/document/6101302/
+[26] L. Wu, Z.-M. Liu, and Z.-T. Huang, “Deep Convolution Network
+for Direction of Arrival Estimation With Sparse Prior,”IEEE Signal
+Processing Letters, vol. 26, no. 11, pp. 1688–1692, Nov. 2019. [Online].
+Available: https://ieeexplore.ieee.org/document/8854868/
+[27] J. Ji, W. Mao, F. Xi, and S. Chen, “TransMUSIC: A Transformer-
+Aided Subspace Method for DOA Estimation with Low-Resolution
+ADCS,” inICASSP 2024 - 2024 IEEE International Conference on
+## PDF page 8
+Acoustics, Speech and Signal Processing (ICASSP). Seoul, Korea,
+Republic of: IEEE, Apr. 2024, pp. 8576–8580. [Online]. Available:
+https://ieeexplore.ieee.org/document/10447483/
+[28] S. Y . Lee, J. Chang, and S. Lee, “Deep learning-based method for
+multiple sound source localization with high resolution and accuracy,”
+Mechanical Systems and Signal Processing, vol. 161, p. 107959, Dec.
+2021. [Online]. Available: https://linkinghub.elsevier.com/retrieve/pii/
+S088832702100354X
+[29] J. Zhou, X. Shen, J. Wang, J. Zhang, W. Sun, J. Zhang, S. Birchfield,
+D. Guo, L. Kong, M. Wang, and Y . Zhong, “Audio-Visual Segmentation
+with Semantics,” Jan. 2023, arXiv:2301.13190 [cs]. [Online]. Available:
+http://arxiv.org/abs/2301.13190
+[30] J. Datta, “Dense-U-Net assisted improved audio-visual source
+tracking for speech enhancement,”IET Conference Proceedings,
+vol. 2023, no. 35, pp. 128–129, Jan. 2024. [Online]. Available:
+http://digital-library.theiet.org/doi/10.1049/icp.2023.3233
+[31] N. Yalta, K. Nakadai, T. Ogata, Intermedia Art and Science Department,
+Waseda University, and Honda Research Institute Japan Co., Ltd.,
+“Sound Source Localization Using Deep Learning Models,”Journal
+of Robotics and Mechatronics, vol. 29, no. 1, pp. 37–48, Feb. 2017.
+[Online]. Available: https://www.fujipress.jp/jrm/rb/robot002900010037
+[32] O. Oktay, J. Schlemper, L. L. Folgoc, M. Lee, M. Heinrich, K. Misawa,
+K. Mori, S. McDonagh, N. Y . Hammerla, B. Kainz, B. Glocker,
+and D. Rueckert, “Attention U-Net: Learning Where to Look for
+the Pancreas,” May 2018, arXiv:1804.03999 [cs]. [Online]. Available:
+http://arxiv.org/abs/1804.03999
+[33] S. Adavanne, A. Politis, and T. Virtanen, “A Multi-room Reverberant
+Dataset for Sound Event Localization and Detection,” inProceedings
+of the Detection and Classification of Acoustic Scenes and Events
+2019 Workshop (DCASE2019). New York University, 2019, pp. 10–14.
+[Online]. Available: http://hdl.handle.net/2451/60746
+[34] S. Kapka and M. Lewandowski, “Sound detection, localization and clas-
+sification using consecutive ensemble of CRNN models,” inProceedings
+of the Detection and Classification of Acoustic Scenes and Events 2019
+Workshop (DCASE2019), 2019.
+[35] L. Yang, Y . Fan, and N. Xu, “Video Instance Segmentation,” Aug.
+2019, arXiv:1905.04804 [cs]. [Online]. Available: http://arxiv.org/abs/
+1905.04804
+[36] D. Bolya, C. Zhou, F. Xiao, and Y . J. Lee, “YOLACT++:
+Better Real-time Instance Segmentation,”IEEE Transactions on
+Pattern Analysis and Machine Intelligence, vol. 44, no. 2, pp.
+1108–1121, Feb. 2022, arXiv:1912.06218 [cs]. [Online]. Available:
+http://arxiv.org/abs/1912.06218
+[37] Y . Wang, Z. Xu, X. Wang, C. Shen, B. Cheng, H. Shen,
+and H. Xia, “End-to-End Video Instance Segmentation with
+Transformers,” Oct. 2021, arXiv:2011.14503 [cs]. [Online]. Available:
+http://arxiv.org/abs/2011.14503

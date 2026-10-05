@@ -1,0 +1,156 @@
+{
+  "development_only": true,
+  "training_items": 2800,
+  "features": 87,
+  "selection_criterion": "internal development ROC AUC",
+  "variants": [
+    {
+      "features": "full",
+      "width": 1.0,
+      "ridge": 0.01,
+      "development_auc": 0.9701333333333333,
+      "development_recall_at_empirical_5pct_fpr": 0.904
+    },
+    {
+      "features": "full",
+      "width": 1.0,
+      "ridge": 0.1,
+      "development_auc": 0.9618222222222221,
+      "development_recall_at_empirical_5pct_fpr": 0.86
+    },
+    {
+      "features": "full",
+      "width": 1.0,
+      "ridge": 1.0,
+      "development_auc": 0.9296266666666667,
+      "development_recall_at_empirical_5pct_fpr": 0.728
+    },
+    {
+      "features": "full",
+      "width": 2.0,
+      "ridge": 0.01,
+      "development_auc": 0.9505777777777779,
+      "development_recall_at_empirical_5pct_fpr": 0.788
+    },
+    {
+      "features": "full",
+      "width": 2.0,
+      "ridge": 0.1,
+      "development_auc": 0.916888888888889,
+      "development_recall_at_empirical_5pct_fpr": 0.664
+    },
+    {
+      "features": "full",
+      "width": 2.0,
+      "ridge": 1.0,
+      "development_auc": 0.8643022222222223,
+      "development_recall_at_empirical_5pct_fpr": 0.548
+    },
+    {
+      "features": "full",
+      "width": 4.0,
+      "ridge": 0.01,
+      "development_auc": 0.9104888888888889,
+      "development_recall_at_empirical_5pct_fpr": 0.64
+    },
+    {
+      "features": "full",
+      "width": 4.0,
+      "ridge": 0.1,
+      "development_auc": 0.8698222222222222,
+      "development_recall_at_empirical_5pct_fpr": 0.552
+    },
+    {
+      "features": "full",
+      "width": 4.0,
+      "ridge": 1.0,
+      "development_auc": 0.7599199999999999,
+      "development_recall_at_empirical_5pct_fpr": 0.42
+    },
+    {
+      "features": "spectral",
+      "width": 1.0,
+      "ridge": 0.01,
+      "development_auc": 0.9556355555555556,
+      "development_recall_at_empirical_5pct_fpr": 0.808
+    },
+    {
+      "features": "spectral",
+      "width": 1.0,
+      "ridge": 0.1,
+      "development_auc": 0.9448977777777777,
+      "development_recall_at_empirical_5pct_fpr": 0.764
+    },
+    {
+      "features": "spectral",
+      "width": 1.0,
+      "ridge": 1.0,
+      "development_auc": 0.9157244444444446,
+      "development_recall_at_empirical_5pct_fpr": 0.628
+    },
+    {
+      "features": "spectral",
+      "width": 2.0,
+      "ridge": 0.01,
+      "development_auc": 0.9379377777777778,
+      "development_recall_at_empirical_5pct_fpr": 0.728
+    },
+    {
+      "features": "spectral",
+      "width": 2.0,
+      "ridge": 0.1,
+      "development_auc": 0.9064711111111111,
+      "development_recall_at_empirical_5pct_fpr": 0.604
+    },
+    {
+      "features": "spectral",
+      "width": 2.0,
+      "ridge": 1.0,
+      "development_auc": 0.8596177777777778,
+      "development_recall_at_empirical_5pct_fpr": 0.484
+    },
+    {
+      "features": "spectral",
+      "width": 4.0,
+      "ridge": 0.01,
+      "development_auc": 0.8925155555555555,
+      "development_recall_at_empirical_5pct_fpr": 0.548
+    },
+    {
+      "features": "spectral",
+      "width": 4.0,
+      "ridge": 0.1,
+      "development_auc": 0.8632622222222223,
+      "development_recall_at_empirical_5pct_fpr": 0.48
+    },
+    {
+      "features": "spectral",
+      "width": 4.0,
+      "ridge": 1.0,
+      "development_auc": 0.7716711111111111,
+      "development_recall_at_empirical_5pct_fpr": 0.404
+    }
+  ],
+  "selected": {
+    "full": {
+      "features": "full",
+      "width": 1.0,
+      "ridge": 0.01,
+      "development_auc": 0.9701333333333333,
+      "development_recall_at_empirical_5pct_fpr": 0.904
+    },
+    "spectral": {
+      "features": "spectral",
+      "width": 1.0,
+      "ridge": 0.01,
+      "development_auc": 0.9556355555555556,
+      "development_recall_at_empirical_5pct_fpr": 0.808
+    }
+  },
+  "features_include_absolute_amplitude": false,
+  "feature_sha256": "9fb9033ae1430a42ebe33c3db6e75c37908263349cbc76f2ad3d007d33b98d97",
+  "input_sha256": "7a614b36711237c97d551086a10138f305c6cfddeffbe5d8ed4acf6f753ed072",
+  "model_sha256": "28dde699ca27b1fb8d4560630a04c10c865e0ef520c138a41bae4e97929636d7",
+  "spectral_model_sha256": "3a4d67a950b6e64a2474d59ca116128a0ae2399c17cac02e45b3e28211c326d8",
+  "source_sha256": "9e64390189f26e959ff95ae5adb61d7873c85d796c5edeac79f260b8a7c13cd4"
+}

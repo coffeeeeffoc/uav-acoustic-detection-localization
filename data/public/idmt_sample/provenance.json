@@ -1,0 +1,67 @@
+{
+  "access_date": "2026-10-02",
+  "source_url": "https://zenodo.org/records/17525811/files/MicArrayData30s.zip?download=1",
+  "record_url": "https://zenodo.org/records/17525811",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "authors": [
+    "Ximei Yang",
+    "Joerg Bitzer"
+  ],
+  "archive_not_downloaded": true,
+  "transferred_bytes": 9305611,
+  "audio": {
+    "channels": 8,
+    "sample_rate": 48000,
+    "sample_width_bytes": 2,
+    "frames": 1440000,
+    "seconds": 30.0
+  },
+  "files": [
+    {
+      "archive_member": "MicArrayData30s/2022-08-03T12-47-08_Dronen_records_Phantom4-linear_flight-02_0_33/2022-08-03T12-47-08_Dronen_records_Phantom4-linear_flight-02_0_33.wav",
+      "path": "data/public/idmt_sample/2022-08-03T12-47-08_Dronen_records_Phantom4-linear_flight-02_0_33.wav",
+      "bytes": 23040044,
+      "sha256": "5ece8c30ffceff4d43b6f2a6b31899b1b54d561e26482519aaed492180edb617"
+    },
+    {
+      "archive_member": "MicArrayData30s/2022-08-03T12-47-08_Dronen_records_Phantom4-linear_flight-02_0_33/DOATruePos.csv",
+      "path": "data/public/idmt_sample/DOATruePos.csv",
+      "bytes": 207963,
+      "sha256": "936919fd45751435cfb65c75f4c7acbb21eaa61930db708cf293f7d8877d23a0"
+    }
+  ],
+  "purpose": "Unmodified real audio and corresponding CSV label sample, plus official geometry/configuration documentation; header/ZIP CRC/metadata checks only, no algorithm experiments by literature worker.",
+  "support_files": [
+    {
+      "source_url": "https://raw.githubusercontent.com/SOUNDS-RESEARCH/DroneSynthesis2DOA/da80f4a22c35b9361ae8db879888764264d99d0f/mic_array/Reusev301.yaml",
+      "path": "data/public/idmt_sample/upstream_Reusev301.yaml",
+      "bytes": 429,
+      "sha256": "e8b425d34a5a6439e8f4e6eaa9bdbe8f0ca08cd3a730f649546a8b11360d2d6b",
+      "upstream_path": "mic_array/Reusev301.yaml"
+    },
+    {
+      "source_url": "https://raw.githubusercontent.com/SOUNDS-RESEARCH/DroneSynthesis2DOA/da80f4a22c35b9361ae8db879888764264d99d0f/README.md",
+      "path": "data/public/idmt_sample/upstream_README.md",
+      "bytes": 6259,
+      "sha256": "c0657ff6f821f9775ff865220058a5eb85d60dc96dde523533594c403684737b",
+      "upstream_path": "README.md"
+    },
+    {
+      "source_url": "https://raw.githubusercontent.com/SOUNDS-RESEARCH/DroneSynthesis2DOA/da80f4a22c35b9361ae8db879888764264d99d0f/LICENSE",
+      "path": "data/public/idmt_sample/upstream_LICENSE",
+      "bytes": 1072,
+      "sha256": "43b92b7d859801a87c61d2d3693f4c75019d7323398fbf6de9e636fa88493eb5",
+      "upstream_path": "LICENSE"
+    },
+    {
+      "source_url": "https://raw.githubusercontent.com/SOUNDS-RESEARCH/DroneSynthesis2DOA/da80f4a22c35b9361ae8db879888764264d99d0f/params_srp.json",
+      "path": "data/public/idmt_sample/upstream_params_srp.json",
+      "bytes": 1089,
+      "sha256": "5d2926c0d06f764041dd82e2217eed7eeb750625205654510ad147acacbf0976",
+      "upstream_path": "params_srp.json"
+    }
+  ],
+  "source_code_commit": "da80f4a22c35b9361ae8db879888764264d99d0f",
+  "project_use_scope": "Descriptive spectrogram only, per parent-thread report. No single-sample DOA score or pilot is reported; channel-to-geometry mapping, coordinate rotation and audio-label timing have not been independently calibrated by this literature task."
+}

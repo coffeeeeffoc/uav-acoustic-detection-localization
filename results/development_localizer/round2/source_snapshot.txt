@@ -1,0 +1,201 @@
+"""Audio-only interference-resistant SRP development on the OLD synthetic data.
+
+No new test seeds and no detector fitting. Inputs are (1600, 8) samples at 8 kHz.
+"""
+from pathlib import Path
+import argparse
+import csv
+import hashlib
+import json
+import time
+
+from experiment import ROOT, Engine, FS, N, ARRAY, C0, errors, write_csv, write_json
+import numpy as np
+from scipy import fft, ndimage
+
+OUT = ROOT / "results" / "development_localizer"
+VARIANTS = ("phat", "beta_0p75", "beta_0p5", "excess_soft", "coherence_excess", "pair_excess", "beta_excess")
+VARIANTS += ("full_phat", "full_excess", "full_coherence_excess", "full_peak_excess")
+SELECTED = "coherence_excess"  # Initial candidate; freeze only after measured development comparison.
+
+
+class ImprovedLocalizer:
+    """analyze(audio) -> az_hat, el_hat, score, variant, processing_ms; optional map.
+
+    Truth, nuisance type, seed, nominal SNR and source metadata are never inputs.
+    This experimental localizer does not provide a calibrated detection decision.
+    """
+    def __init__(self, variant=SELECTED):
+        if variant not in VARIANTS:
+            raise ValueError(f"Unknown variant: {variant}")
+        self.variant = variant
+        self.engine = Engine()
+        self.full_engine = Engine()
+        e = self.full_engine
+        e.freq = fft.rfftfreq(N, 1 / FS)
+        e.band = (e.freq >= 200) & (e.freq <= 3000)
+        e.corr_n = N * 8
+        lag = (-(ARRAY[e.i] - ARRAY[e.j]) @ e.grid.T / C0 * FS * 8) % e.corr_n
+        e.left = np.floor(lag).astype(int) % e.corr_n
+        e.right = (e.left + 1) % e.corr_n
+        e.frac = lag - np.floor(lag)
+
+    def _spectra(self, audio):
+        if audio.shape != (N, 8) or not np.isfinite(audio).all():
+            raise ValueError("Expected finite (1600,8) audio at 8000 Hz")
+        e = self.engine
+        x = audio.T.astype(np.float64)
+        x -= x.mean(axis=1, keepdims=True)
+        windows = np.lib.stride_tricks.sliding_window_view(x, 512, axis=1)[:, ::256, :]
+        X = fft.rfft(windows * e.window, workers=1)
+        power = np.mean(np.abs(X) ** 2, axis=1)
+        G = np.mean(X[e.i] * np.conj(X[e.j]), axis=1)
+        magnitude = np.abs(G)
+        phase = G / np.maximum(magnitude, 1e-20)
+        coherence = np.clip(magnitude ** 2 / (power[e.i] * power[e.j] + 1e-20), 0, 1)
+        average_power = power.mean(axis=0)
+        spectral_floor = ndimage.median_filter(average_power, size=11, mode="nearest")
+        excess = np.maximum(average_power / np.maximum(spectral_floor, 1e-20) - 1, 0)
+        soft_excess = 0.05 + 0.95 * excess / (1 + excess)
+        pair_floor = ndimage.median_filter(magnitude, size=(1, 11), mode="nearest")
+        pair_excess = np.maximum(magnitude / np.maximum(pair_floor, 1e-20) - 1, 0)
+        relative = magnitude / max(float(np.median(magnitude[:, e.band])), 1e-20)
+        reliable = np.sqrt(0.1 + 0.9 * coherence)
+        weights = {
+            "phat": np.ones_like(G.real),
+            "beta_0p75": relative ** 0.25,
+            "beta_0p5": relative ** 0.5,
+            "excess_soft": np.broadcast_to(soft_excess, G.shape),
+            "coherence_excess": soft_excess * reliable,
+            "pair_excess": (0.05 + 0.95 * pair_excess / (1 + pair_excess)) * reliable,
+            "beta_excess": soft_excess * np.clip(relative ** 0.5, 0.2, 5),
+        }
+        full_X = fft.rfft(x * e.full_window, workers=1)
+        full_G = full_X[e.i] * np.conj(full_X[e.j])
+        full_phase = full_G / np.maximum(np.abs(full_G), 1e-20)
+        full_power = np.mean(np.abs(full_X) ** 2, axis=0)
+        full_floor = ndimage.median_filter(full_power, size=31, mode="nearest")
+        full_excess = np.maximum(full_power / np.maximum(full_floor, 1e-20) - 1, 0)
+        full_soft = full_excess / (1 + full_excess)
+        full_reliability = np.array([np.interp(self.full_engine.freq, e.freq, value) for value in reliable])
+        full_weights = {
+            "full_phat": np.ones_like(full_G.real),
+            "full_excess": np.broadcast_to(0.005 + 0.995 * full_soft, full_G.shape),
+            "full_coherence_excess": (0.005 + 0.995 * full_soft) * full_reliability,
+            "full_peak_excess": (0.005 + 0.995 * full_soft ** 2) * full_reliability,
+        }
+        spectra = {v: (phase, w, self.engine) for v, w in weights.items()}
+        spectra.update({v: (full_phase, w, self.full_engine) for v, w in full_weights.items()})
+        return spectra
+
+    def _localize(self, phase, weight, e, return_map=False):
+        weight = weight * e.band
+        corr = fft.irfft(phase * weight, n=e.corr_n, workers=1, axis=-1)
+        response = np.sum((1 - e.frac) * corr[e.pair_index, e.left] + e.frac * corr[e.pair_index, e.right], axis=0)
+        response *= e.corr_n / max(2 * weight.sum(), 1e-20)
+        best = int(np.argmax(response))
+        result = {"az_hat": float(e.az[best]), "el_hat": float(e.el[best]), "score": float(response[best])}
+        if return_map:
+            result["map"] = response
+        return result
+
+    def analyze(self, audio, return_map=False):
+        start = time.perf_counter_ns()
+        spectra = self._spectra(audio)
+        result = self._localize(*spectra[self.variant], return_map)
+        return {**result, "variant": self.variant, "processing_ms": (time.perf_counter_ns() - start) / 1e6}
+
+    def analyze_variants(self, audio):
+        start = time.perf_counter_ns()
+        spectra = self._spectra(audio)
+        shared_ms = (time.perf_counter_ns() - start) / 1e6
+        results = {}
+        for variant in VARIANTS:
+            begin = time.perf_counter_ns()
+            result = self._localize(*spectra[variant])
+            results[variant] = {**result, "processing_ms": shared_ms + (time.perf_counter_ns() - begin) / 1e6}
+        return results
+
+
+def summarize(rows):
+    metrics = []
+    for variant in VARIANTS:
+        selected = [r for r in rows if r["variant"] == variant]
+        groups = [("all", selected)]
+        groups += [(scene, [r for r in selected if r["scene"] == scene]) for scene in ("sensor_noise", "wind", "directional", "engine")]
+        groups += [(f"snr={snr}", [r for r in selected if r["snr_db"] == snr]) for snr in (-15, -10, -5, 0, 5)]
+        groups += [(f"{scene}:{snr}", [r for r in selected if r["scene"] == scene and r["snr_db"] == snr])
+                   for scene in ("sensor_noise", "wind", "directional", "engine") for snr in (-15, -10, -5, 0, 5)]
+        for group, values in groups:
+            error = np.array([r["angular_error_deg"] for r in values])
+            metrics.append({"variant": variant, "group": group, "n": len(values), "mean_deg": float(error.mean()),
+                            "median_deg": float(np.median(error)), "p95_deg": float(np.quantile(error, 0.95)),
+                            "within10_rate": float(np.mean(error <= 10)),
+                            "azimuth_mae_deg": float(np.mean([abs(r["az_error_deg"]) for r in values])),
+                            "elevation_mae_deg": float(np.mean([abs(r["el_error_deg"]) for r in values])),
+                            "mean_improvement_vs_phat_deg": float(np.mean([r["phat_error_deg"] - r["angular_error_deg"] for r in values])),
+                            "within10_improvement_vs_phat": float(np.mean([(r["angular_error_deg"] <= 10) - (r["phat_error_deg"] <= 10) for r in values]))})
+    return metrics
+
+
+def develop():
+    OUT.mkdir(parents=True, exist_ok=True)
+    with (ROOT / "results" / "full" / "test_frames.csv").open(encoding="utf-8", newline="") as f:
+        items = [r for r in csv.DictReader(f) if r["method"] == "phat" and r["label"] == "1"]
+    assert len(items) == 1000
+    model = ImprovedLocalizer()
+    rows = []
+    start = time.perf_counter()
+    for index, item in enumerate(items):
+        with np.load(ROOT / "data" / "synthetic" / "full" / "test" / f"{item['trial_id']}.npz") as saved:
+            audio = saved["audio"]
+        # Evaluation labels are read only AFTER the audio-only estimate is returned.
+        results = model.analyze_variants(audio)
+        for variant, result in results.items():
+            error, az_error, el_error = errors(result["az_hat"], result["el_hat"], float(item["true_az"]), float(item["true_el"]))
+            rows.append({"trial_id": item["trial_id"], "scene": item["scene"], "snr_db": float(item["snr_db"]),
+                         "variant": variant, **result, "angular_error_deg": float(error), "az_error_deg": float(az_error),
+                         "el_error_deg": float(el_error), "phat_error_deg": float(item["angular_error_deg"]),
+                         "true_az": float(item["true_az"]), "true_el": float(item["true_el"])})
+        assert results["phat"]["az_hat"] == float(item["az_hat"]) and results["phat"]["el_hat"] == float(item["el_hat"])
+        if (index + 1) % 100 == 0:
+            print(f"Development {index+1}/1000; {time.perf_counter()-start:.1f}s", flush=True)
+    write_csv(OUT / "variant_frames.csv", rows)
+    metrics = summarize(rows)
+    write_csv(OUT / "variant_summary.csv", metrics)
+    summary = {"partition": "OLD full/test positives explicitly reclassified as development", "n": 1000,
+               "no_new_test_seeds": True, "variants": list(VARIANTS), "overall": [r for r in metrics if r["group"] == "all"],
+               "source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), "wall_seconds": time.perf_counter()-start}
+    write_json(OUT / "development_summary.json", summary)
+    print(json.dumps(summary["overall"], indent=2), flush=True)
+
+
+def self_test():
+    model = ImprovedLocalizer()
+    trial = ROOT / "data" / "synthetic" / "full" / "test" / "pos-0-2-0.npz"
+    with np.load(trial) as saved:
+        audio = saved["audio"]
+    a, b = model.analyze(audio), model.analyze(audio * 3)
+    assert a["az_hat"] == b["az_hat"] and a["el_hat"] == b["el_hat"]
+    assert np.isfinite(model.analyze(np.zeros((N, 8)))["score"])
+    try:
+        model.analyze(np.zeros((N, 7)))
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("Invalid channel count accepted")
+    assert len(model.analyze(audio, return_map=True)["map"]) == 3601
+    print("Self-test passed: amplitude invariance, finite silence, input shape, map contract")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--develop", action="store_true")
+    parser.add_argument("--self-test", action="store_true")
+    args = parser.parse_args()
+    if args.self_test:
+        self_test()
+    if args.develop:
+        develop()
+    if not (args.self_test or args.develop):
+        parser.print_help()

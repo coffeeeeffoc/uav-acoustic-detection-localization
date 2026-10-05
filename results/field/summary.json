@@ -1,0 +1,422 @@
+{
+  "methods": {
+    "coherence": {
+      "positive_blocks": 600,
+      "negative_blocks": 200,
+      "mean_deg": 18.46106861561871,
+      "median_deg": 3.426457870218682,
+      "p95_deg": 95.77517496734589,
+      "within5": 0.8,
+      "within10": 0.8,
+      "detected_positive": 39,
+      "false_positive": 1,
+      "tpr": 0.065,
+      "fpr": 0.005,
+      "joint10": 0.01,
+      "compute_ms_median": 231.36640000302577,
+      "compute_ms_p95": 339.2086550033127,
+      "recordings": {
+        "s2_background": {
+          "n": 100,
+          "detection_rate": 0.0
+        },
+        "s2_uav1": {
+          "n": 150,
+          "detection_rate": 0.0,
+          "mean_deg": 12.404131098391199,
+          "median_deg": 3.2756349445893775,
+          "p95_deg": 85.33586023638559,
+          "within10": 0.8666666666666667
+        },
+        "s2_uav2": {
+          "n": 150,
+          "detection_rate": 0.02,
+          "mean_deg": 3.2546152621789006,
+          "median_deg": 2.5990545493029806,
+          "p95_deg": 2.836464621444296,
+          "within10": 0.9933333333333333
+        },
+        "s3_background": {
+          "n": 100,
+          "detection_rate": 0.01
+        },
+        "s3_uav1": {
+          "n": 150,
+          "detection_rate": 0.05333333333333334,
+          "mean_deg": 22.68928805608267,
+          "median_deg": 3.526374299707698,
+          "p95_deg": 97.31617549791264,
+          "within10": 0.7866666666666666
+        },
+        "s3_uav2": {
+          "n": 150,
+          "detection_rate": 0.18666666666666668,
+          "mean_deg": 35.496240045822084,
+          "median_deg": 4.124136205606177,
+          "p95_deg": 96.27962767582322,
+          "within10": 0.5533333333333333
+        }
+      }
+    },
+    "no_hard_negatives": {
+      "positive_blocks": 600,
+      "negative_blocks": 200,
+      "mean_deg": 6.965309305305921,
+      "median_deg": 3.4662784538812357,
+      "p95_deg": 54.16149091892178,
+      "within5": 0.94,
+      "within10": 0.94,
+      "detected_positive": 473,
+      "false_positive": 3,
+      "tpr": 0.7883333333333333,
+      "fpr": 0.015,
+      "joint10": 0.7883333333333333,
+      "compute_ms_median": 414.93069999887666,
+      "compute_ms_p95": 588.7057399992043,
+      "recordings": {
+        "s2_background": {
+          "n": 100,
+          "detection_rate": 0.0
+        },
+        "s2_uav1": {
+          "n": 150,
+          "detection_rate": 0.7066666666666667,
+          "mean_deg": 4.284821853551976,
+          "median_deg": 3.213145458734257,
+          "p95_deg": 3.5272939186013494,
+          "within10": 0.9866666666666667
+        },
+        "s2_uav2": {
+          "n": 150,
+          "detection_rate": 0.6866666666666666,
+          "mean_deg": 2.5469606221407046,
+          "median_deg": 2.561614249390936,
+          "p95_deg": 2.7911993952886225,
+          "within10": 1.0
+        },
+        "s3_background": {
+          "n": 100,
+          "detection_rate": 0.03
+        },
+        "s3_uav1": {
+          "n": 150,
+          "detection_rate": 0.9866666666666667,
+          "mean_deg": 4.164770193479459,
+          "median_deg": 3.617913937386089,
+          "p95_deg": 3.9258135680188495,
+          "within10": 0.9933333333333333
+        },
+        "s3_uav2": {
+          "n": 150,
+          "detection_rate": 0.7733333333333333,
+          "mean_deg": 16.86468455205155,
+          "median_deg": 4.071418846362535,
+          "p95_deg": 66.75957725777465,
+          "within10": 0.78
+        }
+      }
+    },
+    "phat": {
+      "positive_blocks": 600,
+      "negative_blocks": 200,
+      "mean_deg": 14.782065830727324,
+      "median_deg": 3.4856046196266983,
+      "p95_deg": 96.86830982645726,
+      "within5": 0.8483333333333334,
+      "within10": 0.8483333333333334,
+      "detected_positive": 148,
+      "false_positive": 1,
+      "tpr": 0.24666666666666667,
+      "fpr": 0.005,
+      "joint10": 0.19166666666666668,
+      "compute_ms_median": 227.94975000033446,
+      "compute_ms_p95": 331.28950000173063,
+      "recordings": {
+        "s2_background": {
+          "n": 100,
+          "detection_rate": 0.0
+        },
+        "s2_uav1": {
+          "n": 150,
+          "detection_rate": 0.2,
+          "mean_deg": 6.953843988779214,
+          "median_deg": 3.2254166174234022,
+          "p95_deg": 45.28083235304459,
+          "within10": 0.94
+        },
+        "s2_uav2": {
+          "n": 150,
+          "detection_rate": 0.4266666666666667,
+          "mean_deg": 3.2275403766219144,
+          "median_deg": 2.567954326135684,
+          "p95_deg": 2.7945205337442625,
+          "within10": 0.9933333333333333
+        },
+        "s3_background": {
+          "n": 100,
+          "detection_rate": 0.01
+        },
+        "s3_uav1": {
+          "n": 150,
+          "detection_rate": 0.14,
+          "mean_deg": 17.322920686269203,
+          "median_deg": 3.6580277885254056,
+          "p95_deg": 98.11824177279415,
+          "within10": 0.8533333333333334
+        },
+        "s3_uav2": {
+          "n": 150,
+          "detection_rate": 0.22,
+          "mean_deg": 31.623958271238966,
+          "median_deg": 4.177995262026698,
+          "p95_deg": 97.32149920147303,
+          "within10": 0.6066666666666667
+        }
+      }
+    },
+    "ranker": {
+      "positive_blocks": 600,
+      "negative_blocks": 200,
+      "mean_deg": 6.96581558625978,
+      "median_deg": 3.4662784538812357,
+      "p95_deg": 54.16149091892178,
+      "within5": 0.94,
+      "within10": 0.94,
+      "detected_positive": 514,
+      "false_positive": 3,
+      "tpr": 0.8566666666666667,
+      "fpr": 0.015,
+      "joint10": 0.855,
+      "compute_ms_median": 414.92344999824127,
+      "compute_ms_p95": 588.6984700016908,
+      "recordings": {
+        "s2_background": {
+          "n": 100,
+          "detection_rate": 0.0
+        },
+        "s2_uav1": {
+          "n": 150,
+          "detection_rate": 0.8133333333333334,
+          "mean_deg": 4.284821853551976,
+          "median_deg": 3.213145458734257,
+          "p95_deg": 3.5272939186013494,
+          "within10": 0.9866666666666667
+        },
+        "s2_uav2": {
+          "n": 150,
+          "detection_rate": 0.8466666666666667,
+          "mean_deg": 2.5469606221407046,
+          "median_deg": 2.561614249390936,
+          "p95_deg": 2.7911993952886225,
+          "within10": 1.0
+        },
+        "s3_background": {
+          "n": 100,
+          "detection_rate": 0.03
+        },
+        "s3_uav1": {
+          "n": 150,
+          "detection_rate": 0.9866666666666667,
+          "mean_deg": 4.164770193479459,
+          "median_deg": 3.617913937386089,
+          "p95_deg": 3.9258135680188495,
+          "within10": 0.9933333333333333
+        },
+        "s3_uav2": {
+          "n": 150,
+          "detection_rate": 0.78,
+          "mean_deg": 16.866709675866982,
+          "median_deg": 4.071418846362535,
+          "p95_deg": 66.75957725777465,
+          "within10": 0.78
+        }
+      }
+    },
+    "reference": {
+      "positive_blocks": 600,
+      "negative_blocks": 200,
+      "mean_deg": 12.190048372403755,
+      "median_deg": 3.5053973459773844,
+      "p95_deg": 71.82621983560716,
+      "within5": 0.8716666666666667,
+      "within10": 0.8716666666666667,
+      "detected_positive": 41,
+      "false_positive": 1,
+      "tpr": 0.06833333333333333,
+      "fpr": 0.005,
+      "joint10": 0.0016666666666666668,
+      "compute_ms_median": 230.5804999996326,
+      "compute_ms_p95": 337.5807700034784,
+      "recordings": {
+        "s2_background": {
+          "n": 100,
+          "detection_rate": 0.0
+        },
+        "s2_uav1": {
+          "n": 150,
+          "detection_rate": 0.006666666666666667,
+          "mean_deg": 10.642759152530234,
+          "median_deg": 3.261922009555162,
+          "p95_deg": 74.6174914041848,
+          "within10": 0.8933333333333333
+        },
+        "s2_uav2": {
+          "n": 150,
+          "detection_rate": 0.006666666666666667,
+          "mean_deg": 3.7408448241021355,
+          "median_deg": 2.567954326135684,
+          "p95_deg": 2.8195687455972056,
+          "within10": 0.9866666666666667
+        },
+        "s3_background": {
+          "n": 100,
+          "detection_rate": 0.01
+        },
+        "s3_uav1": {
+          "n": 150,
+          "detection_rate": 0.02,
+          "mean_deg": 9.16133970896222,
+          "median_deg": 3.640907457205784,
+          "p95_deg": 89.7146219557694,
+          "within10": 0.94
+        },
+        "s3_uav2": {
+          "n": 150,
+          "detection_rate": 0.24,
+          "mean_deg": 25.215249804020427,
+          "median_deg": 4.171375264416223,
+          "p95_deg": 78.09281231199749,
+          "within10": 0.6666666666666666
+        }
+      }
+    },
+    "scot": {
+      "positive_blocks": 600,
+      "negative_blocks": 200,
+      "mean_deg": 15.350717901192862,
+      "median_deg": 3.457734450664595,
+      "p95_deg": 96.86816270348216,
+      "within5": 0.84,
+      "within10": 0.84,
+      "detected_positive": 61,
+      "false_positive": 1,
+      "tpr": 0.10166666666666667,
+      "fpr": 0.005,
+      "joint10": 0.05,
+      "compute_ms_median": 229.06714999953692,
+      "compute_ms_p95": 335.9768600008464,
+      "recordings": {
+        "s2_background": {
+          "n": 100,
+          "detection_rate": 0.0
+        },
+        "s2_uav1": {
+          "n": 150,
+          "detection_rate": 0.02666666666666667,
+          "mean_deg": 7.778524141670596,
+          "median_deg": 3.235762271803149,
+          "p95_deg": 45.53890065451527,
+          "within10": 0.9266666666666666
+        },
+        "s2_uav2": {
+          "n": 150,
+          "detection_rate": 0.11333333333333333,
+          "mean_deg": 3.234491483551263,
+          "median_deg": 2.5866017048004535,
+          "p95_deg": 2.8079279727626427,
+          "within10": 0.9933333333333333
+        },
+        "s3_background": {
+          "n": 100,
+          "detection_rate": 0.01
+        },
+        "s3_uav1": {
+          "n": 150,
+          "detection_rate": 0.08,
+          "mean_deg": 17.862677951008315,
+          "median_deg": 3.6201684201362783,
+          "p95_deg": 97.9513154672029,
+          "within10": 0.8466666666666667
+        },
+        "s3_uav2": {
+          "n": 150,
+          "detection_rate": 0.18666666666666668,
+          "mean_deg": 32.527178028541265,
+          "median_deg": 4.160651665343508,
+          "p95_deg": 97.12981398518531,
+          "within10": 0.5933333333333334
+        }
+      }
+    }
+  },
+  "paired_against_ranker": {
+    "coherence": {
+      "mean_improvement_deg": 11.495253029358933,
+      "median_improvement_deg": 0.013478933480444155,
+      "fraction_improved": 0.54,
+      "same_ranker_gate_joint10": 0.7216666666666667,
+      "recording_improvement_deg": {
+        "s2_uav1": 8.119309244839226,
+        "s2_uav2": 0.7076546400381953,
+        "s3_uav1": 18.524517862603208,
+        "s3_uav2": 18.629530369955095
+      }
+    },
+    "no_hard_negatives": {
+      "mean_improvement_deg": -0.0005062809538587961,
+      "median_improvement_deg": 0.0,
+      "fraction_improved": 0.0033333333333333335,
+      "same_ranker_gate_joint10": 0.855,
+      "recording_improvement_deg": {
+        "s2_uav1": 0.0,
+        "s2_uav2": 0.0,
+        "s3_uav1": 0.0,
+        "s3_uav2": -0.0020251238154351844
+      }
+    },
+    "phat": {
+      "mean_improvement_deg": 7.816250244467542,
+      "median_improvement_deg": 0.0,
+      "fraction_improved": 0.13166666666666665,
+      "same_ranker_gate_joint10": 0.765,
+      "recording_improvement_deg": {
+        "s2_uav1": 2.6690221352272396,
+        "s2_uav2": 0.6805797544812098,
+        "s3_uav1": 13.15815049278974,
+        "s3_uav2": 14.757248595371982
+      }
+    },
+    "reference": {
+      "mean_improvement_deg": 5.224232786143972,
+      "median_improvement_deg": 0.0011508626526761656,
+      "fraction_improved": 0.5,
+      "same_ranker_gate_joint10": 0.7916666666666666,
+      "recording_improvement_deg": {
+        "s2_uav1": 6.357937298978259,
+        "s2_uav2": 1.19388420196143,
+        "s3_uav1": 4.9965695154827605,
+        "s3_uav2": 8.348540128153441
+      }
+    },
+    "scot": {
+      "mean_improvement_deg": 8.384902314933079,
+      "median_improvement_deg": 0.0,
+      "fraction_improved": 0.33666666666666667,
+      "same_ranker_gate_joint10": 0.7583333333333333,
+      "recording_improvement_deg": {
+        "s2_uav1": 3.4937022881186204,
+        "s2_uav2": 0.6875308614105581,
+        "s3_uav1": 13.697907757528858,
+        "s3_uav2": 15.660468352674282
+      }
+    }
+  },
+  "inference_scope": "Descriptive held-out point results; 4 positive and 2 negative recordings from one aircraft and one day. No iid-window confidence intervals.",
+  "localization_reference": "Nominal static directions from acquisition diagrams, not synchronized per-frame ground truth.",
+  "candidate_oracle": {
+    "blocks": 600,
+    "mean_deg": 6.435182229498859,
+    "within10": 0.9433333333333334,
+    "note": "Uses reference labels after inference; an oracle ceiling, not achievable inference performance."
+  }
+}

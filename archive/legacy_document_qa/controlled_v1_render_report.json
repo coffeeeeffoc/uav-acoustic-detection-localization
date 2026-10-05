@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "review": "All 18 rendered pages inspected for legibility, equation/figure/table clipping and page flow. Figure 1 pages reinspected after rebuilding with the recorded Python environment.",
+  "render_directory": "results/document_qa/final",
+  "documents": {
+    "en": {
+      "pages": 8,
+      "page_details": [
+        {
+          "page": 1,
+          "text_characters": 6090
+        },
+        {
+          "page": 2,
+          "text_characters": 6343
+        },
+        {
+          "page": 3,
+          "text_characters": 4726
+        },
+        {
+          "page": 4,
+          "text_characters": 6422
+        },
+        {
+          "page": 5,
+          "text_characters": 4725
+        },
+        {
+          "page": 6,
+          "text_characters": 4011
+        },
+        {
+          "page": 7,
+          "text_characters": 6472
+        },
+        {
+          "page": 8,
+          "text_characters": 6076
+        }
+      ],
+      "pdf_sha256": "42c3a23dc8f8b6ce035d7193d5c409f6be63d92f4417ec8a8db551466d2c56ff"
+    },
+    "zh": {
+      "pages": 10,
+      "page_details": [
+        {
+          "page": 1,
+          "text_characters": 1950
+        },
+        {
+          "page": 2,
+          "text_characters": 1639
+        },
+        {
+          "page": 3,
+          "text_characters": 1164
+        },
+        {
+          "page": 4,
+          "text_characters": 1694
+        },
+        {
+          "page": 5,
+          "text_characters": 1857
+        },
+        {
+          "page": 6,
+          "text_characters": 773
+        },
+        {
+          "page": 7,
+          "text_characters": 893
+        },
+        {
+          "page": 8,
+          "text_characters": 888
+        },
+        {
+          "page": 9,
+          "text_characters": 1799
+        },
+        {
+          "page": 10,
+          "text_characters": 5131
+        }
+      ],
+      "pdf_sha256": "f59ec2b78efe833b6fe62a8593ce5fcb752f5b3dec3bbfbf4f9908bf963f71fa"
+    }
+  }
+}

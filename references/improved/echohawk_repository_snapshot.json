@@ -1,0 +1,379 @@
+{
+  "access_date": "2026-10-02",
+  "url": "https://api.github.com/repos/shulm/echohawk",
+  "commit": "ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf",
+  "tree": {
+    "sha": "ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf",
+    "url": "https://api.github.com/repos/shulm/echohawk/git/trees/ce3ce2a8cd1b964464a7b2a6cc76d1747bccf4cf",
+    "tree": [
+      {
+        "path": ".dockerignore",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "0873487a3a1ad95a42bd0629fdfb211ebfb81d53",
+        "size": 56,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/0873487a3a1ad95a42bd0629fdfb211ebfb81d53"
+      },
+      {
+        "path": ".github",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "d0ccb990dd104b2213e2721c949542d66a87d8d0",
+        "url": "https://api.github.com/repos/shulm/echohawk/git/trees/d0ccb990dd104b2213e2721c949542d66a87d8d0"
+      },
+      {
+        "path": ".github/workflows",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "4d08d7a374301f947d6316e77ad381e0bb471162",
+        "url": "https://api.github.com/repos/shulm/echohawk/git/trees/4d08d7a374301f947d6316e77ad381e0bb471162"
+      },
+      {
+        "path": ".github/workflows/ci.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4e06fdc5e7f5e55857a52ef004434c186dfa9d72",
+        "size": 695,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/4e06fdc5e7f5e55857a52ef004434c186dfa9d72"
+      },
+      {
+        "path": ".gitignore",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7b52989eab006196179fd5e00c0c229c8ebe1580",
+        "size": 371,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/7b52989eab006196179fd5e00c0c229c8ebe1580"
+      },
+      {
+        "path": "Dockerfile",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "0413968fdfdc062499b034c3df845dfd83fa4a15",
+        "size": 362,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/0413968fdfdc062499b034c3df845dfd83fa4a15"
+      },
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "294acc022b04c198e8e0b87094acacf47699ea71",
+        "size": 1070,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/294acc022b04c198e8e0b87094acacf47699ea71"
+      },
+      {
+        "path": "README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7f67ba62016bbd258737ed0c841e53c163ba0a49",
+        "size": 7389,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/7f67ba62016bbd258737ed0c841e53c163ba0a49"
+      },
+      {
+        "path": "data",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "70892280a18fbee1ee3c4c6e7b47171563272cc6",
+        "url": "https://api.github.com/repos/shulm/echohawk/git/trees/70892280a18fbee1ee3c4c6e7b47171563272cc6"
+      },
+      {
+        "path": "data/README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4edb221aee772c4273041941a1c69f5fda8c7c34",
+        "size": 776,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/4edb221aee772c4273041941a1c69f5fda8c7c34"
+      },
+      {
+        "path": "echohawk",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "94ee9b9f8b2bafc78695e2db207b7509ff9ab59b",
+        "url": "https://api.github.com/repos/shulm/echohawk/git/trees/94ee9b9f8b2bafc78695e2db207b7509ff9ab59b"
+      },
+      {
+        "path": "echohawk/__init__.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1bea05aca4b9bdea3288843d538cd91a188cc82a",
+        "size": 757,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/1bea05aca4b9bdea3288843d538cd91a188cc82a"
+      },
+      {
+        "path": "echohawk/beamforming.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "fca5f7e619fa969ab9a65ef5cf238a4a59032abc",
+        "size": 6829,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/fca5f7e619fa969ab9a65ef5cf238a4a59032abc"
+      },
+      {
+        "path": "echohawk/data_io.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a0e296c552c1c1fcde639de6083a3d31e2a30c01",
+        "size": 14731,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/a0e296c552c1c1fcde639de6083a3d31e2a30c01"
+      },
+      {
+        "path": "echohawk/evaluate.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4138e662a125de692fe5b0d0182bea3fe4cbd438",
+        "size": 1423,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/4138e662a125de692fe5b0d0182bea3fe4cbd438"
+      },
+      {
+        "path": "echohawk/features.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "b626a1ebed39cb273f83e7672acf66ed81d1e8bc",
+        "size": 3945,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/b626a1ebed39cb273f83e7672acf66ed81d1e8bc"
+      },
+      {
+        "path": "echohawk/models.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d6b4b0f9ea9ff387a98722fe6826eca4311df91d",
+        "size": 2651,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/d6b4b0f9ea9ff387a98722fe6826eca4311df91d"
+      },
+      {
+        "path": "echohawk/simulate.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3084929980ca783ce7f2985b9b71c345e68b9135",
+        "size": 6486,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/3084929980ca783ce7f2985b9b71c345e68b9135"
+      },
+      {
+        "path": "echohawk/track.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "47dd025353fc8df749b918a7f2ee0c8b211938f0",
+        "size": 1662,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/47dd025353fc8df749b918a7f2ee0c8b211938f0"
+      },
+      {
+        "path": "examples",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "6d165479f32ee8de5d7696bdf650162947b14810",
+        "url": "https://api.github.com/repos/shulm/echohawk/git/trees/6d165479f32ee8de5d7696bdf650162947b14810"
+      },
+      {
+        "path": "examples/01_detection_demo.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "24fc5cd0d1295a2f859485cf65231cfae7e2efe5",
+        "size": 1639,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/24fc5cd0d1295a2f859485cf65231cfae7e2efe5"
+      },
+      {
+        "path": "examples/02_array_doa_demo.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ce902b66361a4e1c141a12d4690dad1467796cf7",
+        "size": 3731,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/ce902b66361a4e1c141a12d4690dad1467796cf7"
+      },
+      {
+        "path": "examples/03_features_bpf_demo.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "cd0e3d9bbedf1186455059d0373e1c3c185dac34",
+        "size": 1776,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/cd0e3d9bbedf1186455059d0373e1c3c185dac34"
+      },
+      {
+        "path": "examples/04_detection_real.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "19beaba9239b111a1ccc5c5e35becaa23341589e",
+        "size": 7314,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/19beaba9239b111a1ccc5c5e35becaa23341589e"
+      },
+      {
+        "path": "examples/05_doa_real.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "fe8006f0693e632a8296d24991070a1621f9bb97",
+        "size": 3119,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/fe8006f0693e632a8296d24991070a1621f9bb97"
+      },
+      {
+        "path": "examples/06_train_cnn.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "302ff86f3fff47694e41b06c9f8dd00427f8dd5b",
+        "size": 9111,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/302ff86f3fff47694e41b06c9f8dd00427f8dd5b"
+      },
+      {
+        "path": "examples/07_doa_tracking_demo.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e6bab2f81e9ff1950f3912b80a8e2225576e9599",
+        "size": 2856,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/e6bab2f81e9ff1950f3912b80a8e2225576e9599"
+      },
+      {
+        "path": "report",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "e4d6c1edeee00c30d526bdd70d68bc1678230dd8",
+        "url": "https://api.github.com/repos/shulm/echohawk/git/trees/e4d6c1edeee00c30d526bdd70d68bc1678230dd8"
+      },
+      {
+        "path": "report/technical_note.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bcf72e69d2c453c2a2ccade45bd5f6002f3ec31b",
+        "size": 7457,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/bcf72e69d2c453c2a2ccade45bd5f6002f3ec31b"
+      },
+      {
+        "path": "requirements.txt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "2ca7a0192779894030d2f354db7308121bc5ace9",
+        "size": 397,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/2ca7a0192779894030d2f354db7308121bc5ace9"
+      },
+      {
+        "path": "results",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "3cf208822d12683a92229a665161f9abef2e678b",
+        "url": "https://api.github.com/repos/shulm/echohawk/git/trees/3cf208822d12683a92229a665161f9abef2e678b"
+      },
+      {
+        "path": "results/cnn_training.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "fc047c30258628b80c12fefa17a059573541cf07",
+        "size": 52955,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/fc047c30258628b80c12fefa17a059573541cf07"
+      },
+      {
+        "path": "results/confusion.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5dbd6c067b68c8fae5c7bd5f0dc6b184af8c9e41",
+        "size": 19568,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/5dbd6c067b68c8fae5c7bd5f0dc6b184af8c9e41"
+      },
+      {
+        "path": "results/confusion_cnn.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "38578035dd1a4f037481dad29374ac650d1115b4",
+        "size": 20695,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/38578035dd1a4f037481dad29374ac650d1115b4"
+      },
+      {
+        "path": "results/confusion_real.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "f755f6376dc6bf9907cc685ac6d86bc55d121e33",
+        "size": 21216,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/f755f6376dc6bf9907cc685ac6d86bc55d121e33"
+      },
+      {
+        "path": "results/doa_error_vs_snr.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "0e18bff9056e16b020fd87315dca3d8ded44337d",
+        "size": 75924,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/0e18bff9056e16b020fd87315dca3d8ded44337d"
+      },
+      {
+        "path": "results/doa_spectra.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "049bb8a84440de1d8178cad35652b1873c82462c",
+        "size": 82353,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/049bb8a84440de1d8178cad35652b1873c82462c"
+      },
+      {
+        "path": "results/doa_tracking.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "96ece759e02880f89993ddcb0cb989fa31ecb516",
+        "size": 40029,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/96ece759e02880f89993ddcb0cb989fa31ecb516"
+      },
+      {
+        "path": "results/features_bpf.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3f7efba3d742892fc4849ac69ad22bd8a62c747d",
+        "size": 64274,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/3f7efba3d742892fc4849ac69ad22bd8a62c747d"
+      },
+      {
+        "path": "results/roc.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "058e610926ee47b44165c7636ae892e46a5784f0",
+        "size": 31978,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/058e610926ee47b44165c7636ae892e46a5784f0"
+      },
+      {
+        "path": "results/roc_cnn_real.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3dec7298e8d3e37db0718d2d93ff09e294da1faa",
+        "size": 32583,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/3dec7298e8d3e37db0718d2d93ff09e294da1faa"
+      },
+      {
+        "path": "results/roc_real.png",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "68ffef9d59c97d6e5048a6c72873a08985dd0143",
+        "size": 39465,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/68ffef9d59c97d6e5048a6c72873a08985dd0143"
+      },
+      {
+        "path": "scripts",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "6f1045335e8d736cb6dff4bcba1fe5578f502384",
+        "url": "https://api.github.com/repos/shulm/echohawk/git/trees/6f1045335e8d736cb6dff4bcba1fe5578f502384"
+      },
+      {
+        "path": "scripts/download_data.sh",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e40b5dd76eea9dcd7468369ac5203dd218b3c3f5",
+        "size": 422,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/e40b5dd76eea9dcd7468369ac5203dd218b3c3f5"
+      },
+      {
+        "path": "scripts/push_to_github.sh",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6606529ec675f05b65d4412be8d03e7c800f2a37",
+        "size": 368,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/6606529ec675f05b65d4412be8d03e7c800f2a37"
+      },
+      {
+        "path": "tests",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "948455839089579f1a5456a71be1fc1552f3433b",
+        "url": "https://api.github.com/repos/shulm/echohawk/git/trees/948455839089579f1a5456a71be1fc1552f3433b"
+      },
+      {
+        "path": "tests/test_smoke.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "da9842e07316a9ea0457c546676cc9f3d4bfc742",
+        "size": 2439,
+        "url": "https://api.github.com/repos/shulm/echohawk/git/blobs/da9842e07316a9ea0457c546676cc9f3d4bfc742"
+      }
+    ],
+    "truncated": false
+  }
+}

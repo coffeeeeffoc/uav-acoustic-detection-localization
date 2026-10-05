@@ -1,0 +1,137 @@
+[
+  {
+    "path": "code/build_papers.py",
+    "bytes": 16237,
+    "sha256": "f148749570f31744aaa93ab90a03a2d41ecc490af92dd12550546b12c5b47be2"
+  },
+  {
+    "path": "code/EXPERIMENT_README.md",
+    "bytes": 7724,
+    "sha256": "94743cecd2e30b92d6aca25158a6d956fa25d63b092c6940fae4e714952b0e02"
+  },
+  {
+    "path": "code/finalize_manuscripts.py",
+    "bytes": 21223,
+    "sha256": "e282ceec76d74cf2280253ad495880082aa913782daf7c392cb2058427280b8d"
+  },
+  {
+    "path": "code/verify_delivery.py",
+    "bytes": 6074,
+    "sha256": "0e92ee260e2e7c17e91a88f4b33ce79f1a3a43bcbea0080cbad773ea49033475"
+  },
+  {
+    "path": "code/verify_improved.py",
+    "bytes": 12456,
+    "sha256": "c01950ba83fa87f3b7d8be914c6e095e3dc01a4a701c275d6e669509364c89b1"
+  },
+  {
+    "path": "figures/improved_localization.pdf",
+    "bytes": 17381,
+    "sha256": "fba1ca339b520010aefcc372d2399f496cbdae466b2a28e06d341e9267430da9"
+  },
+  {
+    "path": "figures/improved_localization.png",
+    "bytes": 116922,
+    "sha256": "371029495a637dbb64c9d14f62866ad396128fa8748c633df6c4885d9f8bede0"
+  },
+  {
+    "path": "figures/improved_pipeline.pdf",
+    "bytes": 16603,
+    "sha256": "96eb719cfb701fc30d4e317af4cf150136bd6aa16482644434d3a7aeab98ab52"
+  },
+  {
+    "path": "figures/improved_pipeline.png",
+    "bytes": 124856,
+    "sha256": "af725e204a30800872dde897897862d174e5b62dacf29df344a99c82d7755a46"
+  },
+  {
+    "path": "figures/improved_roc.pdf",
+    "bytes": 24298,
+    "sha256": "7a24555eeeca78cc2b207f97831e860abcd1f1ca43a8bbb230304f9728f52825"
+  },
+  {
+    "path": "figures/improved_roc.png",
+    "bytes": 87489,
+    "sha256": "7c6fea45486ed0f4968f0467e52f35f5d36af4444df79d5a3f4876c344c3f2a6"
+  },
+  {
+    "path": "paper/citation_map.json",
+    "bytes": 377,
+    "sha256": "3646d93d1cbdeb3d95190652f92842cd74d0a864c77c4ed5c2e4bd7af3d1781f"
+  },
+  {
+    "path": "paper/controlled_evaluation_v1.zip",
+    "bytes": 1820569,
+    "sha256": "8393b2a5801e92fd23eed21cfa4a7c2450c89aa5f207c69b96e9b31ba2cdee55"
+  },
+  {
+    "path": "paper/improved_en_draft.md",
+    "bytes": 29044,
+    "sha256": "c2954058e392de3e2e4039b39bc55a56597f71d012b7534ee0f5bd54e9a2bc20"
+  },
+  {
+    "path": "paper/improved_zh_draft.md",
+    "bytes": 25946,
+    "sha256": "338b35dd8aa75ce2b50c526fcfdd61c13ba9f274f3ee5d19289c0cb1b42ea3b5"
+  },
+  {
+    "path": "paper/manuscript_en.md",
+    "bytes": 42202,
+    "sha256": "f3895cbe3b503dd08248d590e23f48a61be7964940b87447d3164299cdefb6db"
+  },
+  {
+    "path": "paper/manuscript_en.pdf",
+    "bytes": 675400,
+    "sha256": "57d1f838671f9bd18d92b7981f5a9f0a977e28122f660d16a67093ba6c091d29"
+  },
+  {
+    "path": "paper/manuscript_zh.md",
+    "bytes": 38745,
+    "sha256": "2c09cf9a47cd7b9e171656ab5108ea61b22ece2c10631efe23bb79b6ad987cbf"
+  },
+  {
+    "path": "paper/manuscript_zh.pdf",
+    "bytes": 751424,
+    "sha256": "cd1f7f880886e7aa80cbf096e934f58f3f9c2d3cbde4dd953f88d810a7b4fb9a"
+  },
+  {
+    "path": "references/citation_key_map.md",
+    "bytes": 2280,
+    "sha256": "66357196fb7dbfe6dfe60c9dfd67053646365eafad906b4d0ed67dcbf1fcd3fe"
+  },
+  {
+    "path": "references/references.bib",
+    "bytes": 9585,
+    "sha256": "af46cc7cfec38a58d921cb2c7493507b49d81295501a1b0bb4f07c6949dfe1df"
+  },
+  {
+    "path": "references/references.json",
+    "bytes": 35871,
+    "sha256": "9ccf42baf4a2880ba60cf797c47ceedaefaab525baddd4a5fa622b13c04cd8d1"
+  },
+  {
+    "path": "research/requirements_and_scope.md",
+    "bytes": 6814,
+    "sha256": "d2f516cfefb83f6e94b92e1c5c9029554811c38350c3c9d2f7e1cca5d842bd58"
+  },
+  {
+    "path": "results/document_qa/delivery_verification.json",
+    "bytes": 2369,
+    "sha256": "9c5bd72efdc534e6feea751c92e0e905ca92b578a5fd17ebdbc0f0fa1b6855f1"
+  },
+  {
+    "path": "results/document_qa/render_report.json",
+    "bytes": 1278,
+    "sha256": "26c4c0a165eed39ef720b8178a05ddea472e33bd77a7a4de468db0b47101bd4d"
+  },
+  {
+    "path": "results/improved_verification.json",
+    "bytes": 56966,
+    "sha256": "df97e306ce88fdb072742a90e45d7ac08a29c6ff6e0b4e390b5997df8485006a"
+  },
+  {
+    "path": "START_HERE.md",
+    "bytes": 5770,
+    "sha256": "e8f140bf85766082c3a4f84c6c3e00574e8438562a22f57f798c80707021cc6f"
+  }
+]

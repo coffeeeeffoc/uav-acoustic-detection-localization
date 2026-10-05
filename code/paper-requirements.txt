@@ -1,0 +1,2 @@
+# PDF authoring dependencies in addition to requirements-lock.txt.
+reportlab==4.4.9

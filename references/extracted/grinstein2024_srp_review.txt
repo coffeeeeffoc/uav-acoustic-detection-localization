@@ -1,0 +1,3301 @@
+## PDF page 1
+Steered Response Power for Sound Source Localization:
+A Tutorial Review
+Eric Grinstein1*, Elisa Tengan 2, Bilgesu C ¸ akmak2, Thomas Dietzen 2,
+Leonardo Nunes3, Toon van Waterschoot 2, Mike Brookes 1, Patrick A. Naylor 1
+1*Department of Electrical and Electronic Engineering, Imperial College London, U.K..
+2Department of Electrical Engineering (ESAT), STADIUS Center for Dynamical Systems,
+Signal Processing, and Data Analytics, KU Leuven, Belgium.
+3Microsoft Research, Rio de Janeiro, Brazil.
+*Corresponding author(s). E-mail(s): e.grinstein@imperial.ac.uk;
+Abstract
+In the last three decades, the Steered Response Power (SRP) method has been widely used for
+the task of Sound Source Localization (SSL), due to its satisfactory localization performance on
+moderately reverberant and noisy scenarios. Many works have analyzed and extended the original
+SRP method to reduce its computational cost, to allow it to locate multiple sources, or to improve its
+performance in adverse environments. In this work, we review over 200 papers on the SRP method and
+its variants, with emphasis on the SRP-PHAT method. We also present eXtensible-SRP, or X-SRP,
+a generalized and modularized version of the SRP algorithm which allows the reviewed extensions
+to be implemented. We provide a Python implementation of the algorithm which includes selected
+extensions from the literature.
+Keywords: Sound Source Localization, DOA Estimation, Steered Response Power, Acoustic Signal
+Processing, Beamforming
+List of Symbols
+Conventions
+r Scalars are represented as italic letters
+r Vectors are represented in boldface
+ˆr, ˜r Estimate or Approximation of variable r
+¯r Frequency-domain quantities are marked
+with a top bar
+r[k] k-th element of vector r
+R Matrices are represented using uppercase
+bold letters
+R, R(t) Sets and custom functions are repre-
+sented using uppercase caligraphic letters
+Acoustics
+c Speed of sound
+N Number of active sources
+M Microphone array size
+P Number of microphone pairs
+un Cartesian coordinates of sound source n.
+In the single source problem, u is used.
+vm Cartesian coordinates of microphone m
+G Set of candidate source positions forming
+the search grid
+am(u) Propagation attenuation from a source at
+u to microphone m.
+hm(t; u) Room Impulse Response between a
+source at u and microphone m.
+1
+arXiv:2405.02991v2  [cs.SD]  9 May 2024
+## PDF page 2
+τm(u) Propagation delay from a source at u to
+microphone m.
+τlm(u) TDOA between microphones l and m to a
+source at u
+Signal processing
+fs Sampling rate
+L Signal frame size
+sn(t) Sample of signal emitted by source n at
+time t
+xm(t), xm(t) Received sample or frame at time t
+for microphone m
+¯xm(t, f) Received signal sample at time-frequency
+bin t, f for microphone m
+¯xm(t) Received frequency-domain frame at time
+t for microphone m
+gt(t), ¯gf(t) Time or frequency GCC-PHAT vector
+at time t
+X(t) The set of microphone signal frames at
+time t
+Special functions
+DFT(x), IDFT(¯x) Forward and inverse Discrete
+Fourier Transform operation
+STFT(x), ISTFT(¯x) Forward and inverse Short-
+time Fourier Transform operation
+CC(τ; xl, xm) Temporal cross-correlation func-
+tion of signals xl and xm at time lag
+τ
+GCC(τ; ¯xl, ¯xm) GCC-PHAT function between
+signals ¯xl and ¯xm at time lag τ
+SRP(u ; X) Temporal SRP-PHAT function for
+set of signals X evaluated at candidate
+location u
+1 Introduction
+Sound Source Localization (SSL) is the task of
+estimating the position of one or more active
+acoustic sources using one or more microphone
+arrays. Applications for SSL include event detec-
+tion [1–3], camera steering [4], and sound source
+separation [5–7] among many others. In the last
+decades, many classical signal processing-based
+methods were developed for SSL, including Mul-
+tiple Signal Classification (MUSIC) [8], Estima-
+tion of Signal Parameters via Rotational Invari-
+ance Techniques (ESPRIT) [9], Time-Difference-
+of-Arrival (TDOA)-based [10, 11], Maximum Like-
+lihood (ML)-based [12] and Steered Response
+Power (SRP) [13, 14], which is the focus of this
+review. Alternatively to signal processing-based
+methods, significant research interest has also
+been devoted to machine learning-based localiza-
+tion methods [15].
+Choosing a localization method from all the
+available methods depends on the type of available
+acoustic and computational resources, assump-
+tions about the localization scene, and knowl-
+edge of the method’s mathematical formulation.
+SRP is known for its straightforward formulation
+and robust performance in many realistic envi-
+ronments [16]. A historical disadvantage of the
+method has been its significant computational
+complexity, although this is of diminishing impor-
+tance due to the increased computational capacity
+of today’s devices and to the many optimized mod-
+ifications of SRP which have been developed. This
+has resulted in SRP becoming a standard SSL
+method in the literature.
+Besides reducing its computational complex-
+ity, dozens of SRP variants have been developed
+to improve aspects of its performance, including
+increasing its robustness in adverse environments
+or in specific scenarios, and allowing multiple
+sources or moving sources to be localized. SRP
+can also be used as a feature extractor for neural-
+based localizers [17]. Therefore, one must not
+only choose SRP as a localizer, but must also
+decide which of the multiple SRP ‘flavours’ to use.
+A prominent flavour is the SRP-PHAT method,
+which uses the Generalized Cross-Correlation with
+Phase Transform (GCC-PHAT) [18] method as
+its correlation function, which is shown to offer
+advantages to other correlation functions for pro-
+cessing speech signals. Unless stated otherwise,
+the term SRP refers to SRP-PHAT throughout
+this work.
+The goal of this paper is to provide a cen-
+tralized resource for SRP research, to be used by
+both newcomers and experienced practitioners in
+the field of SSL. Over 200 papers are classified,
+described and compared, followed by the develope-
+ment of a modular description of the algorithm,
+which can be used to develop implementations.
+A code library named X-SRP is also released as
+part of this work, with the goal of facilitating
+the usage of the algorithm. The remainder of the
+paper comprises the following sections:
+2. The conventional SRP model , which presents
+SRP along with the relevant acoustics concepts
+required for its comprehension.
+2
+## PDF page 3
+3. Reducing SRP’s complexity and computational
+time, which discusses papers that focus on
+reducing SRP’s computational cost at a mini-
+mal decrease in localization performance.
+4. Increasing robustness , which focuses on
+improving SRP’s performance on reverberant
+and noisy environments using, for example,
+neural network methods.
+5. Multi-source SRP approaches , which general-
+izes the conventional SRP definition to the
+detection and localization of multiple simulta-
+neously active sound sources.
+6. Practical considerations , which include prac-
+tical applications involving SRP, adaptations
+of the method to track moving sources, to
+exploit and estimate source and microphone
+directivity, and comparisons to alternative SSL
+methods.
+7. X-SRP, where a modular description of SRP
+is provided by decomposing the algorithm
+into functional building blocks. Each of the
+reviewed papers usually modify a single block
+in the proposed framework, allowing works to
+be combined and altered. We apply the created
+framework by releasing an open-source Python
+implementation of SRP denoted X-SRP, or
+eXtensible-SRP, with the goal of facilitating
+collaboration in the field. The released code
+1 includes implementations of many popular
+SRP variants.
+8. Conclusion, where a discussion of future
+research directions is provided and the work is
+concluded.
+2 The conventional SRP
+model
+The earliest descriptions of SRP were provided by
+Omologo et. al. [13, 19, 20] and Dibiase et. al.
+[14, 21]. Earlier works on SRP have also referred
+to the method as Global Coherence Field (GCF)
+[22–26]. The method was later generalized as a
+Spatial Likelihood Function (SLF) [27]. The term
+SRP comes from its guiding principle of searching,
+or steering towards a location which maximizes
+the output power of a beamformer applied to the
+microphone signals. Alternatively, SRP can also
+be defined for each pair of microphone signals as
+1https://github.com/egrinstein/xsrp
+the projection of their cross-correlation function
+in space. Due to its increased clarity, the latter
+formulation is adopted in this paper.
+This section starts by defining the scope of
+the problem, followed by the signal model used
+throughout this paper. Finally, a description of
+SRP’s base model as presented in [14, 21] is
+provided. Two alternative formulations are pre-
+sented, the first in the time domain and the second
+in the frequency domain, as both are commonly
+encountered in the literature.
+2.1 Problem statement and
+definitions
+The goal of a localization method is to esti-
+mate the positions of one or more sound sources
+located in space, often an indoor environment.
+This section focuses on the scenario where a sin-
+gle, static and omnidirectional source located at
+u = [u(1) u(2) u(3)]T emits a signal s(t) at time t;
+the case of directive, moving and multiple sources
+are respectively discussed in Sec. 6.3, Sec. 6.2 and
+Sec. 5. The source can also be expressed in spher-
+ical coordinates u = [ϕ θ ρ]T with respect to a ref-
+erence point, typically the centre of a microphone
+array. Variables ϕ, θ and ρ respectively represent
+the source’s azimuth, elevation and range. The
+source locations are estimated using signals xm(t)
+received from an array of M microphones, each
+located at known positions vm = [v(1)
+m v(2)
+m v(3)
+m ]T ,
+m = 1, . . . , M .
+2.1.1 Near- versus Far-field localization
+This subsection discusses the different types
+of localization which are frequently encoun-
+tered in the literature, namely, Positional Sound
+Source Localization (PSSL) and Direction-of-
+Arrival (DOA) estimation. PSSL consists of fully
+estimating the source’s position, and is usually
+employed when the distances between micro-
+phones in the array is similar to the distance
+between the microphones and the source. This
+is equivalent to saying the source is located in
+the near-field of the array. This configuration
+is referred to as a distributed array, which can
+be constituted for example of multiple network-
+connected devices such as laptops, cell phones or
+voice assistants. In this case, as each device has
+their own Analogue-to-Digital Converter (ADC),
+3
+## PDF page 4
+they must be synchronized to a common sampling
+frequency fs, or a compensation algorithm must
+be applied to the signals to prevent synchroniza-
+tion issues [28].
+Conversely, when employing a centralized
+microphone array such as a single voice assistant,
+the distance between microphones is usually sig-
+nificantly smaller than the distance between the
+sources of interest and the array itself. This is
+equivalent to saying the source is located in the
+array’s far-field. In this case, the spherical wave
+leaving the source is observed as a plane wave
+which has no defined origin: an infinite set of
+sources may produce a plane wave with the same
+incident angle to the array. For this reason, the
+range ρ is usually not estimated when using com-
+pact arrays. The task of estimating the azimuth,ϕ,
+and elevation, θ, is referred to as DOA estimation.
+2.2 Signal model
+The received signal xm(t) at microphone m is
+equal to
+xm(t) =
+Z ∞
+−∞
+hm(r; u)s(t − r)dr + ϵm(t), (1)
+that is, a convolution between the source sig-
+nal s(t) and a Room Impulse Response (RIR)
+hm(r; u), which models the propagation effects
+and reverberation, plus a noise term ϵm(t). How-
+ever, SRP adopts a simplified propagation model
+where reverberation is modeled using the noise
+term ϵm(t). This free-field is defined as
+xm(t) = am(u)s(t − τm(u)) + ϵm(t), (2)
+that is, the signal emitted by the source is received
+at microphone m attenuated by a factor am(u),
+delayed by τm(u) seconds and corrupted by a
+measurement noise term ϵm(t). This is equiv-
+alent to adopting the RIR in (1) as a pure
+impulse hm(t; u) = am(u)δ(t − τm(u)). Note that
+this model assumes attenuation to be frequency-
+independent. The attenuation and delay effects
+will be further detailed in Sec. 2.3.
+Alternatively, it is often advantageous to define
+(2) in the time-frequency domain, by decompos-
+ing the source signal into complex-valued sinusoids
+s(t, f) of frequencies f. In practice, such a signal
+can be obtained by applying the Fourier trans-
+form on s(t). The received signal xm(t, f) is then
+defined for each time-frequency pair ( t, f) as
+xm(t, f) = s(t, f)am(u, f)e−jf τm(u) + ϵm(t, f). (3)
+The advantage of (3) in comparison to (2) is that
+delay, τm, and attenuation, am(f), effects can be
+jointly represented by multiplication with a signal
+complex-valued scalar.
+Although the above definitions are conceptu-
+ally useful, in practice, SRP is computed using a
+frame or vector of dimension L samples for each
+microphone. A frame xm(t) is defined in the time
+domain as
+xm(t) = [xm(t) xm(t−Ts) ... xm(t−(L−1)Ts)]T , (4)
+where Ts = 1 /fs. Furthermore, a frequency
+domain frame ¯xm(t) is defined as
+¯xm(t) = DFT(xm(t)), (5)
+that is, the application of the Discrete Fourier
+Transform (DFT) to temporal framexm(t). ¯xm(t),
+where each of its entries represents a time-
+frequency bin ¯xm(t, f) with f ∈ F, where
+F = {f |f = −fs/2 + kfs/L, k = 0, ..., L − 1}, (6)
+constitutes the set of analysis frequency compo-
+nents used.
+2.3 Acoustics, TOF and TDOA
+In this subsection, we further contextualize the
+signal model defined in (2) and (3) using relevant
+acoustic principles.
+A sound wave emanating from the source loca-
+tion u travels at the speed of sound c to each
+microphone’s location vm. The propagation time
+τm(u), also known as the Time-of-Flight (TOF)
+between the source at u and microphone m, can
+therefore be expressed, in seconds, as
+τm(u) = ∥u − vm∥
+c . (7)
+If τm(u) can be correctly estimated for three
+or more microphones, an estimate of u can be
+obtained. This is the strategy used byactive local-
+ization systems [12], which use controlled and/or
+known source signals so that the emission time of
+the source signal is accessible. Conversely, SRP is
+a passive localization method which allows for a
+broader range of sources, such as human speak-
+ers, to be localized. In the case of compact arrays
+4
+## PDF page 5
+where the near-field assumption holds (2.1.1), the
+TDOA definition in (9) can be approximated as
+˜τlm(u) = (vl − vm)T
+c . u
+∥u∥ , (8)
+that is, the dot product between the vectorvl−vm
+and the normalized source direction u
+∥u∥, scaled by
+1/c.
+SRP performs passive localization by exploit-
+ing the relative delay, also known as the Time-
+Difference-of-Arrival (TDOA), between pairs of
+microphones. The importance of the TDOA and
+its relationship with the cross-correlation function
+between pairs of signals will be discussed in detail
+in Sec. 2.4. Using (7), τlm is defined, in seconds, as
+τlm(u) = τl(u) − τm(u) = ∥u − vl∥ − ∥u − vm∥
+c .
+(9)
+The TDOA for a pair of microphones can be inter-
+preted as how much earlier/later a signal arrives
+at the first microphone in comparison to the
+Time-of-Arrival (TOA) at the second microphone.
+Multiple positions u can produce the same delay
+τlm for a pair of microphones fixed at ( vl, vm).
+These positions lie along a hyperbola/hyperboloid
+branch in 2D/3D, as shown in [11] and can be
+viewed in Fig. 1. The maximum possible TDOAs
+for a microphone pair occurs when the source
+and microphones are collinear and the source is
+not located between the microphones, and has an
+absolute value of
+τ lim
+lm
+ = ∥vl − vm∥
+c . (10)
+By determining the intersection of the hyperbolas
+produced by multiple microphone pairs, the source
+position, can be estimated as ˆu. Approaches uti-
+lizing this strategy are known as triangulation,
+TDOA-based, indirect or two-step approaches [12],
+since they require a first step of estimating the
+TDOAs before a second step of estimating the
+source locations. Although these approaches are
+less computationally expensive than SRP, their
+reliance on the estimated TDOAs make them non-
+robust in adverse noisy or reverberant scenarios
+[29].
+v1 v2
+u
+Fig. 1 Hyperbola branch of points with the same TDOA
+as a source located at u with respect to microphone posi-
+tions v1 and v2.
+2.4 Estimating TDOA:
+Cross-correlation and
+GCC-PHAT
+The TDOA τlm between two microphones can be
+estimated as the argument of the peak of the cross-
+correlation between microphone signal frames
+xl(t) and xm(t). The discrete cross-correlation
+(CC) function is defined as
+CC(τ; xl, xm) =
+L−1X
+n=0
+xl(t)[n]xm(t − nTs − τ)
+= xT
+l (t)xm(t − τ), (11)
+where τ must be a multiple of the sampling
+period Ts and appropriate zero padding is applied.
+Despite its straightforward formulation, (11) is
+seldom used in practice for localizing speech
+sources in reverberant and noisy environments,
+as the non-flat spectrum of the source signal
+reduces the selectivity of the function. Instead, the
+Generalized Cross-Correlation with Phase Trans-
+form (GCC-PHAT) function [18, 20] is usually
+adopted. ‘Generalized’ comes from the fact that
+a cross-correlation value is produced for every
+frequency component of the signals after a pre-
+filtering operation. This operation is typically the
+‘Phase Transform’ weighting, which whitens the
+5
+## PDF page 6
+4
+ 2
+ 0 2 4
+Time (ms)
+0.0
+0.5
+1.0Value
+GCC-PHAT vs. cross-correlation
+GCC-PHAT
+Cross-correlation
+Fig. 2 Example comparison between the normalized tem-
+poral cross-correlation and GCC-PHAT for a scenario
+containing two microphones and a source producing a
+speech signal with a TDOA of -2 ms.
+frequency components, thus sharpening the corre-
+lation peak. The GCC-PHAT function is defined
+for frequency-domain microphone signals ¯xl(t)
+and ¯xm(t), typically processed frame-by-frame, as
+GCC-PHAT(f; ¯xl, ¯xm) = ¯xl(t, f)¯x∗m(t, f)
+|¯xl(t, f)| |¯xm(t, f)| . (12)
+The phase transform is applied using the denom-
+inator of (12). In practice, (12) is computed for a
+set of analysis frequencies F to generate a GCC
+frame ¯g. By applying the Inverse DFT (IDFT), a
+time-domain time-domain vector g can obtained,
+g = IDFT(¯g), (13)
+where each entry g[k] represents a temporal cor-
+relation value between xl and xm at sample k.
+A frame can be built in a similar manner using
+the temporal CC in (11). An example compari-
+son between two frames computed using (13) and
+temporal CC is shown in Fig. 2, where it can be
+observed that the peak produced by GCC-PHAT
+is much sharper than by CC.
+In an ideal scenario, the temporal CC or
+GCC-PHAT function exhibits a sharp peak atτlm,
+which can be used for two-step methods. However,
+under reverberant or noisy scenarios, the cross-
+correlation function can exhibit multiple peaks,
+rendering the TDOA estimates and the subse-
+quent triangulation-based approaches unreliable.
+As we will show in the following section, SRP
+applies the principle of least commitment [29, 30];
+instead of estimating τlm early on and discarding
+all other values and peaks of the cross-correlation
+function, SRP associates each cross-correlation
+value with a candidate locus in space using (9).
+2.5 Time-domain SRP formulation
+The conventional SRP for a candidate source loca-
+tion u and a pair of microphones ( l, m) is defined
+as [14, 21]
+SRPlm(u ; xl, xm) = CC(⌊τlm(u)⌉; xl, xm), (14)
+that is, the cross-correlation function between sig-
+nal frames x and xm, evaluated at delay ⌊τlm(u)⌉,
+where ⌊·⌉ represents rounding to the nearest mul-
+tiple of Ts. Note that the time index t is here-
+after omitted for clarity, and that time-domain
+GCC-PHAT defined in (13) is usually preferred
+to (11) in practice for its improved performance
+on realistic scenarios. We the time-domain SRP
+formulation only for the sake of completeness.
+Finally, the global SRP is defined as the sum of
+all pairwise SRPs,
+SRP(u ; X) =
+MX
+l=1
+MX
+m=l+1
+SRPlm(u ; xl, xm),
+(15)
+where X = {x1, ..., xM } is the set of M
+L-dimensional frames pertaining all microphones.
+This value is related to the likelihood of a source
+being located at a candidate point u. The com-
+plete SRP method consists of evaluating (15) for
+a set of candidate locations and selecting the loca-
+tion maximizing (15) as the estimated location.
+The set of candidate locations typically consists
+of a regularly sampled spatial grid. The grid
+construction procedure will be defined in Sec. 2.7.
+2.6 Frequency-domain SRP
+formulation
+This formulation decomposes the microphone sig-
+nals into frequency bands, which are indepen-
+dently analysed using GCC-PHAT in (12) as
+SRPlm(u,f ; ¯xl, ¯xm) =
+GCC-PHAT(f; ¯xl, ¯xm)ejf τlm(u).
+(16)
+Equation (16) can be interpreted as steering, or
+shifting, the microphone signal xm(f) by a phase
+jf τlm(u). Note that although (16) produces a
+complex-value, its imaginary part is typically dis-
+carded as irrelevant [31]. Finally, the global SRP
+is represented in the frequency domain in a sim-
+ilar way to the time-domain formulation (15),
+6
+## PDF page 7
+after summing over the set F of frequencies being
+analyzed,
+SRP(u ; ¯X) =
+MX
+l=1
+MX
+m=l+1
+X
+f ∈F
+SRPlm(u, f ; ¯xl, ¯xm),
+(17)
+where ¯X is the frequency-domain representation
+of X. In practice, the frequencies used may be
+lower than the Nyquist rate to prevent a phe-
+nomenon called spatial aliasing [32]. Note the
+time and frequency definitions of SRP are not
+equivalent due to this aforementioned low-pass fil-
+tering, as well as the rounding operator required
+when constructing a temporal CC or GCC vec-
+tor makes (15) operate using integer delays, which
+may not correspond to the true source’s TDOA.
+The error due to rounding may be reduced by
+using distributed arrays or mitigated by apply-
+ing interpolation [33]. However, significant errors
+may be produced for compact arrays, where the
+TDOA range defined by (10) is typically only a
+few samples [34].
+2.7 Grid construction and search
+To estimate the location of the source, (15) or (17)
+are evaluated over a set, G, of G candidate posi-
+tions relative to a reference point in the room,
+typically one of its corners. The elements of G
+are usually defined by creating a uniform spa-
+tial grid. For performing SSL in a cuboid-shaped
+room, a cuboid-shaped grid is typically used. For
+example, when performing planar or 2D localiza-
+tion |G| = |G(1)| × |G(2)|, where |G(1)| and |G(2)|
+are respectively the number of points used for the
+width and length dimension. G becomes
+G2D = { [g(1)R(1) g(2)R(2)]T |
+g(1) ∈ {1, . . . ,|G(1)
+2D|}
+g(2) ∈ {1, . . . ,|G(2)
+2D|}},
+(18)
+where R(1) = D(1)/|G(1)
+2D| and R(2) = D(2)/|G(2)
+2D|
+are the width and length resolution for a room
+of width D(1) and length D(2). Conversely, when
+performing planar or 2D DOA estimation, the
+grid can be made by setting the origin to the
+microphone array centre, and a circular grid is
+created,
+100
+ 0 100
+Azimuth (deg)
+0
+50
+100
+150Elevation (deg)
+SRP map
+2
+4
+6
+8
+10
+Likelihood
+Fig. 3 Example of an SRP map for the task of 3D DOA
+estimation of a speech source using a spherical array of 8
+microphones. Reverberation was simulated with a reverber-
+ation time of T60 = 400 ms, and the source is located below
+the transparent triangle at (100 o, 60o). Spatially uncorre-
+lated white noise was added to the microphones at 20 dB
+SNR.
+GDOA2D =
+{ [cos(ϕ) sin( ϕ])]T | ϕ ∈
+{R(ϕ), 2R(ϕ) . . . ,2π}}.
+(19)
+In (19), each point represents a distinct candi-
+date source direction. Furthermore, neighboring
+points are separated by the angular resolution
+R(ϕ), where ϕ is the candidate source’s azimuth. In
+3D DOA estimation, the elevation, defined as the
+angle between the segment connecting the source
+and array centre and the horizontal plane is also
+estimated.
+For both DOA estimation and PSSL, the com-
+plete SRP map consists of evaluating the SRP
+function for all candidate locations in the grid G,
+and selecting the location producing the maximum
+SRP value as the estimated position,
+ˆu = arg max
+u∈G
+SRP(u). (20)
+An example of an SRP map for a simulated
+environment of low reverberation is shown in
+Fig. 3.
+3 Reducing SRP’s complexity
+and computational time
+3.1 Complexity analysis
+We start by outlining the computational complex-
+ity of the frequency-domain, conventional SRP
+7
+## PDF page 8
+method as defined in (17). Here, complexity is
+measured by the number of real multiplications
+and divisions performed by the algorithm, ignor-
+ing the additions, as commonly done. Further-
+more, we follow the Bachmann–Landau (or big-O)
+notation, which measures asymptotic behaviour of
+algorithm complexity as input sizes grow.
+The method can be divided into four sequen-
+tial operations. The first two operations consist of
+extracting the DFT for each frame of theM micro-
+phones followed by computing the GCC-PHAT for
+all P microphone pairs, where P = M(M − 1)/2.
+In practice, the Fast Fourier Transform (FFT)
+algorithm [35] is used to implement the DFT. The
+FFT has a complexity of O( L log L) . We assume
+the FFT operation converts a time-domain frame
+of size L into a frequency-domain frame of same
+size. Since GCC-PHAT consists of an element-wise
+multiplication of the vectors ¯xl and ¯xm divided
+by their respective magnitudes, its complexity is
+therefore O(L).
+The third step is the creation of the P pair-
+wise SRP likelihood grids of size G = |G|, for
+all L frequencies, followed by their sum to cre-
+ate a global SRP grid. As this operation consists
+of multiplying the GCC-PHATs by an exponen-
+tial ejf τlm(u), its complexity is O(GP L). The final
+step consists of comparing all grid points to obtain
+the argument of its maximum, which is the esti-
+mated source location. As comparisons are often
+assumed to offer a lower complexity, this last step
+is ignored. The number of operations performed
+by SRP is thus obtained as
+OSRP = O
+ 
+M Llog L + P L + GP L
+
+,
+≃ O
+ 
+M Llog L + GP L
+
+,
+(21)
+where the three terms in the first line represent
+each of the sequential operations discussed above.
+The simplification on the bottom line is obtained
+by removing the second term, as G ≫ 1. We can
+see from (21) that straightforward strategies can
+be followed to reduce the complexity of SRP. One
+is to use only a subset of microphones M ′ < M
+or subselecting P ′ < M (M − 1)/2 pairs instead
+of evaluating all pair combinations. Another is to
+employ a smaller frame size L and reducing the
+frequency range in which the SRP map is com-
+puted. Finally, a coarser grid can be employed. All
+these strategies come, however, with a reduction
+0 2 4 6 8 10
+0
+2
+4
+6
+8
+10Length (m)
+Conventional SRP
+Mic. positions
+Source positions
+0 2 4 6 8 10
+Width (m)
+0
+2
+4
+6
+8
+10Length (m)
+Volume-averaged SRP
+Fig. 4 Comparison between SRP maps generated with
+(bottom) and without (top) volumetric techniques.
+in localization performance. Most of the research
+presented in this section proposes strategies to
+reduce the grid size G, or modify the functionality
+of the conventional SRP method while minimizing
+the loss in localization performance.
+In turn, the computational complexity of time-
+domain SRP in (15) is smaller than in (21), as a
+single map is computed in the time domain instead
+of L frequency domain maps, i.e., it uses one less
+nested ‘for each’ loop. The complexity of (15) is
+therefore expressed as
+OSRP = O
+ 
+M Llog L + P L + GP
+
+, (22)
+which disregards the negligible inverse DFT used
+to obtain the temporal GCC vector (13). Further-
+more, projection of the cross-correlation function
+is achieved in (15) by accessing an element in
+the cross-correlation vector, which is more com-
+putationally efficient, albeit less precise, than the
+multiplication by a complex exponential used in
+the frequency-domain version.
+3.2 Coarse grids and
+Volumetric-SRP
+As mentioned above, reducing G is a straight-
+forward strategy for reducing SRP’s complexity.
+8
+## PDF page 9
+When applying equispaced grids such as those
+described in (18) and (19), this can be achieved
+by reducing the resolution parameters R(1), R(2)
+and R(ϕ). However, this comes with the risk of not
+sampling the true source location, which may lead
+to the peak of the cross-correlation function not
+to be projected into the map, leading to a high
+localization error [36]. Nonetheless, many strate-
+gies can be applied to increase the localization
+performance of approaches using coarse grids.
+As grids become coarser, each point is associ-
+ated with an increasingly larger spatial region or
+volume. It is therefore reasonable to devise a way
+to modify SRP’s operation to take into account
+the entire set of points around the candidate.
+Methods employing this strategy are referred to
+as volumetric SRP (V-SRP) [37–39]. An example
+comparison between conventional and volumet-
+ric SRP maps is shown in Fig. 4. The volume
+surrounding a candidate position is defined as
+V(u) = {
+[x y z ]T |
+|x − u(1)| ≤ r(1)/2
+|y − u(2)| ≤ r(2)/2
+|z − u(3)| ≤ r(3)/2
+},
+(23)
+where r(1), r(2) and r(3) respectively represent the
+width, length and height of the volume. The Volu-
+metric SRP (V-SRP) approach is typically defined
+by considering the SRP value of all points within
+the volume, which are then combined using a pool-
+ing function such as summation. The pairwise
+V-SRP function can thus be defined as
+V-SRPlm(V; X) =
+max(τlm(u))X
+τ=min(τlm(u∈V))
+g[τ; xl, xm].
+(24)
+Different approaches and approximations can be
+used to find the summation interval in (24).
+A popular approach is the Modified SRP (M-
+SRP) [40], which approximates the minimum and
+maximum TDOA limits in the volume by first
+remarking that, due to the hyperboloidal nature
+of TDOAs, the extremes must be contained in the
+volume’s boundary. These values are then approx-
+imated using the TDOA’s gradient vector and the
+centre of the volume. Although summation is used
+as a pooling function in (24), it has been shown
+that average [41] or max [42] pooling may increase
+robustness to noise and reverberation.
+The work of [37] proposes exacts bounds
+for the maximum and minimum and maximum
+TDOA limits used in the M-SRP algorithm [40]
+in anechoic conditions. In particular, the authors
+show that the minimum and maximum TDOAs of
+a cuboid volume can be always found by searching
+a set of only 26 points involving its vertices, edges
+and faces. Furthermore, this can be further apprix-
+imated by searching only the volume’s 8 vertices,
+further simplifying finding the maximum and min-
+imum TDOAS as these limits can be precomputed
+for any given cuboid and microphone array loca-
+tions. The computational complexity of M-SRP
+(24) can be further reduced through an iterative
+subdivision of the maximal volume [37, 41, 43, 44].
+3.3 Iterative grid refinement
+A common strategy used in conjunction with
+coarse grids consists of iteratively modifying the
+initial search grid G(0) based on the candidate
+position’s SRP values, allowing for the algorithm
+to ‘focus’ on promising regions. This procedure
+can be applied repeatedly until a stopping condi-
+tion is reached, i.e.,
+G(i) = ITERATE(G(i − 1)), (25)
+where the ITERATE function usually involves
+evaluating the SRP function on the current grid
+candidate points, discarding points based on a cri-
+terion, and generating additional candidates based
+on some heuristic.
+This iterative procedure may be performed
+using a quadtree [45, 46], a tree-based data struc-
+ture commonly used for image processing. In [46],
+each cell of an initial azimuth-elevation square grid
+of size 16 × 16 is iteratively subdivided into four
+non-overlapping cells, where the SRP function is
+computed on each region’s centre. To prevent the
+grid size from growing exponentially, only the cells
+with the highest SRP value are selected for further
+division.
+When a coarse grid is used, the true source
+location u may lie on a grid point. A strategy to
+ensure u’s neighbours exhibit a high SRP value
+in initial iterations was proposed in [46], which
+identify that the width of a peak on an SRP map
+is inversely proportional to the source’s carrier
+9
+## PDF page 10
+100
+ 0 100
+Azimuth (deg)
+0
+50
+100
+150Elevation (deg)
+SRP map
+80
+100
+120
+140
+Likelihood
+Fig. 5 Low-pass version of the frequency-domain SRP,
+where only frequencies up to 200 Hz are considered.
+frequency. Therefore, computing SRP using only
+low frequencies produces a smoother map. This is
+illustrated in Fig. 5, where only frequencies below
+200 Hz are used for F, which can be compared
+to Fig. 3 which shows a map generated using all
+frequencies up to the Nyquist rate.
+The initial grid can also consist of points
+randomly sampled on the room’s boundaries, as
+formulated in the Stochastic Region Contraction
+(SRC) method defined in [47]. The region con-
+traction procedure is exemplified in Fig. 6. The
+subsequent grid can be chosen by resampling a set
+of points on the smaller boundary containing the
+previous candidates exhibiting the highest SRP
+values. This procedure may continue for a max-
+imum number of iterations, or until a minimum
+search cuboid is obtained. Note that this contrac-
+tion procedure can also be applied to deterministic
+grids. In this case, the SRP variant is referred to as
+Coarse-To-Fine Region Contraction (CFRC) [48].
+Although the aforementioned methods signif-
+icantly accelerate the computation of SRP, they
+provide no guarantees that the true source loca-
+tion will not be discarded, as they assume the
+SRP map to be a concave function with its maxi-
+mum at the source location. The authors of [37–39]
+propose a procedure which theoretically guaran-
+tees not to discard the point maximizing the
+SRP function in anechoic conditions using the
+branch-and-bound iterative search method. The
+search starts by considering the entire search vol-
+ume, typically the entire room, and subsequently
+divides it into smaller volumes using a branch-
+ing function. Volumes are discarded through the
+aid of a bounding function similar to the bounds
+computed in (24).
+Width (m)
+Length (m)
+i=1
+i=0
+i=2
+i=3
+Fig. 6 Iterative Region contraction procedure, where dif-
+ferent colours represent search regions and grids of points
+related to iterations i. The true source location is repre-
+sented by the black star.
+Other iterative techniques used for SRP
+include the Artificial Bee Colony [49],
+Majorization-Minimization [50, 51] and
+Lagrange-Galerkin [52] search methods.
+3.4 Grids based on prior location
+estimates
+Alternatively, smaller grids can be built using
+lower-complexity, but less reliable source location
+estimators, such as those obtained using two-
+step methods. These candidates can then be more
+robustly selected and refined using SRP. In [53],
+the grid is initialized using the positions associated
+with the signals’ highest GCC-PHAT peaks, which
+can be interpreted as estimates of the source’s
+TDOA. These estimates are used to triangulate
+candidate source positions using a least squares
+approach, which are then evaluated using SRP. In
+[53], four peaks per pair were deemed to yield the
+best results.
+As triangulation-based estimates are not
+robust to noise and reverberation, it is useful to
+include neighbouring points in the candidate grid,
+so as not to limit the performance of SRP. This
+can be achieved by sampling points in the cuboid
+region containing these candidates [54, 55]. Similar
+approaches are proposed by [56–59]. Grids based
+on prior location estimates were also explored
+on practical scenarios involving Wireless Acoustic
+Sensor Networks (WASNs) [54, 55].
+3.5 Incorporation of prior scene
+information
+Another strategy for reducing the grid size
+exploits the property that spatial regions exhibit
+different levels of sensitivity depending on their
+10
+## PDF page 11
+position in relation to the microphone array [60–
+64]. For instance, neighbouring candidate loca-
+tions may have similar or identical sets of associ-
+ated theoretical TDOAs, being therefore indistin-
+guishable using SRP [60–62]. Those can therefore
+be replaced by their centroid without loss in
+performance [60–62].
+A similar concept is proposed by [63, 64],
+where a non-uniform, geometrically sampled grid ,
+is proposed. Based on their distance, each micro-
+phone pair within the system has a discrete set of
+integer TDOAs, in samples, each of which defines
+a hyperboloid in space. Candidate locations at
+the intersection of multiple hyperboloids have high
+definition, and can therefore be more reliably used
+for localization. Conversely, if the source is located
+within a low-definition region, more grid points
+are used to improve its localization performance.
+Alternatively, information about the environ-
+ment can be included as prior information to build
+smaller grids. For example, for specific microphone
+array geometries such as the T-shaped orthogonal
+array used by [65], the 2D azimuth/elevation grid
+can be decomposed into two 1D grids, which can
+be independently maximized, significantly reduc-
+ing the number of required SRP evaluations. In
+[66], a method combining SRP for both DOA esti-
+mation and PSSL is proposed, and tested with a
+large aperture, L-shaped microphone array. SRP
+is first used for estimating the source’s DOA with
+respect to the array’s branches. This direction is
+used to create the initial grid of candidate loca-
+tions, from which the SRC variant of SRP is
+employed for 3D localization. A similar two-step
+approach is employed in [67], where distributed
+microphone arrays are used for DOA estimation.
+The intersection of these directions is then used
+to estimate the source location. The computa-
+tional complexity of SRP can also be reduced,
+for linear arrays, by combining array interpolation
+and polynomial root solving [68]. Alternatively, if
+possible source locations are known, such as seat
+locations in a conference room, a database of pos-
+sible source locations along with their respective
+microphone array responses can be precomputed,
+thereby significantly reducing the grid size [69].
+Complexity can also be reduced by reduc-
+ing the number of pairwise maps computed. For
+instance, centralized microphone arrays of sym-
+metrical geometries such as spherical or rectan-
+gular exhibit multiple pairs of microphones with
+parallel directions. Computation can be reduced
+at a negligeable loss in performance by only
+using one pair for each of those directions [70].
+Conversely, microphone pair selection can also
+be applied to distributed microphone networks,
+where data transmission is a secondary constraint
+which should be minimized. If each device con-
+tains at least two microphones, the SRP maps can
+be computed and transmitted independently for
+each device, an economic alternative to transmit-
+ting raw signals which was shown to incur only
+small losses in localization performance [71].
+Finally, the computation of the SRP func-
+tion can be avoided by only considering candidate
+positions with a high associated cross-correlation
+based on their theoretical TDOA and GCC-PHAT
+between microphone pairs [29, 72]. In practice,
+this can be achieved by creating a hash table for
+each microphone pair where each key-value pair
+represents a TDOA and its set of possible can-
+didate positions. The keys (TDOAs) with a low
+associated GCC-PHAT can then be filtered out.
+Finally, the table is traversed, where the SRP val-
+ues for the remaining sets of TDOAs associated
+with a candidate position are summed to create a
+global SRP map.
+3.6 Paralellization
+When the device computing SRP supports parallel
+processing capabilities, such as multiple Central
+Processing Units (CPUs), multiple threads or one
+or more Graphics Processing Units (GPUs), the
+method can be sped up while using its original
+formulation, therefore guaranteeing its optimal
+performance. SRP is highly parallelizable, as the
+evaluation of the SRP function for each candidate
+location is independent.
+A Compute Unified Device Architecture
+(CUDA) implementation of SRP was first pro-
+posed in [73], where the SRP function for each
+candidate location was computed independently
+on each GPU thread. In [74], a time-domain
+and a frequency-domain GPU implementation of
+SRP using CUDA were respectively compared
+with optimised CPU counterparts. Results show
+the GPU implementations resulted respectively in
+speed improvements of 70 and 275 times. In [75],
+the implementation provided by [74] is optimised
+by maximising usage of the GPU’s internal mem-
+ory in favour of the host’s memory, resulting in
+11
+## PDF page 12
+significant speed-up in comparison to [74]. In [76],
+an implementation of SRP is proposed for three
+CUDA-enabled GPU types. In [77, 78], a GPU
+implementation of SRP using NVIDIA’s Jetson
+chip, designed for low-power mobile computing,
+is evaluated for multiple grid resolutions. Con-
+versely, in [77], a CUDA implementation of SRP
+using multiple GPUs is presented.
+In [79], SRP’s computation was vectorized
+using Intel’s Integrated Performance Primitives
+(IPP) software library, reducing CPU load by
+a factor of two in comparison to a baseline
+scalar implementation. In [80], an implemen-
+tation of SRP using OpenCL, an open-source
+parallel computing framework compatible with
+multiple processors including CPUs, GPUs and
+Field Programmable Gate Arrays (FPGAs), is
+presented. Experimental comparisons with device-
+specific implementations of SRP reveal that the
+proposed implementation achieves similar perfor-
+mance. An efficient hardware implementation of
+[31] is presented in [81].
+3.7 Other approaches
+In [82], an SRP method based on the singular
+value decomposition (SVD) is proposed. Based on
+(17), a matrix is defined mapping all frequency-
+domain GCCs to all candidate locations, whereof
+a low-rank approximation is obtained using the
+SVD. This low-rank approximation allows to
+first project frequency-domain GCCs onto a sub-
+space with reduced dimensions and subsequently
+employing a k-d tree search scheme [83], result-
+ing in a lower computational cost at a similar
+localization performance to that obtained with
+the conventional SRP-PHAT. The performance of
+this method is increased in [84], where a spectral
+subraction procedure is applied to the correlation
+matrix.
+It was shown in [31] that an SRP map can
+be efficiently approximated through interpolation
+while critically sampling the GCCs, based on
+Nyquist-Shannon sampling. Such approach is for-
+mulated while accounting for the physical bound
+over the range of possible TDOAs for a given
+microphone array, as well as the assumed GCC
+bandlimit. Simulation results indicate that the
+computational cost of the proposed interpolation-
+based approach for obtaining the approximated
+SRP map can be several orders of magnitude
+lower than the cost of computing the conventional
+SRP map, while the localization performance is
+maintained.
+4 Increasing robustness
+Although SRP has been shown to provide satis-
+factory performance in realistic scenarios [16], its
+performance is reduced in challenging scenarios
+including high reverberation and/or noise. Local-
+ization performance is often inversely related to
+the strategies presented in Sec. 3, as fine grids pro-
+vide better resolution. However, other techniques
+are required to remove artifacts caused by noise
+and reverberation from the SRP maps.
+4.1 Modified GCC-PHAT functions
+The quality of SRP is dependent on the qual-
+ity of the cross-correlation between microphone
+pairs. Most approaches employ GCC-PHAT to
+obtain the correlation information, as it was shown
+to outperform temporal CC [13, 14]. Nonethe-
+less, modifications can be employed to improve
+GCC-PHAT in challenging scenarios. One of
+such modification is GCC-PHAT β, a parameter-
+ized version of GCC-PHAT which was shown
+to improve localization performance, defined as
+[85–88]
+GCC-PHATβ(f; ¯xl, ¯xm) = ¯xl(f)¯x∗m(f)
+|¯xl(f)¯x∗m(f)|β + γ , (26)
+where γ provides numerical stability, and β con-
+trols the relevance attributed to the signals’ mag-
+nitudes. Note that conventional GCC-PHAT is
+achieved when β = 1, whereas conventional CC
+is obtained using β = 0. The experiments in [86]
+show that intermediary values of β (e.g., β = 0.8)
+improve localization of narrowband signals under
+the interference of directional noise sources at
+low Signal-to-Noise Ratios (SNRs). Although γ is
+often set to a small value to prevent a null denom-
+inator, Shen et al. [87] propose setting γ to the
+minimum coherence between the signal pair over
+all frequency bins. Coherence is here defined as
+the ratio between the signals’ cross- and auto-
+spectral densities. In [89], the authors perform an
+experimental analysis of the SRP-PHATβ method
+and they verify the simulation study in [86] which
+shows the acceptable range of values for the partial
+whitening parameter β for a general signal to be
+between 0.65 and 0.7. They also point out that the
+experiments exhibit more significant performance
+12
+## PDF page 13
+fluctuations for especially β = 1 corresponding
+to the conventional PHAT method. This outcome
+supports the use of the partial whitening over the
+conventional PHAT.
+An alternative to PHAT filtering consists of
+using the kurtosis of the signal pair, motivated
+by the assumption that noise is frequently mod-
+elled as a Gaussian random process, which is
+theoretically eliminated in the kurtosis computa-
+tion [90]. The GCCs can also be replaced by a
+sum of Gaussians centered at the former’s most
+prominent peaks, thus producing a smoother SRP
+map [91]. The effects of the phase transform can
+also be replaced by a linear predictor incorpo-
+rating sparsity constraints [92]. The Multichannel
+Cross-Correlation (MCCC) function [93] can also
+be employed [94]. Instead of providing a single
+correlation value for two signals and a delay τ,
+MCCC provides a correlation value for a vector of
+M signals and a vector of delays τττ. The MCCCs
+can therefore be used to construct a beamformer
+which is applied as a preprocessing step before
+SRP [94]. Finally, the CC between microphone
+pair signals can be computed using an eigenvalue
+decomposition of the cross-correlation matrix of
+the microphone signals. Instead of computing the
+CC between microphone signals, the correlation
+between corresponding eigenvectors can be used,
+ignoring directions related to noise and reverber-
+ation [95] and therefore improving the quality of
+the SRP map.
+The GCC-PHAT function of a broadband sig-
+nal in an ideal, anechoic scenario is an impulse
+with its main peak occurring at the micro-
+phone pair’s TDOA. However, as the source sig-
+nal becomes narrowband, the pair’s GCC-PHAT
+becomes a sinc function (sinc( x) = sin( x)/x),
+i.e. a function exhibiting multiple ripples which
+translate into low-quality SRP maps. In this case,
+the envelope of the Generalized Cross-Correlation
+(GCC) function, obtained by extracting the mag-
+nitude of its analytic signal, can be applied instead
+to remove the aforementioned ripples.
+In other broadband cases, some frequency
+bands may be more affected by noise than others.
+In those cases, it is advantageous to analyse the
+CCs in different frequency bands. This is done,
+for example in [96], which proposes the creation
+of a GCC matrix, where columns represent fre-
+quency bands and rows represent time delays. The
+conventional GCC-PHAT can be obtained from
+this matrix as long as the Constant Overlap-Add
+principle is satisfied when selecting the frequency
+band centres and widths. The authors show that
+degradations from noisy frequency bands can be
+reduced by applying SVD to obtain a low-order
+approximation of the GCC matrix, improving the
+robustness over the conventional GCC-PHAT.
+Many challenges also arise when applying SRP
+in large outdoor environments. Firstly, these envi-
+ronments suffer from intense low-frequency envi-
+ronmental noise, often requiring the signals to
+filtered before processing, thus creating a band-
+passed input signal which introduces challenges for
+the SRP method as described in [97]. Secondly,
+the size of the search area may require very large
+grids, significantly increasing the method’s com-
+putational cost. Finally, factors such as changes
+in temperature, terrain, wind and position of the
+sensors make the propagation time model defined
+in (7) unreliable. The authors of [98] propose a
+modified GCC function based on Wavelet theory
+which takes the three aforementioned factors into
+account to improve the performance of SRP in
+outdoor environments.
+Finally, the GCC-PHAT function can be sub-
+stituted by a neural network [99], as will be
+discussed in Sec. 4.4.
+4.2 Improving combination
+The formulation defined in (17) combines pair-
+wise and frequency-wise SRP values through
+unweighted summation. A more general formu-
+lation of SRP, which we denote Weighted SRP
+(W-SRP) can be written as
+W-SRP(u ; ¯X) =
+[
+(l,m)∈(M
+2 )
+\
+f ∈F
+SRPlm(u, f ; ¯xl, ¯xm)
+kf klm
+,
+(27)
+where T represents the operation combining fre-
+quency information,S represents the combination
+of pairwise information, and weighting factors kf
+and klm respectively weight frequency and pair-
+wise information. Besides classical summation,
+choices for the pairwise combinator T are the
+product Q and the Hamacher t-norm, among
+others [100]. Conventional SRP combines pairs
+through summation, meaning that pairwise SRP
+maps combined in such manner will exhibit high
+values if any pair does so. Conversely, if multipli-
+cation is used, all pairwise maps must exhibit high
+values for the global SRP to do so. In an extreme
+13
+## PDF page 14
+case, if any pairwise map is null, so will be the
+global SRP map. The simulated experiments in
+[100] show that combining pairwise SRPs through
+their product results in a significant increase in
+localisation performance over their sum, reducing
+the localization Root Mean Squares (RMSs) error
+by 45%.
+The weights klm can be computed on pair-
+wise SRP maps, for example, from a fractal theory
+standpoint, giving less importance to noisier, pair-
+wise SRPs [101], or by measuring the noise of
+the GCC-PHAT vector by computing the ratio
+between the GCC-PHAT’s peak and its average
+[102]. Note that microphone pair selection is also
+included in (27) for the special case klm = ∞.
+Conversely, the frequency weight kf can be
+set as the maximum SRP value across all pairs,
+therefore equalizing the contribution of each fre-
+quency bin to the global SRP. This is shown
+to offer a similar effect to the PHAT weighting
+[103]. Another approach estimates kf using neural
+networks [104–107], as will be discussed in Sec. 4.4.
+4.3 Pre/Post-processing
+Applying pre- or post-processing to the micro-
+phone signals in search of anomalies may improve
+SRP maps. For example, a Voice Activity Detec-
+tor (VAD) can be used to detect the presence of
+speech in a noisy environment, in order to prevent
+SRP from unintentionally localizing noise sources
+[108], or to improve the localization of impulsive
+sources [109]. A VAD can also be used to discard
+directional noise sources [110]. SRP maps can also
+be improved through the application of a Wiener
+filter [102].
+4.4 Neural approaches
+As in many other tasks in acoustic signal process-
+ing, neural networks have also been applied for the
+task of SSL, frequently obtaining state-of-the-art
+results in comparison to classical methods such
+as SRP [15]. However, SRP still presents several
+advantages over classical neural network methods,
+which usually require matched training/testing
+microphone geometries. Furthermore, SRP maps
+serve as an excellent input feature for neural
+networks. Finally, SRP’s building blocks can be
+advantageously replaced by neural blocks, bridg-
+ing the gap with neural methods’ performance in
+challenging environments. The approaches below
+are related to the strategies mentioned in the
+above subsections.
+One of such blocks which can be improved is
+GCC-PHAT. A deep neural block can be used to
+estimate an idealized GCC-PHAT vector which
+removes peaks associated with reverberation and
+noise. A Deep-GCC function can be formulated in
+the time [99, 111] or frequency [112] domain. In the
+time domain, the Deep-GCC vector should exhibit
+a single peak at the source’s true TDOAτlm, mod-
+eled as a Gaussian with standard deviation σd as
+[99, 111]
+Deep-GCC(τ) = exp
+ −|τ − τlm|2
+2σ2
+d
+
+. (28)
+In practice, (28) serves as the target loss func-
+tion for the network being trained. The choice of
+input feature and architecture for a Deep-GCC
+function may vary. In [99, 111], GCC-PHAT itself
+is chosen as the networks’s input and a 1-D Con-
+volutional autoencoder is selected as architecture.
+In [112], the magnitude and phase spectrograms
+of both microphone signals are chosen as the
+input features, and a Convolutional Recurrent
+Neural Network (CRNN) is chosen as the neural
+architecture.
+Many approaches focus on using neural net-
+works to estimate a weighting function, simi-
+larly to the signal processing based procedures
+described in Sec. 4.2. Most approaches focus on
+the frequency weights kf, inspired by the task of
+speech enhancement, where neural time-frequency
+masks have attained significant success [104]. For
+instance, a Convolutional Neural Network (CNN)
+can be trained to estimate a time-frequency mask
+to reduce the interference of directional sources,
+using the output of a Wiener filter as its tar-
+get function [104]. Other targets can be used,
+such as the distance between the true and SRP-
+estimated locations for a single frequency band
+[105, 107]. Alternatively, the SNR on each micro-
+phone can be used as a weight for each frequency
+band [106]. Similar approaches been also employed
+other machine learning methods, namely, Sup-
+port Vector Machines (SVMs) and Radial Basis
+Function Networks (RBFNs) [113–115].
+Another prominent manner of improving local-
+ization performance using SRP uses the SRP maps
+as the input feature of a deep neural network. In
+this case, the neural network may have two goals:
+14
+## PDF page 15
+to enhance the maps produced by SRP [116, 117],
+and/or to extract the source locations using the
+map [17, 81, 118–121], i.e., to improve the grid
+search/peak-picking function defined in (20). The
+networks differ in the architecture used, such
+as the Multi-layer Perceptron (MLP) [118, 121],
+3D [17, 81, 119], spherical [120] and icosahedral
+[116, 117] convolutions.
+Finally, other neural approaches simulate the
+pairwise processing used by SRP for the task of
+source localization. The authors of [121] remark
+that the SRP algorithm shares architectural sim-
+ilarities with the Relation Network, a type of
+Graph Neural Network (GNN). In the context of
+SRP, a relation between two microphones consists
+of the pairwise SRP maps shared between them.
+All pairwise relations are then summed, creat-
+ing a global relationship between all microphones,
+which can be used to estimate the source loca-
+tions. Neural-SRP approaches [122, 123] therefore
+replace SRP’s function with a neural network,
+reducing the detrimental effects of noise and rever-
+beration by including challenging scenarios during
+network training. An example of a map produced
+using a Neural-SRP method is shown in Fig. 7.
+0.0
+1.0
+2.0
+2.9
+3.9
+4.9
+5.9
+6.9
+7.8
+8.8
+9.8Length (m)
+NeuralSRP+
+microphones
+sources
+0.0 1.0 2.1 3.1 4.1 5.2 6.2 7.2 8.2 9.3 10.3
+Width (m)
+0.0
+1.0
+2.0
+2.9
+3.9
+4.9
+5.9
+6.9
+7.8
+8.8
+9.8Length (m)
+SRP
+microphones
+sources
+0.2
+0.4
+0.6
+0.8
+0.10
+0.15
+0.20
+0.25
+0.30
+Fig. 7 Neural-SRP+ [122] and conventional SRP map in
+a highly reverberant room. The source position is shown
+with a cross and the microphone positions with circles.
+4.5 Other approaches
+SRP maps can also be analysed by decompos-
+ing them using a set of idealized pairwise maps,
+computed using the theoretical TDOA between
+the microphone pairs and the candidate locations.
+Instead of estimating the source location through
+peak-picking, the search can be done by matching
+the pairwise SRP maps with a subset of idealized
+maps according to a similarity metric [24, 124].
+When the distance between microphones in a
+centralized array is small, so is the range of possi-
+ble TDOAs between the pair as expressed in (10).
+It is therefore desirable to perform interpolation
+in the CC function to obtain sub-sample TDOA
+resolution when using the temporal SRP formula-
+tion. The work of [33] evaluates the performance of
+SRP for DOA estimation from concert hall record-
+ings using three different interpolation methods,
+namely, parabolic, exponential and Fourier. The
+study reports best performance using exponential
+peak interpolation.
+The work in [125] presents a system where,
+before performing localization using SRP, a
+speaker verification step to remove unwanted
+speakers and noise is applied.
+In [126], the authors exploit spatial diversity in
+order to improve SRP’s performance in reverber-
+ant environments. Their simulation results show
+that large arrays are affected by the reverber-
+ation more than smaller ones and that having
+a smaller distance between microphone arrays
+results in more accurate localization. When the
+number of microphones in an array is increased the
+localization results are more robust as expected,
+but separating it into two array makes it even
+more favourable compared to merely increasing
+the number of microphones in a single array.
+In [127], a mel-frequency extraction technique
+is employed with SRP-PHAT in order to obtain an
+enhancement of human speech and process it more
+robustly in a noisy environment. As a performance
+metric, peak SNR (PSNR) is used. The results
+show that utilizing Mel-frequency Cepstral Coeffi-
+cientss (MFCCs) in conjunction with SRP-PHAT
+yields higher PSNR values compared to using only
+the SRP-PHAT, which results in a more accurate
+localization.
+In [128], the authors compare the SRP-PHAT
+localization performances using a Uniform Lin-
+ear Array (ULA) and a Coprime Microphone
+15
+## PDF page 16
+Array (CPMA) interleaving two linear arrays
+with coprime dimensions. They show that a
+CPMA offers better localization results than a
+ULA with the same number of microphones. In
+another study [129] by the same authors, a per-
+formance analysis of Semi-Coprime Microphone
+Arrays (SCPMAs) for localization using the SRP-
+PHAT algorithm is conducted. They evaluate the
+performance in terms of beam pattern, array gain
+and DOA estimation. The results on beam pattern
+an array gain suggest that the SCPMA outper-
+forms the CPMA in reducing the peak side lobe
+level and minimising the total side lobe area.
+Moreover, it shows an enhanced ability to amplify
+the target signal while suppressing the noise. The
+results of DOA estimation in anechoic and low
+reverberant environments show that the SCPMA
+delivers accurate estimates which are on par with
+the estimates obtained from the full ULA. How-
+ever, in highly reverberant conditions such as a
+400 ms reverberation time, side lobes in the beam
+pattern of the SCPMA result in less accurate
+estimates.
+As discussed in subsubsection 2.1.1, the range
+ρ can only be accurately estimated when the
+source is located in the near-field with respect
+to the microphone array. The field type can be
+estimated by comparing the SRP of two circu-
+lar candidate grids at different distances, one in
+the far-field, the other in the near-field. The grid
+exhibiting the highest SRP value dictates the field
+regime. If near-field conditions are found, a sec-
+ond SRP grid search can be applied for range
+estimation [130].
+5 Multi-source SRP
+approaches
+We start this section by revisiting the problem
+statement described in Sec. 2. Instead of defining
+the target output of our system as a single source
+position vector u, we extend it to be a matrix U
+of dimensions 3 × N, defined as
+U =
+
+u1 u2 . . . uN
+
+, (29)
+where N is the number of active sources. Note
+that N is usually unknown in practice, and must
+also be estimated on such cases. Updating the
+model for the signal received at each microphone
+is also required, as it becomes a weighted sum of
+all active sources. In the frequency domain, the
+received signal at microphone m can be described
+as
+¯xm(t, f) =
+NX
+n=1
+sn(t, f)am(un, f)e−jf τm(un)+ϵm(t, f).
+(30)
+Despite the modified signal model, the analysis of
+the CC function between two microphone signal
+frames xl and xm in the presence of N simulta-
+neous talkers usually presents one peak related to
+each source. Although this would allow the con-
+ventional SRP method to be used directly, the
+function may also exhibit ‘ghost peaks’ related
+to the reflections caused by the room’s surfaces,
+hindering the estimation procedure. Also, the rel-
+ative amplitude of peaks may vary considerably,
+especially in cases where the sources have dif-
+ferent power levels, hindering the application of
+simple thresholding methods. Finally, the interfer-
+ing sources reduce the correlation amplitudes at
+delays τm(un) are reduced in comparison to the
+single source case, hindering the analysis of the
+SRP map.
+Due to the aforementioned limitations of using
+the conventional SRP method for multi-source
+localization, different SRP-based alternatives have
+been proposed. These alternative methods, while
+presenting their own particularities in terms of
+implementation, target scenario and performance,
+are categorized in the following subsections based
+on their core modification when compared to the
+conventional SRP method.
+5.1 Modified SRP computation
+Different strategies have been proposed where the
+computation of the SRP map is modified in order
+to allow for better localization of multiple sources.
+For instance, in [86], an alternative to the con-
+ventional PHAT-weighting function is proposed,
+aiming to achieve flexibility in combining differ-
+ent narrowband components. Simulation results,
+obtained for both single and multi-source cases,
+indicate that the use of the modified PHAT-
+weighting function can improve localization per-
+formance for both narrowband and broadband
+signals.
+In [131], similarly to the efforts aimed at
+achieving an improved combination of pair-wise
+information for increasing localization robustness
+outlined in Sec. 4.2, the use of harmonic and
+16
+## PDF page 17
+0.0
+0.5
+1.0
+Original GCC-PHAT
+TDOA 1
+TDOA 2
+0.0
+0.5
+1.0Value
+De-emphasized GCC-PHAT
+TDOA 1
+TDOA 2
+200
+ 100
+ 0 100 200
+Delay (samples)
+0.0
+0.5
+1.0
+Notch filter
+Fig. 8 Representation of the de-emphasis procedure
+described by Brutti et al. [26].
+geometric means of the GCC functions over all
+available microphone pairs was explored to build
+an acoustic map. When compared to the con-
+ventional summation of pair-wise functions, as
+previously expressed in (15), results show that the
+use of geometric and harmonic means contributes
+to removing undesired sidelobes and improving
+source level estimation.
+5.2 Source cancellation
+Many multi-source, SRP-based methods rely on
+schemes that reduce the influence of a previously
+located and dominant source on newly computed
+SRP maps. For instance, in [26], the localization
+of two sources is performed in a two-step man-
+ner. First, the position of the source with the
+highest correlation peak is estimated as in the con-
+ventional SRP method. To estimate the second
+source, the first source is de-emphasized from the
+CC function through the use of a TDOA-domain
+notch filter. This process is illustrated in Fig. 8.
+Although this approach can be further applied
+for the localization of three sources, the authors
+state that the noise in the correlation function
+with three sources would be prohibitive, and that
+tracking approaches should be applied instead.
+The removal of a previously located source’s
+contribution from an SRP map can also be
+achieved through the projection of the observed
+GCCs onto a subspace that is orthogonal to the
+source position, as described in [132]. Results
+obtained with both simulated and experimental
+data indicate that such an approach can outper-
+form the de-emphasis method from [26], especially
+in cases of sources with different power levels.
+Moreover, the use of a truncated formulation of
+the proposed source cancellation scheme allows for
+a reduction in computational cost while perform-
+ing comparably to [26], without requiring parame-
+ter tuning associated to the TDOA-domain notch
+filter design.
+Subspace processing for source cancellation
+within an SRP-based framework has also been
+proposed in [133], where the SVD-PHAT method
+[82] is extended to address the case of multiple
+sources. Thererin, the contribution of a previ-
+ously located source (obtained by means of a k-d
+tree search) is removed from the observed pro-
+jections of the GCCs onto a reduced-dimensional
+subspace. The proposed multi-source SVD-PHAT
+approach was compared to a source cancellation
+scheme, similar to the de-emphasis method from
+[26], where a source’s contribution is removed from
+the observed GCCs and a new SRP-PHAT map is
+computed for locating the next source. Simulation
+results indicate that the multi-source SVD-PHAT
+can outperform the successive recomputation of
+the SRP-PHAT map.
+As an alternative to employing a source can-
+cellation procedure to the observed GCCs, the
+spatial gradient SRP-PHAT method proposed in
+[134] involves successively removing the influence
+of the current, most dominant source directly in
+the observed SRP map by means of a negative
+spatial gradient function. Experimental results for
+two-speaker scenarios show that the spatial gra-
+dient SRP-PHAT can be an effective localization
+method in scenarios with a diffuse noise field.
+In [135], an approximate analytical formula-
+tion of an SRP map using a Gaussian Mixture
+Model is proposed, such that probability density
+functions can be used to estimate the location of
+multiple sources while removing their correspond-
+ing contributions from the probabilistic SRP map.
+Experimental results with scenarios involving up
+to three speakers indicate that while this approach
+can effectively locate multiple sources, its per-
+formance degrades when sources differ greatly in
+power.
+5.3 Grid refinement
+In [136], grid refinement is indirectly used to local-
+ize multiple sources by identifying different zones
+of interest, defined in terms of TDOA intervals,
+as those where acoustic sources are dominant in
+17
+## PDF page 18
+terms of a cumulative SRP function. In this way,
+a conventional grid search step for source localiza-
+tion can be performed over a reduced search space
+with the desired spatial resolution. The localiza-
+tion of multiple sources can then be achieved by
+iteratively removing the influence of the dominant
+sources [135]. Experimental results show that such
+approach can improve localization performance in
+multi-source scenarios at a lower computational
+cost than the authors’ previous work [135].
+In [137], a hierarchical search-grid refinement
+method is proposed, where a probability measure
+of a sound source’s presence in different regions,
+formulated as a spatially averaged SRP map, is
+used to identify the limited set of steering direc-
+tions for which the search grid resolution can then
+be improved for localizing multiple sources. This
+approach is shown to lower the computational
+cost while performing similarly to the conventional
+SRP method that employs the highest resolution
+level over the entire search space.
+5.4 Clustering and distance analysis
+Another concept often exploited in multi-source
+localization methods relates to data clustering and
+analyzing distances between multiple source loca-
+tion estimates. For instance, the sources’ prelim-
+inary location estimates can be obtained through
+the conventional SRP method. Then, spatial clus-
+tering can be employed to track the estimated
+locations of multiple sources over different time
+frames [138]. Alternatively, a narrowband SRP
+formulation can be employed to obtain location
+estimates per frequency bin and time frame, while
+Gaussian mixture modeling can then be used to
+cluster the location estimates [139]. Furthermore,
+both the location and activity of multiple sources
+can be tracked [139].
+In [140], source location estimates are obtained
+by using SRP-PHAT combined with agglomer-
+ative spatial clustering and SRC (cf. Sec. 3.3).
+Experimental results show that the localization
+performance of the proposed approach degrades
+when the peaks to be identified have widely dif-
+ferent amplitudes or are closely located in the CC
+function. Accordingly, the proposed approach is
+further extended in [141], by replacing the agglom-
+erative clustering step from [140] with Gaussian
+mixture modeling of the observed SRP map, or
+by identifying the peaks in the SRP map while
+assuming a minimal distance between sources.
+The performance limitations first demonstrated in
+[140] are also addressed in [142], where the local-
+ization of multiple speech sources is achieved by
+computing subband SRP maps, estimating the
+dominant source’s position for each subband, and
+employing agglomerative clustering across all sub-
+bands to obtain the final set of source location
+estimates. In [143], a method named Multi-Stage
+Rejection Sampling (MSRS) is proposed, which
+involves spatially clustering probability density
+points, derived as a function of the observed SRP-
+PHAT map, to identify regions of interest. Then,
+volume contraction is used in the identified regions
+for localizing multiple sources.
+In [144], a three-step framework is proposed for
+multiple source localization. It relies on: step 1)
+partitioning the search region into cubic volumes,
+clustering such volumes and, based on equivalent
+TDOA bounds; step 2) computing a delay density
+map to find in which clusters it is more likely to
+have a sound source; step 3) further analyzing the
+chosen clusters with conventional SRP to obtain
+the final source location estimates.
+Finally, the approach proposed in [145] for a
+specific microphone setup of central and lateral
+microphone arrays, involves finding the intersec-
+tion between the source positions estimated with
+the central array’s SRP map and the ones esti-
+mated with the lateral arrays through an adap-
+tive subband generalized eigenvalue decomposi-
+tion (GEVD) scheme, in order to obtain the final
+3D location estimates of multiple sources. Simula-
+tion results with up to three speakers demonstrate
+that the proposed method outperforms other
+state-of-the-art methods under varying levels of
+noise and reverberation.
+5.5 Sparsity assumptions
+Sparsity-based modifications to the conventional
+SRP method have also been proposed for the
+task of multiple source localization. For instance,
+by assuming a limited number of active sources
+with respect to the search grid of candidate loca-
+tions, localization can be performed by employing
+a sparse-regularized generative model that fits
+the observed SRP map, combined with a sub-
+space filtering step that compensates for what is
+not directly accounted for by the fitted model
+[124]. Experimental results show that although the
+18
+## PDF page 19
+use of this approach can outperform the conven-
+tional SRP-PHAT in the multi-source scenarios
+tested, its overall performance highly depends on
+the choice of the hyperparameters used in the
+proposed problem formulation.
+Alternatively, in [146], it is shown that group
+sparsity can be exploited when modeling an
+observed broadband SRP map as a linear func-
+tion of power spectral densities (PSDs), related
+to an overcomplete set of candidate locations.
+Hence, multi-source localization can be achieved
+by solving a group-sparse optimization problem
+and identifying peaks in the estimated PSDs. Sim-
+ulation results obtained for two-speaker scenarios
+show that the proposed method performs better
+than or similar to the conventional SRP-PHAT
+method for varying levels of noise and reverber-
+ation, while overall outperforming the frequency-
+domain sparse iterative covariance-based estima-
+tion (SPICE) [147, 148] method.
+In [149], the authors exploit time-frequency
+sparsity, by assuming that only one speech source
+is dominant in a given time-frequency bin, i.e.,
+they are assumed to be W-disjoint [150]. By ana-
+lyzing each frequency bin and performing single-
+source localization, histograms with all individual
+DOA estimates can be generated and used in a
+matching-pursuit-based step to perform multiple
+source localization. Simulation and experimental
+results indicate that this approach can outper-
+form other state-of-the-art multi-source localiza-
+tion methods, at a lower computational cost. The
+sparsity of speech signals in the time-frequency
+domain is similarly exploited in [151], where a
+weighted, wideband histogram of source locations
+is computed based on narrowband DOA estimates,
+obtained with SRP-PHAT applied to different fre-
+quencies and observation frames. The weighted
+histogram is then used to perform multiple source
+localization through peak detection, and simula-
+tion results indicate the advantage of the proposed
+method when compared to the wideband SRP-
+PHAT for two-speaker scenarios in reverberant
+environments.
+In [152], sparse modeling of the GCCs observed
+by a microphone array is employed in the task
+of localizing sound sources and their correspond-
+ing acoustic reflections. A linear inverse problem
+is proposed to be solved, with its formulation
+depending on a time-domain propagation matrix.
+The authors present two implementations of the
+proposed method, with the first based on orthog-
+onal match pursuit (OMP) [153], and the second
+on the truncated Newton interior-point method
+[154]. It is demonstrated through an experimen-
+tal study that the use of sparsity constraints in
+the solution of the proposed linear inverse prob-
+lem contributes to better location estimates when
+compared to the direct use of a time-domain SRP
+map. The choice of propagation matrix used for
+formulating the linear inverse problem presented
+in [152] was further investigated in [155], where
+the influence of the temporal width threshold,
+associated to the determination of propagation
+matrix coefficients, is demonstrated. Addition-
+ally, when assuming the GCC coefficients to be
+PHAT-weighted, an alternative formulation of the
+propagation matrix circumventing such temporal
+width threshold is proposed, with experimental
+results indicating the advantage of using such
+alternative formulation in terms of computational
+time.
+Finally, in [156], an SRP-based method is
+proposed for simultaneous multiple source local-
+ization that employs Non-negative Matrix Fac-
+torization (NMF) [157] to decompose the time-
+frequency signal into a weighted sum of broadband
+atoms, which are time-frame-dependent and cor-
+respond to different groupings of frequency bands
+related to distinct sources. This method, named
+SRP-NMF, attempts to combine the advantages of
+both narrowband and broadband approaches that
+exploit sparsity in their corresponding domains,
+and experimental results indicate it performs bet-
+ter than or similarly to state-of-the-art methods
+based on fully broadband or narrowband signal
+formulations.
+6 Practical considerations
+6.1 Applications
+SSL is a foundational task which has been
+applied in many domains, having been used as an
+input feature for speech enhancement/beamform-
+ing tasks [158–160], voice activity detection [161,
+162], speaker diarization [163–167], sound source
+separation [6, 7, 168] and array calibration [169].
+Furthermore, SRP’s localization performance can
+be improved by combining it with other sensors,
+such as LIDAR [170, 171] or multi-sensor devices
+19
+## PDF page 20
+[172]. SRP has been used on the multiple practical
+scenarios described below.
+Although SRP can be used to localize any
+type of sound source, many applications focus on
+a specific sound event. A prominent application
+is that of surveillance and defence. SRP can be
+used to localize irregular Unmanned Aerial Vehi-
+cles (UAVs) activity [173, 174], as well as using
+an UAV with an embedded microphone array to
+localize sources of interest itself [175, 176]. Other
+applications in security include intrusion detection
+[177, 178], and gunshot localization [3, 179].
+Another category of interest is that of scene
+understanding in large and/or outdoor environ-
+ments, such as the detection of indoor and outdoor
+sources of noise pollution [180–182] and the detec-
+tion of underground seismic events [183]. SRP
+was also applied for commercial and environmen-
+tal purposes, such as the localization of sound-
+emitting fish using an underwater hydrophone
+[184], and to detect faulty equipment within elec-
+trical power stations [185]. Furthermore, with the
+increased interest in smart and self-driving vehi-
+cles sensors, localization of horns and crashes
+using SRP [47, 186] can also be performed, or
+localizing talkers inside the vehicle itself [187].
+Turning to indoor environments, SRP can be
+applied to the medical domain, being used to local-
+ize and analyze footsteps with the goal of early
+detection of dementia [188], as well as for fall
+detection of elderly people [2]. SRP can also be
+used to improve human-robot interactions [189–
+191], as well as for camera steering corporate
+meetings [4] and smart rooms [192, 193]. SRP
+was also applied to a helmet-mounted microphone
+array [194], which can be used for increasing
+acoustic awareness on industrial sites, for example.
+6.2 Tracking moving sources
+Although a source may remain mostly station-
+ary in many scenarios such as conference calls,
+the same cannot be said for many situations in
+surveillance, robotics and healthcare. It is there-
+fore reasonable to reformulate the source position
+u to be time-dependent, i.e., u(t). The task of
+estimating a source’s position at multiple time
+instants is hereafter referred to as tracking.
+A straightforward way to achieve tracking
+using conventional SRP is to compute an SRP
+map and estimate the source position indepen-
+dently for successive frames at times ti−1 and ti.
+This estimate can be often improved through the
+incorporation of a state-space dynamic model as
+well as previous estimates {ˆu(ti−1) ˆu(ti−2) . . .}.
+Such a state-space model provides source track-
+ing by introducing dynamic constraints into
+the source localization procedure, modeling for
+instance the speed of the source. This allows
+for smoother position estimates to be produced
+and for unreliable observations, such as those
+caused by reverberation and noise, to be properly
+identified and handled.
+The most common approaches for source
+tracking using SRP are Kalman filters [138, 195–
+197], particle filters [196, 198–204] and deep neural
+networks [17, 112, 116, 120]. Unlike in neu-
+ral methods, the state-space model is explicitly
+defined in Kalman and particle filters.
+Particle filters are frequently preferred over
+Kalman filters due to their simpler formulation
+and ability to model non-linear systems. Par-
+ticle filters model the source location with the
+help of Q candidate positions known as particles,
+each having an associated likelihood or weight πq,
+q = 1 , . . . , Q . The estimated source location is
+obtained as a weighted sum of the particles, where
+the weights are their respective likelihood. At each
+iteration, the particles are updated according to a
+given kinematic model. Optionally, a resampling
+process may be also applied to reduce the variance
+of the particles.
+The movement of a source at consecutive
+time steps is commonly modeled using Langevin
+dynamics [198, 200–203, 205], which assume that
+the source moves independently in each direction.
+The relationship between the source’s position at
+times ti−1 and ti is equal to [205]
+u(ti) = u(ti−1) + ˙u(ti)∆t, (31)
+where ∆t = (ti−1 −ti)/fs, and ˙u(ti) is the source’s
+velocity, modelled as
+˙u(ti) = a(1) ˙u(ti−1) + b(1)F (1). (32)
+In (32), F (1) = N(0, 1), a(1) = e−α(1)∆t and
+b(1) = β(1)√
+1 − a(1) are known as the damping
+and excitation parameters, respectively responsi-
+ble for controlling the inertia and innovation of
+20
+## PDF page 21
+the movement in each direction. α(1), β(1) are
+hyperparameters, to be chosen or tuned.
+6.3 Directional sources and
+microphones
+The SRP signal model can be modified for the
+case where sources and/or microphones exhibit
+directional acoustic behaviour, that is, the ampli-
+tudes of the microphone signals are dependent on
+the orientation of microphones and sources. The
+directivity profile for microphone m is defined as
+a function 0 < d (1)
+m (θm) ≤ 1, where θm is an
+angle. An analogous function can also be defined
+for the source’s directivity d(2)(θs). Finally, we
+define angles θ1, θ2, θ3 and θ4 as the angles of
+departure, the source direction, the angle of arrival
+and microphone direction respectively. The atten-
+uation term defined in (2) can then be specified as
+[206]
+am = d(1)
+m (θ1 − θ2)d(2)(θ3 − θ4) kd
+∥u − vm∥ , (33)
+where kd
+∥u−vm∥ represents the attenuation caused
+by propagation, which generally follows an inverse
+law. In practice, this attenuation can be incor-
+porated into SRP by including the source’s can-
+didate orientation as another search dimension
+[206]. Note that the gains between microphones
+must be assumed to be calibrated, and that the
+source and microphone directivity patterns, as
+well as the microphone orientations, must be
+known or assumed. Microphone directivity can
+also be exploited to reduce the number of micro-
+phone pairs and region size used for SRP [70, 197].
+When operating with distributed microphone
+arrays, source directivity can be estimated in
+two steps, firstly by estimating the source posi-
+tion, followed by the creation of a spherical grid
+around the source. The point with the highest
+SRP value on the sphere is selected to repre-
+sent the source’s orientation [22, 23]. A similar
+approach is applied in [207–209], which assumes
+that the arrays directly facing the speaker will
+exhibit an SRP map with a sharp peak. The
+sharpness is measured using the map’s kurtosis,
+which is then used to estimate the talkers ori-
+entation. If the microphone gains are calibrated,
+the GCC-PHAT’s peak values can be used for
+comparison instead of the kurtosis [210].
+6.4 Comparing SRP to other
+approaches
+In [16], a theoretical comparison between the
+SRP and the Maximum Likelihood Sound Source
+Localization (ML-SSL) method is made. The func-
+tioning of the ML-SSL method is similar to SRP,
+as the source location is also estimated as the
+maximum argument of a likelihood function. How-
+ever, the ML-SSL method explicitly models the
+noise received at each microphone as well as
+its correlation with other microphones. Although
+this can be advantageous, allowing microphone
+signals exhibiting large noise to be ignored, it
+requires noise statistics to be assumed or mea-
+sured. The aforementioned paper starts by defin-
+ing the ML-SSL signal model similarly to (1)
+directly in the frequency domain. The authors
+assume that reverberation is independent across
+microphone signals, and that microphones boast
+a high SNR. The paper shows that, under these
+assumptions, the ML-SSL method becomes inde-
+pendent of noise and reverberation, and equal to
+the SRP formulation, and uses this proof to justify
+why SRP works well under low-noise, reverberant
+environments.
+In [211], the authors conducted a performance
+analysis of several GCC-PHAT-based algorithms
+for a large-aperture microphone array. They pre-
+sented a real-time source localization algorithm
+based on TDOAs derived from a phase transform
+applied to the generalized cross-power spectrum.
+The algorithm is then enhanced by preprocessing
+the data using local beamformers. A comparison
+was made by testing these two algorithms and
+the SRP-PHAT in an environment in which the
+microphone signal-to-reverberation ratio was in
+the range [ −2 dB, −12 dB] and the signal-to-
+background noise ratio with flat frequency weight-
+ing in the band 80 Hz to 10 kHz was in the range
+[−6 dB, −16 dB]. They found that SRP-PHAT
+provides reliable location estimates under adverse
+conditions but has a larger computational cost.
+In [212], the authors developed two GCC
+methods based on time delay estimation using
+classical CC and smoothed coherence transform
+algorithms. They analyzed the performance of
+the aforementioned GCC-based algorithms for
+multi-source, point-based localization by compar-
+ing them with the existing FASTTDE, GCC-
+PHAT and FAST SRP-PHAT [213]. The methods
+21
+## PDF page 22
+were evaluated in terms of 1) localization accu-
+racy, 2) detection accuracy, and 3) computational
+cost. The localization accuracy of the FAST SRP-
+PHAT was much higher than that of the other
+three methods. In terms of detection, the other
+three methods exhibited higher localization per-
+formance. Finally, it was shown that SRP-PHAT
+had a higher computational cost than other meth-
+ods.
+In [214], a comparison between the ROOT-
+MUSIC algorithm and SRP-PHAT is made. The
+root mean square error (RMSE) is used as a
+performance metric and the results show that
+even though ROOT-MUSIC is more computa-
+tionally efficient, SRP-PHAT exhibits superior
+performance in challenging conditions, such as
+environments with reverberation and low SNR.
+In [215, 216], the authors evaluate the per-
+formance of broadband spatio-spectral estimators,
+including SRP and two-step localization methods.
+They perform an eigenanalysis of the parameter-
+ized spatial correlation matrix and show that the
+attenuation can be estimated from this matrix.
+They propose a DOA estimator based on MCCC
+and show that this method yields a higher resolu-
+tion than the conventional SRP. DOA estimation
+performance is similar in anechoic environments
+and environments with reverberation time of 300
+ms, however it is worse in environments with
+reverberation time of 600 ms compared to SRP.
+In [217], the authors evaluate the performance
+of a multiple source localization method based on
+Augmented Intensity Vectors (AIV) using spheri-
+cal microphone arrays. Their simulations compris-
+ing various angular separation and reverberation
+times show that AIV has an average accuracy
+between 5 and 10 degrees for sources with angular
+separation of 30 degrees or more and it performs
+better than the methods using Pseudo-Intensity
+Vectors and SRP. Another finding is that a plane
+wave decomposition-based SRP method cannot
+localize all sources if the number of sources is three
+or more and if they are separated less than 45
+degrees.
+In [161], SRP-PHAT is used along with Hid-
+den Markov Models (HMMs) and face tracking for
+voice activity detection and localization. Results
+show that using HMMs along with SRP-PHAT
+increases the accuracy and utilising face tracking
+in addition yields even better results.
+In [218], the authors compared two algorithms
+[46], [53], which are also explained in Sec. 3,
+in both simulated and real-world scenarios in
+which speakers were recorded by eight micro-
+phones spread out on the wall and ceiling, and
+concluded that hybrid localization is more robust
+than hierarchical localization and is computation-
+ally faster. Especially when the reverberation time
+is greater than 300 ms, the localization error
+in hierarchical localization increases at a much
+higher rate.
+In [27], a general framework for the integration
+of microphone signals for SSL is presented. A Spa-
+tial Observability Function (SOF), which is the
+mean square difference between the SLF and the
+true probability of an object, is used as an indica-
+tion of the accuracy of the map. SRP-PHAT is a
+special case of this method in which the SLF from
+each array is integrated without taking the SOFs
+into account.
+6.5 Analyses of SRP
+The authors of [219] propose an analytical model
+based on sound propagation and its interaction
+with the environment that predicts SRP maps in
+both anechoic and non-anechoic conditions, and
+under both far- and near-field assumptions. They
+investigate how and to what extent the signal
+bandwidth, array topology, room geometry and
+spectral content of the signal affect SRP maps.
+The findings show that SRP functions depend
+on the array topology, room geometry and signal
+bandwidth but not on the spectral content of the
+signal. They validate their model by comparing it
+with the true SRP maps.
+In [220], the authors investigated the geomet-
+rical sensor calibration errors in a ULA used in
+far-field human speech source localization. They
+observed that the errors in configuration of the
+endpoint sensors result in larger localization errors
+compared with same configuration errors of the
+inner sensors. In addition, they show that the
+localization errors increase when the total config-
+uration error is above a threshold related to the
+propagation distance and the system’s sampling
+rate.
+In [221], the authors proposed an SRP con-
+straint to suppress local extrema. They weighted
+the SRP function using a coherence factor, deter-
+mined by observing the signs of the GCCs between
+22
+## PDF page 23
+all possible microphone pairs. If the sign was the
+same for all microphone pairs, this indicated a
+high coherence and the coherence factor is 1. If
+half of them were negative and half were positive,
+then were deemed as incoherent, and assigned a
+coherence factor of 0. The method was shown to
+operate without loss of localization accuracy with
+respect to conventional SRP.
+7 X-SRP
+In this section, we describe the SRP method
+from an algorithmic perspective, with the goal
+of unifying the previously described extensions
+of the method within a common framework.
+The main functionality described in Sec. 2 is
+revisited by substituting specific functions with
+generic ones, which we shall refer to as mod-
+ules. For example, the CC function used in the
+classical SRP is substituted by a module called
+compute signal features, which can be instanti-
+ated as the temporal CC, GCC-PHAT, or a
+neural-based feature as in [104, 112].
+This modular perspective allows for SRP
+papers to be grouped in an alternative way to
+the task-oriented manner used in the previous
+sections. Conversely, the categorization presented
+here groups the works by their implementation
+details, facilitating their combination and compar-
+ison.
+To facilitate the reproduction of SRP vari-
+ants and explore novel variants, we release the
+eXtensible-SRP, or X-SRP Python library, which
+provides a modular implementation of SRP fol-
+lowing Alg. 1, which is also shown as a flow
+diagram in Fig. 9. We include multiple modules
+within eXtensible SRP (XSRP), which allow for
+selected variants to be implemented. We refer the
+reader to the project’s repository 2 for further
+documentation on the library.
+Algorithm 1 accepts three input parameters: A
+matrix X of microphone signal frames, a matrix of
+microphone positions V and a vector d contain-
+ing the room dimensions. It is made optional as
+it is only necessary for SSL, not for DOA estima-
+tion. Note that configuration parameters such as
+the sampling rate fs are omitted for the sake of
+conciseness.
+2https://github.com/egrinstein/xsrp
+Algorithm 1 X-SRP
+1: function x-srp(X, V, d = null)
+2: ˆU ← ∅
+3: G ← create initial candidate grid(d)
+4: C ← compute signal features(X)
+5: while G ̸= ∅ do
+6: S ← create srp map(V, G, C)
+7: ˆU = grid search(G, S, ˆU)
+8: C = update signal features(C, ˆU, V)
+9: G = update grid( ˆU, d)
+10: end for
+11: return ˆU
+12: end function
+The first line initializes the estimated source
+coordinates ˆU as an empty set. ˆU is a set of
+points and not a single point to accommodate
+multi-source localization approaches.
+Then, an initial grid of candidate
+positions G is created using the cre-
+ate initial candidate grid module. In most
+SRP variants, this will be the only grid created.
+However, in iterative approaches such as [37, 47]
+as well as multi-source approaches [26], this func-
+tion only provides an initial grid G, which is
+further updated as part of their grid search or
+refinement procedure. Typically, the grid created
+is a 2D or 3D Cartesian grid for SSL, or a polar or
+spherical grid for DOA estimation. In the latter
+case, the room dimensions d are not used, as the
+grid is produced with respect to the microphone
+array’s centre. This grid can typically be com-
+puted as a pre-processing step if the microphone
+and room geometries are known beforehand.
+The compute signal features module com-
+putes C, which can be the CC function between
+microphone pairs, their GCC-PHAT, or neural-
+based features [104, 112].
+Line (5) begins a loop, which represents the
+grid search procedure. For most approaches, this
+loop will only execute once, and will only execute
+multiple times in approaches such as [37, 47]. We
+define as the loop’s stopping criterion the candi-
+date grid G being empty, symbolizing that end of
+the grid search.
+The module create srp map computes the
+SRP map S, which assigns a likelihood value
+to each grid point in G, using the microphone
+positions V and the temporal features C.
+23
+## PDF page 24
+(Mic. positions)
+(Mic. signals)
+(Room dims.)
+Compute signal
+features
+Create initial
+candidate grid
+Create SRP map
+Is grid empty?
+Return estimated
+positions
+Yes
+Create SRP map
+ Grid search
+Update grid
+ Update signal
+features
+No
+Fig. 9 Flowchart of the generalized SRP algorithm. Parallelograms represent input data, rectangles represent functions,
+diamonds represent decisions and ellipses represent terminal states.
+Then, the grid search module searches for
+the grid points in G that maximize the SRP map
+S to estimate the source coordinates ˆU, as well
+as a new grid of candidate locations G. When
+localizing a single source, grid search returns ˆP =
+{arg maxG S}, and an empty grid, i.e., G = ∅.
+The update signal features module is used
+to alter the signal features C. This is mainly used
+in iterative and multi-source approaches such as
+the source de-emphasis procedure [26] (cf. Fig. 8).
+Finally, the update grid module may be used to
+generate a new grid based on the current source
+estimates ˆU. An example of variant using this grid
+is the SRC approach [47].
+8 Conclusion
+In this paper, we showed that the SRP method
+remains an important localization method, and is
+still under continuous improvement. We hope that
+the detailed description of the conventional SRP
+method, followed by a presentation of the combi-
+nation of the literature into multiple categories has
+allowed the reader to learn or increase their knowl-
+edge on SRP. Finally, we hope that the alternative
+division of SRP into functional blocks will allow
+for the method to be further expanded.
+Future research directions on SRP include fur-
+ther improvement of neural methods, by allowing
+an arbitrary number of sources to be concur-
+rently detected, inclusion of prior information
+such as noise statistics as a secondary network
+input, or architectural modifications, for exam-
+ple. Signal processing-based SRP modifications
+can also be improved by exploring other types
+of multi-source and tracking strategies, as well as
+alternative strategies for combining pairwise and
+frequency-wise information.
+Declarations
+8.1 Availability of data and
+materials
+Code used for generating figures and sim-
+ulations used on this paper is available in
+https://github.com/egrinstein/xsrp
+8.2 Competing interests
+N/A
+8.3 Funding
+The research leading to these results has received
+funding from the European Union’s Horizon 2020
+research and innovation programme under the
+Marie Sk lodowska-Curie grant agreement No.
+956962 and from the European Research Coun-
+cil under the European Union’s Horizon 2020
+research and innovation program / ERC Consol-
+idator Grant: SONORA (no. 773268). This paper
+reflects only the authors’ views and the Union is
+not liable for any use that may be made of the
+contained information.
+8.4 Authors’ contributions
+E.G.: manuscript writing, simulations and coding.
+E.T.: manuscript writing and simulations. B.C ¸ .,
+T.D., L.N., T.vW. M.B. and P.A.N.: Manuscript
+writing.
+24
+## PDF page 25
+8.5 Acknowledgements
+N/A
+References
+[1] Li, S., Chang, X., Yang, C., Jiang, K., Wang, Z., Wang,
+L., Li, X.: A fast vehicle horn sound location method
+with improved SRP-PHAT. In: Proc. IEEE Int. Conf. on
+Progress in Informatics and Comput. (PIC), pp. 435–439
+(2018)
+[2] Li, Y., Ho, K.C., Popescu, M.: A microphone array sys-
+tem for automatic fall detection. IEEE Trans. Biomed.
+Eng. 59(5), 1291–1301 (2012)
+[3] Lopez-Morillas, J., Canadas-Quesada, F.J., Vera-
+Candeas, P., Ruiz-Reyes, N., Mata-Campos, R.,
+Montiel-Zafra, V.: Gunshot detection and localization
+based on non-negative matrix factorization and SRP-
+hat. In: Proc. IEEE Sensor Array and Multichannel
+Signal Process. Workshop (SAM), pp. 1–5 (2016)
+[4] Marti, A., Cobos, M., Lopez, J.J.: Real time speaker
+localization and detection system for camera steering
+in multiparticipant videoconferencing environments. In:
+Proc. IEEE Int. Conf. on Acoust., Speech and Signal
+Process. (ICASSP), pp. 2592–2595 (2011)
+[5] Do, H., Silverman, H.F.: A robust sound-source separa-
+tion algorithm for an adverse environment that combines
+MVDR-PHAT with the CASA framework. In: Proc.
+IEEE Workshop on Appl. of Signal Process. to Audio
+and Acoust. (WASPAA), pp. 273–276 (2011)
+[6] Dam, H.Q.H., Ho, H., Ngo, M.H.L.: Blind speech sepa-
+ration using SRP-PHAT localization and optimal beam-
+former in two-speaker environments. Int. J. of Computer
+and Information Eng. 10(8), 1529–1533 (2016)
+[7] Wu, C., Zhou, L., Chen, X., Chen, L.: Microphone array
+speech separation algorithm based on DNN. In: Proc.
+Asia-Pacific Signal and Inform. Process. Assoc. Annual
+Summit and Conf. (APSIPA), pp. 1305–1310 (2021)
+[8] Schmidt, R.: Multiple emitter location and signal param-
+eter estimation. IEEE Trans. Antennas Propag. 34(3),
+276–280 (1986)
+[9] Roy, R., Kailath, T.: ESPRIT-estimation of signal
+parameters via rotational invariance techniques. IEEE
+Trans. Acoust., Speech, Signal Process. 37(7), 984–995
+(1989)
+[10] Brandstein, M.S., Silverman, H.F.: A practical method-
+ology for speech source localization with microphone
+arrays. Computer Speech & Language 11(2), 91–126
+(1997)
+[11] Gustafsson, F., Gunnarsson, F.: Positioning using time-
+difference of arrival measurements. In: Proc. IEEE Int.
+Conf. on Acoust., Speech and Signal Process. (ICASSP)
+(2003)
+[12] So, H.C.: Source localization: Algorithms and analysis.
+In: Seyed A., Z., Buehrer, R.M. (eds.) Handbook of
+Position Location: Theory, Practice, and Advances, pp.
+25–66. John Wiley & Sons, Ltd, ??? (2011)
+[13] Omologo, M., Svaizer, P.: Acoustic event localization
+using a crosspower-spectrum phase based technique. In:
+Proc. IEEE Int. Conf. on Acoust., Speech and Signal
+Process. (ICASSP), vol. ii, pp. 273–276 (1994)
+[14] DiBiase, J.H.: A high-accuracy, low-latency technique
+for talker localization in reverberant environments
+using microphone arrays. PhD thesis, Brown University
+(2000)
+[15] Grumiaux, P.-A., Kiti´ c, S., Girin, L., Gu´ erin, A.: A
+survey of sound source localization with deep learning
+methods. J. Acoust. Soc. Am. 152(1), 107–151 (2021)
+[16] Zhang, C., Florencio, D., Zhang, Z.: Why does PHAT
+work well in lownoise, reverberative environments? In:
+Proc. IEEE Int. Conf. on Acoust., Speech and Signal
+Process. (ICASSP), pp. 2565–2568 (2008)
+[17] Diaz-Guerra, D., Miguel, A., Beltran, J.R.: Robust
+sound source tracking using SRP-PHAT and 3D con-
+volutional neural networks. IEEE/ACM Trans. Audio,
+Speech, Language Process. 29, 300–311 (2021)
+[18] Knapp, C., Carter, G.: The generalized correlation
+method for estimation of time delay. IEEE Trans.
+Acoust., Speech, Signal Process. 24(4), 320–327 (1976)
+[19] Omologo, M., Svaizer, P.: Acoustic source location in
+noisy and reverberant environment using CSP analysis.
+In: Proc. IEEE Int. Conf. on Acoust., Speech and Signal
+Process. (ICASSP), vol. 2, pp. 921–924 (1996)
+[20] Omologo, M., Svaizer, P.: Use of the crosspower-
+spectrum phase in acoustic event location. IEEE Trans.
+Speech Audio Process. 5(3), 288–292 (1997)
+[21] DiBiase, J.H., Silverman, H.F., Brandstein, M.S.:
+Robust localization in reverberant rooms. In: Brand-
+stein, M., Ward, D. (eds.) Microphone Arrays: Signal
+Processing Techniques and Applications, pp. 157–180.
+Springer, ??? (2001)
+[22] Brutti, A., Omologo, M., Svaizer, P.: Oriented global
+coherence field for the estimation of the head orientation
+in smart rooms equipped with distributed microphone
+arrays. In: Proc. Conf. of Int. Speech Commun. Assoc.
+(INTERSPEECH) (2005)
+[23] Brutti, A., Omologo, M., Svaizer, P.: Speaker localiza-
+tion based on oriented global coherence field. In: Proc.
+Conf. of Int. Speech Commun. Assoc. (INTERSPEECH)
+(2006)
+[24] Brutti, A., Omologo, M., Svaizer, P., Zieger, C.: Classi-
+fication of acoustic maps to determine speaker position
+and orientation from a distributed microphone network.
+In: Proc. IEEE Int. Conf. on Acoust., Speech and Signal
+Process. (ICASSP), vol. 4, pp. 493–496 (2007)
+[25] Brutti, A., Omologo, M., Svaizer, P.: Comparison
+between different sound source localization techniques
+based on a real data collection. In: Proc. Joint Workshop
+on Hands-free Speech Commun. and Microphone Arrays
+(HSCMA), pp. 69–72 (2008)
+[26] Brutti, A., Omologo, M., Svaizer, P.: Multiple source
+localization based on acoustic map de-emphasis.
+EURASIP J. on Audio, Speech, and Music Process.
+2010(1), 1–17 (2010)
+[27] Aarabi, P.: The fusion of distributed microphone arrays
+for sound localization. EURASIP J. on Advances in
+Signal Process. 2003(4), 1–10 (2003)
+[28] Chinaev, A., Th¨ une, P., Enzner, G.: A double-cross-
+correlation processor for blind sampling rate offset esti-
+mation in acoustic sensor networks. In: Proc. IEEE Int.
+Conf. on Acoust., Speech and Signal Process. (ICASSP),
+pp. 641–645 (2019)
+[29] Dmochowski, J.P., Benesty, J., Affes, S.: A general-
+ized steered response power method for computationally
+viable source localization. IEEE Trans. Audio, Speech,
+Language Process. 15(8), 2510–2526 (2007)
+[30] Birchfield, S.T., Gillmor, D.K.: Acoustic source direction
+by hemisphere sampling. In: Proc. IEEE Int. Conf. on
+Acoust., Speech and Signal Process. (ICASSP), vol. 5,
+pp. 3053–3056 (2001)
+[31] Dietzen, T., De Sena, E., Waterschoot, T.: Low-
+complexity steered response power mapping based on
+Nyquist-Shannon sampling. In: Proc. IEEE Workshop
+on Appl. of Signal Process. to Audio and Acoust. (WAS-
+PAA), pp. 206–210 (2021)
+[32] Dmochowski, J., Benesty, J., Affes, S.: On spatial alias-
+ing in microphone arrays. IEEE Trans. Signal Process.
+57(4), 1383–1395 (2009)
+[33] Tervo, S., Lokki, T.: Interpolation methods for the SRP-
+PHAT algorithm. In: Proc. Int. Workshop on Acoust.
+Signal Enhancement (IWAENC) (2008)
+[34] Nunes, L.O., Martins, W.A., Lima, M.V.S., Biscainho,
+L.W.P., Lee, B., Said, A., Schafer, R.W.: Discriminabil-
+ity measure for microphone array source localization.
+In: Proc. Int. Workshop on Acoust. Signal Enhancement
+(IWAENC), pp. 1–4 (2012)
+[35] Cochran, W.T., Cooley, J.W., Favin, D.L., Helms, H.D.,
+Kaenel, R.A., Lang, W.W., Maling, G.C., Nelson, D.E.,
+Rader, C.M., Welch, P.D.: What is the Fast Fourier
+25
+## PDF page 26
+Transform? Proc. of the IEEE 55(10), 1664–1674 (1967)
+[36] Garc´ ıa-Barrios, G., Guti´ errez-Arriola, J.M., S´ aenz-
+Lech´ on, N., Osma-Ruiz, V.J., Fraile, R.: Analytical
+model for the relation between signal bandwidth and
+spatial resolution in steered-response power phase trans-
+form (SRP-PHAT) maps. IEEE Access 9, 121549–
+121560 (2021)
+[37] Nunes, L.O., Martins, W.A., Lima, M.V.S., Biscainho,
+L.W.P., Costa, M.V.M., Gon¸ calves, F.M., Said, A., Lee,
+B.: A steered-response power algorithm employing hier-
+archical search for acoustic source localization using
+microphone arrays. IEEE Trans. Signal Process. 62(19),
+5171–5183 (2014)
+[38] Lima, M.V.S., Martins, W.A., Nunes, L.O., Biscainho,
+L.W.P., Ferreira, T.N., Costa, M.V.M., Lee, B.: A volu-
+metric SRP with refinement step for sound source local-
+ization. IEEE Signal Process. Lett. 22(8), 1098–1102
+(2015)
+[39] Lima, M.V.S., Martins, W.A., Nunes, L.O., Biscainho,
+L.W.P., Ferreira, T.N., Costa, M.V.M., Lee, B.: Efficient
+steered-response power methods for sound source local-
+ization using microphone arrays. IEEE Signal Process.
+Lett. 22(8), 1098–1102 (2015)
+[40] Cobos, M., Marti, A., Lopez, J.J.: A modified SRP-
+PHAT functional for robust real-time sound source
+localization with scalable spatial sampling. IEEE Signal
+Process. Lett. 18(1), 71–74 (2011)
+[41] Marti, A., Cobos, M., Lopez, J.J., Escolano, J.: A steered
+response power iterative method for high-accuracy
+acoustic source localization. J. Acoust. Soc. Am. 134(4),
+2627–2630 (2013)
+[42] Salvati, D., Drioli, C., Foresti, G.L.: Acoustic source
+localization using a geometrically sampled grid SRP-
+PHAT algorithm with max-pooling operation. IEEE
+Signal Process. Lett. 29, 1828–1832 (2022)
+[43] Boora, R., Dhull, S.K.: Iterative volumetric reduction
+(IVR) steered response power method for acoustic source
+localization. Int. J. of Sensors Wireless Commun. and
+Control 11(4), 428–436 (2021)
+[44] Boora, R., Dhull, S.K.: Iterative modified srp-phat with
+adaptive search space for acoustic source localization.
+IETE Tech. Rev. 39(1), 28–36 (2022)
+[45] Duraiswami, R., Zotkin, D., Davis, L.S.: Active speech
+source localization by a dual coarse-to-fine search. In:
+Proc. IEEE Int. Conf. on Acoust., Speech and Signal
+Process. (ICASSP), vol. 5, pp. 3309–3312 (2001)
+[46] Zotkin, D.N., Duraiswami, R.: Accelerated speech source
+localization via a hierarchical search of steered response
+power. IEEE Trans. Speech Audio Process. 12(5), 499–
+508 (2004)
+[47] Do, H., Silverman, H.F., Yu, Y.: A real-time SRP-PHAT
+source location implementation using stochastic region
+contraction (SRC) on a large-aperture microphone array.
+In: Proc. IEEE Int. Conf. on Acoust., Speech and Signal
+Process. (ICASSP), vol. 1, pp. 121–124 (2007)
+[48] Do, H., Silverman, H.F.: A fast microphone array SRP-
+PHAT source location implementation using coarse-to-
+fine region contraction (CFRC). In: Proc. IEEE Work-
+shop on Appl. of Signal Process. to Audio and Acoust.
+(WASPAA), pp. 295–298 (2007)
+[49] Guo, Y., Wu, J., Zhu, S.: SRP-PHAT source location
+algorithm based on chaos artificial bee colony algorithm.
+In: Proc. Int. Conf. on Information Eng. for Mechanics
+and Materials, pp. 153–158 (2015)
+[50] Scheibler, R., Togami, M.: Refinement of direction of
+arrival estimators by majorization-minimization opti-
+mization on the array manifold. In: Proc. IEEE Int.
+Conf. on Acoust., Speech and Signal Process. (ICASSP),
+pp. 436–440 (2021)
+[51] Togami, M., Scheibler, R.: Sound source localization
+with majorization minimization. In: Proc. Conf. of Int.
+Speech Commun. Assoc. (INTERSPEECH), pp. 2122–
+2126 (2021)
+[52] Liu, D., Cai, X., Yu, D., Qiao, Z., Dong, H., Wu, M.:
+Sound source localization methods based on Lagrange-
+Galerkin spherical grid. In: Proc. IEEE Int. Conf. on
+Electrical Eng. and Mechatronics Technol. (ICEEMT),
+pp. 665–670 (2021)
+[53] Peterson, J.M., Kyriakakis, C.: Hybrid algorithm for
+robust, real-time source localization in reverberant envi-
+ronments. In: Proc. IEEE Int. Conf. on Acoust., Speech
+and Signal Process. (ICASSP), vol. 4, pp. 1053–1056
+(2005)
+[54] Astapov, S., Berdnikova, J., Preden, J.-S.: Optimized
+acoustic localization with SRP-PHAT for monitoring
+in distributed sensor networks. Int. J. of Elec. and
+Telecommun. 59(4) (2013)
+[55] Astapov, S., Berdnikova, J., Preden, J.-S.: A method of
+initial search region reduction for acoustic localization in
+distributed systems. In: Proc. Int. Conf. Mixed Design
+of Integrated Circuits and Systems (MIXDES), pp. 451–
+456 (2013)
+[56] Zhao, Y., Chen, X., Wang, B.: Real-time sound source
+localization using hybrid framework. Applied Acoust.
+74(12), 1367–1373 (2013)
+[57] Seifipour, M., Seyedtabaii, S.: Computation saving in
+a SRP-PHAT sound source locator variant. In: Proc.
+Iranian Conf. on Elec. Eng. (ICEE), pp. 1–5 (2013)
+[58] Ranjkesh Eskolaki, M., Hasanzadeh, R.: A fast and accu-
+rate sound source localization method using optimal
+combination of SRP and TDOA methodologies. Journal
+of Information Systems and Telecommunication (JIST)
+2(10), 1 (2015)
+[59] Awad-Alla, M.A., Hamdy, A., Tolbah, F.A., Shahin,
+M.A., Abdelaziz, M.A.: A two-stage approach for pas-
+sive sound source localization based on the SRP-PHAT
+algorithm. APSIPA Trans. on Signal and Information
+Processing 9(e8) (2020)
+[60] Cho, Y., Yook, D., Chang, S., Kim, H.: Sound source
+localization for robot auditory systems. IEEE Trans.
+Consum. Electron. 55(3), 1663–1668 (2009)
+[61] Yuan, X., Cai, D., Deng, J., Li, P., Gong, P.: Perfor-
+mance enhancement of SSC sound source localization
+for indoor environment. In: Proc. Int. Conf. on Signal
+Process., vol. 1, pp. 79–83 (2012)
+[62] Yook, D., Lee, T., Cho, Y.: Fast sound source localiza-
+tion using two-level search space clustering. IEEE Trans.
+on Cybernetics 46(1), 20–26 (2016)
+[63] Salvati, D., Drioli, C., Foresti, G.L.: Exploiting a geo-
+metrically sampled grid in the SRP-PHAT for local-
+ization improvement and power response sensitivity
+analysis. J. Acoust. Soc. Am. 141(1), 586–601 (2017)
+[64] Salvati, D., Drioli, C., Foresti, G.L.: Sensitivity-based
+region selection in the steered response power algorithm.
+Signal Process. 153, 1–10 (2018)
+[65] Cai, W., Wang, S., Wu, Z.: Accelerated steered response
+power method for sound source localization using
+orthogonal linear array. Applied Acoust. 71(2), 134–139
+(2010)
+[66] Dehghan Firoozabadi, A., Abutalebi, H.R.: A new region
+search method based on DOA estimation for speech
+source localization by SRP-PHAT method. In: Proc.
+Eur. Signal Process. Conf. (EUSIPCO), pp. 656–660
+(2010)
+[67] Zarghi, H.R., Sharifkhani, M., Gholampour, I.: Imple-
+mentation of a cost efficient SSL based on an angular
+beamformer SRP-PHAT. In: Proc. IEEE Int. Conf. on
+Elec., Circuits, and Systems, pp. 49–52 (2011)
+[68] Johansson, A., Nordholm, S.: Robust acoustic direction
+of arrival estimation using Root-SRP-PHAT, a realtime
+implementation. In: Proc. IEEE Int. Conf. on Acoust.,
+Speech and Signal Process. (ICASSP), vol. 4, pp. 933–
+936 (2005)
+[69] Zhuo, D.-B., Cao, H.: Fast sound source localization
+based on SRP-PHAT using density peaks clustering.
+Applied Sciences 11(1), 445 (2021)
+[70] Grondin, F., Maheux, M.-A., Lauzon, J.-S., Vincent,
+J., Michaud, F.: SMP-PHAT: Lightweight DOA esti-
+mation by merging microphone pairs. Technical Report
+arXiv:2203.14409, Universit´ e de Sherbrooke (2022)
+[71] C ¸akmak, B., Dietzen, T., Ali, R., Naylor, P., Water-
+schoot, T.: A distributed steered response power
+26
+## PDF page 27
+approach to source localization in wireless acoustic sen-
+sor networks. In: Proc. Int. Workshop on Acoust. Signal
+Enhancement (IWAENC) (2022)
+[72] Dmochowski, J., Benesty, J., Affes, S.: Fast steered
+response power source localization using inverse map-
+ping of relative delays. In: Proc. IEEE Int. Conf. on
+Acoust., Speech and Signal Process. (ICASSP), pp.
+289–292 (2008)
+[73] Silveira Jr, L., Peruffo Minotto, V., Jung, C., Lee,
+B.: A GPU implementation of the SRP-PHAT sound
+source localization algorithm. In: Proc. Int. Workshop
+on Acoust. Signal Enhancement (IWAENC) (2010)
+[74] Minotto, V.P., Jung, C.R., Silveira, L., Lee, B.: GPU-
+based approaches for real-time sound source localization
+using the SRP-PHAT algorithm. Int. J. of High Perfor-
+mance Computing Applications 27(3), 291–306 (2013)
+[75] Lee, T., Chang, S., Yook, D.: Parallel SRP-PHAT for
+GPUs. Computer Speech & Language 35, 1–13 (2016)
+[76] Belloch, J.A., Gonzalez, A., Vidal, A.M., Cobos, M.:
+Real-time sound source localization on graphics process-
+ing units. Procedia Computer Science 18, 2549–2552
+(2013)
+[77] Belloch, J.A., Gonzalez, A., Vidal, A.M., Cobos, M.:
+On the performance of multi-GPU-based expert systems
+for acoustic localization involving massive microphone
+arrays. Expert Systems with Applications 42(13), 5607–
+5620 (2015)
+[78] Belloch, J.A., Cobos, M., Gonzalez, A., Quintana-Ort´ ı,
+E.S.: Real-time sound source localization on an embed-
+ded GPU using a spherical microphone array. Procedia
+Computer Science 51, 201–210 (2015)
+[79] Lee, B., Kalker, T.: A vectorized method for computa-
+tionally efficient SRP-PHAT sound source localization.
+In: Proc. Int. Workshop on Acoust. Signal Enhancement
+(IWAENC) (2010)
+[80] Bad´ ıa, J.M., Belloch, J.A., Cobos, M., Igual, F.D.,
+Quintana-Ort´ ı, E.S.: Accelerating the SRP-PHAT algo-
+rithm on multi- and many-core platforms using OpenCL.
+J. of Supercomputing 75(3), 1284–1297 (2019)
+[81] Yin, J., Verhelst, M.: CNN-based robust sound source
+localization with SRP-PHAT for the extreme edge. ACM
+Trans. on Embedded Computing Systems 22(3), 1–27
+(2023)
+[82] Grondin, F., Glass, J.: SVD-PHAT: a fast sound source
+localization method. In: Proc. IEEE Int. Conf. on
+Acoust., Speech and Signal Process. (ICASSP), pp.
+4140–4144 (2019)
+[83] Bentley, J.L.: Multidimensional binary search trees used
+for associative searching. Communications of the ACM
+18(9), 509–517 (1975)
+[84] Grondin, F., Glass, J.: Fast and robust 3-D sound source
+localization with DSVD-PHAT. In: Proc. IEEE/RSJ Int.
+Conf. on Intelligent Robots and Syst. (IROS), pp. 5352–
+5357 (2019)
+[85] Rabinkin, D.V., Renomeron, R.J., Dahl, A.J., French,
+J.C., Flanagan, J.L., Bianchi, M.: DSP implementation
+of source location using microphone arrays. In: Proc.
+SPIE Adv. Algorithms Architectures Signal Process.,
+vol. 2846, pp. 88–99 (1996)
+[86] Donohue, K.D., Hannemann, J., Dietz, H.G.: Perfor-
+mance of phase transform for detecting sound sources
+with microphone arrays in reverberant and noisy envi-
+ronments. Signal Process. 87(7), 1677–1691 (2007)
+[87] Shen, M., Liu, H.: A modified cross power-spectrum
+phase method based on microphone array for acous-
+tic source localization. In: Proc. IEEE Int. Conf. on
+Systems, Man and Cybernetics, pp. 1286–1291 (2009)
+[88] Padois, T., Doutres, O., Sgard, F.: On the use of
+modified phase transform weighting functions for acous-
+tic imaging with the generalized cross correlation. J.
+Acoust. Soc. Am. 145(3), 1546–1555 (2019)
+[89] Ramamurthy, A., Unnikrishnan, H., Donohue, K.D.:
+Experimental performance analysis of sound source
+detection with SRP PHAT-β. In: Proc. IEEE Southeast-
+con, pp. 422–427 (2009)
+[90] Swartling, M., Sallberg, B., Grbic, N.: Direction of
+arrival estimation for speech sources using fourth order
+cross cumulants. In: Proc. Int. Symp. on Circuits and
+Syst., pp. 1696–1699 (2008)
+[91] Cirillo, A., Parisi, R., Uncini, A.: Sound mapping in
+reverberant rooms by a robust direct method. In: Proc.
+IEEE Int. Conf. on Acoust., Speech and Signal Process.
+(ICASSP), pp. 285–288 (2008)
+[92] He, H., Wang, X., Zhou, Y., Yang, T.: A steered response
+power approach with trade-off prewhitening for acoustic
+source localization. J. Acoust. Soc. Am. 143(2), 1003–
+1007 (2018)
+[93] Benesty, J., Chen, J., Huang, Y.: Time-delay estima-
+tion via linear interpolation and cross correlation. IEEE
+Trans. Speech Audio Process. 12(5), 509–519 (2004)
+[94] Liu, M., Hu, J., Zeng, Q., Jian, Z., Nie, L.: Sound source
+localization based on multi-channel cross-correlation
+weighted beamforming. Micromachines 13(7), 1010
+(2022)
+[95] Wan, X., Wu, Z.: Improved steered response power
+method for sound source localization based on principal
+eigenvector. Applied Acoust. 71(12), 1126–1131 (2010)
+[96] Cobos, M., Antonacci, F., Comanducci, L., Sarti, A.:
+Frequency-sliding generalized cross-correlation: A sub-
+band time delay estimation approach. IEEE/ACM
+Trans. Audio, Speech, Language Process. 28, 1270–1281
+(2020)
+[97] Cobos, M., Garc´ ıa-Pineda, M., Arevalillo-Herr´ aez, M.:
+Steered response power localization of acoustic pass-
+band signals. IEEE Signal Process. Lett. 24(5), 717–721
+(2017)
+[98] Huang, Y., Tong, J., Hu, X., Bao, M.: A robust steered
+response power localization method for wireless acous-
+tic sensor networks in an outdoor environment. Sensors
+21(5), 1591 (2021)
+[99] Vera-Diaz, J.M., Pizarro, D., Macias-Guarasa, J.: Acous-
+tic source localization with deep generalized cross corre-
+lations. Signal Process. 187, 108169 (2021)
+[100] Pertil¨ a, P., Korhonen, T., Visa, A.: Measurement com-
+bination for acoustic source localization in a room envi-
+ronment. EURASIP J. on Audio, Speech, and Music
+Process. 2008 (2008)
+[101] Wan, X., Wu, Z.: Improved speech source localization
+in reverberant environments based on correlation dimen-
+sion. In: Proc. Int. Conf. on Wireless Commun. & Signal
+Proc., pp. 1–4 (2009)
+[102] Hummes, F., Qi, J., Fingscheidt, T.: Robust acoustic
+speaker localization with distributed microphones. In:
+Proc. Eur. Signal Process. Conf. (EUSIPCO), pp. 240–
+244 (2011)
+[103] Salvati, D., Drioli, C., Foresti, G.L.: Incoherent fre-
+quency fusion for broadband steered response power
+algorithms in noisy environments. IEEE Signal Process.
+Lett. 21(5), 581–585 (2014)
+[104] Pertila, P., Cakir, E.: Robust direction estimation with
+convolutional neural networks based steered response
+power. In: Proc. IEEE Int. Conf. on Acoust., Speech and
+Signal Process. (ICASSP), pp. 6125–6129 (2017)
+[105] Salvati, D., Drioli, C., Foresti, G.L.: Exploiting CNNs
+for improving acoustic source localization in noisy and
+reverberant conditions. IEEE Trans. on Emerging Topics
+in Comput. Intel. 2(2), 103–116 (2018)
+[106] Wang, Z.-Q., Zhang, X., Wang, D.: Robust speaker local-
+ization guided by deep learning-based time-frequency
+masking. IEEE/ACM Trans. Audio, Speech, Language
+Process. 27(1), 178–188 (2019)
+[107] Wechsler, J., Mack, W., Habets, E.A.P.: End-to-
+end signal-aware direction-of-arrival estimation using
+weighted steered-response power. In: Proc. Eur. Signal
+Process. Conf. (EUSIPCO), pp. 41–45 (2022)
+[108] Moragues, J., Vergara, L., Gosalbez, J., Machmer, T.,
+Swerdlow, A., Kroschel, K.: Background noise suppres-
+sion for acoustic localization by means of an adaptive
+energy detection approach. In: Proc. IEEE Int. Conf.
+on Acoust., Speech and Signal Process. (ICASSP), pp.
+2421–2424 (2008)
+[109] Machmer, T., Swerdlow, A., Kroschel, K., Moragues, J.,
+27
+## PDF page 28
+Vergara, L., Gos´ albez, J.: Robust impulsive sound source
+localization by means of an energy detector for temporal
+alignment and pre-classification. In: Proc. Eur. Signal
+Process. Conf. (EUSIPCO), pp. 1409–1412 (2009)
+[110] Lim, H., Yoo, I.-C., Cho, Y., Yook, D.: Speaker localiza-
+tion in noisy environments using steered response voice
+power. IEEE Trans. Consum. Electron. 61(1), 112–118
+(2015)
+[111] Qian, X., Zhang, Q., Guan, G., Xue, W.: Deep audio-
+visual beamforming for speaker localization. IEEE Sig-
+nal Process. Lett. 29, 1132–1136 (2022)
+[112] Yang, B., Liu, H., Li, X.: SRP-DNN: learning direct-path
+phase difference for multiple moving sound source local-
+ization. In: Proc. IEEE Int. Conf. on Acoust., Speech
+and Signal Process. (ICASSP), pp. 721–725 (2022)
+[113] Salvati, D., Drioli, C., Foresti, G.L.: Frequency map
+selection using a RBFN-based classifier in the MVDR
+beamformer for speaker localization in reverberant
+rooms. In: Proc. Conf. of Int. Speech Commun. Assoc.
+(INTERSPEECH), pp. 3298–3301 (2015)
+[114] Salvati, D., Drioli, C., Foresti, G.L.: On the use of
+machine learning in microphone array beamforming for
+far-field sound source localization. In: Proc. IEEE Int.
+Workshop on Machine Learning for Signal Process.
+(MLSP), pp. 1–6 (2016)
+[115] Salvati, D., Drioli, C., Foresti, G.L.: A weighted MVDR
+beamformer based on SVM learning for sound source
+localization. Pattern Recognition Lett. 84, 15–21 (2016)
+[116] Diaz-Guerra, D., Miguel, A., Beltran, J.R.: Direction
+of arrival estimation of sound sources using icosahe-
+dral CNNs. IEEE/ACM Trans. Audio, Speech, Language
+Process. 31, 313–321 (2023)
+[117] Diaz-Guerra, D., Politis, A., Virtanen, T.: Position
+tracking of a varying number of sound sources with slid-
+ing permutation invariant training. In: Proc. Eur. Signal
+Process. Conf. (EUSIPCO), pp. 251–255 (2023)
+[118] Diaz-Guerra, D., Beltran, J.R.: Direction of arrival esti-
+mation with microphone arrays using SRP-PHAT and
+neural networks. In: Proc. IEEE Sensor Array and Mul-
+tichannel Signal Process. Workshop (SAM), pp. 617–621
+(2018)
+[119] Zhao, X., Zhou, L., Tong, Y., Qi, Y., Shi, J.: Robust
+sound source localization using convolutional neural net-
+work based on microphone array. Intelligent Automation
+& Soft Computing 30(1) (2021)
+[120] Zhong, T., Vel´ azquez, I.M., Ren, Y., Meana, H.M.P.,
+Haneda, Y.: Spherical convolutional recurrent neural
+network for real-time sound source tracking. In: Proc.
+IEEE Int. Conf. on Acoust., Speech and Signal Process.
+(ICASSP), pp. 5063–5067 (2022)
+[121] Grinstein, E., Brookes, M., Naylor, P.A.: Graph neu-
+ral networks for sound source localization on distributed
+microphone networks. In: Proc. IEEE Int. Conf. on
+Acoust., Speech and Signal Process. (ICASSP) (2023)
+[122] Grinstein, E., Waterschoot, T., Brookes, M., Naylor,
+P.A.: The Neural-SRP method for positional sound
+source localization. In: Proc. Asilomar Conf. on Signals,
+Syst. & Comput. (2023)
+[123] Grinstein, E., Hicks, C.M., Waterschoot, T., Brookes,
+Mike, Naylor, Patrick. A: The Neural-SRP method for
+universal robust multi-source tracking. IEEE Open J. of
+Signal Process. 5, 19–28 (2023)
+[124] Velasco, J., Pizarro, D., Macias-Guarasa, J.: Source
+localization with acoustic sensor arrays using genera-
+tive model based fitting with sparse constraints. Sensors
+12(10), 13781–13812 (2012)
+[125] Asaei, A., Taghizadeh, M.J., Bahrololum, M., Ghanbari,
+M.: Verified speaker localization utilizing voicing level in
+split-bands. Signal Process. 89(6), 1038–1049 (2009)
+[126] Garc´ ıa-Barrios, G., Latorre Iglesias, E., Guti´ errez-
+Arriola, J.M., Fraile, R., S´ aenz-Lech´ on, N., Osma-Ruiz,
+V.J.: Exploiting spatial diversity for increasing the
+robustness of sound source localization systems against
+reverberation. Applied Acoust. 202, 109138 (2023)
+[127] Das H., A., Gopalakrishnan Pillai, L., Chellappa, M.:
+Human voice localization in noisy environment by SRP-
+PHAT and MFCC. Int. Research J. of Advanced Eng.
+and Science 1(3), 33–37 (2016)
+[128] Zhao, J., Ritz, C.: Investigating co-prime microphone
+arrays for speech direction of arrival estimation. In:
+Proc. Asia-Pacific Signal and Inform. Process. Assoc.
+Annual Summit and Conf. (APSIPA), pp. 1658–1664
+(2018)
+[129] Zhao, J., Ritz, C.: Semi-coprime microphone arrays for
+estimating direction of arrival of speech sources. In:
+Proc. Asia-Pacific Signal and Inform. Process. Assoc.
+Annual Summit and Conf. (APSIPA), pp. 308–313
+(2019)
+[130] Zhao, X., Tang, J., Zhou, L., Wu, Z.: A fast search
+method of steered response power with small-aperture
+microphone array for sound source localization. J. of
+Electronics (China) 30(5), 483–490 (2013)
+[131] Padois, T., Doutres, O., Sgard, F., Berry, A.: On the use
+of geometric and harmonic means with the generalized
+cross-correlation in the time domain to improve noise
+source maps. J. Acoust. Soc. Am. 140(1), 56–61 (2016)
+[132] Diaz-Guerra, D., Beltran, J.R.: Source cancellation in
+cross-correlation functions for broadband multisource
+DOA estimation. Signal Process. 170, 107442 (2020)
+[133] Grondin, F., Glass, J.: Multiple sound source localiza-
+tion with SVD-PHAT. In: Proc. Conf. of Int. Speech
+Commun. Assoc. (INTERSPEECH), pp. 2698–2702
+(2019)
+[134] Taghizadeh, M.J., Garner, P.N., Bourlard, H., Abu-
+talebi, H.R., Asaei, A.: An integrated framework for
+multi-channel multi-source localization and voice activ-
+ity detection. In: Proc. Joint Workshop on Hands-free
+Speech Commun. and Microphone Arrays (HSCMA), pp.
+92–97 (2011)
+[135] Oualil, Y.: Joint detection and localization of multi-
+ple speakers using a probabilistic interpretation of the
+steered response power. In: Proc. Conf. of Int. Speech
+Commun. Assoc. (INTERSPEECH) (2012)
+[136] Oualil, Y., Faubel, F., Klakow, D.: A fast cumulative
+steered response power for multiple speaker detection
+and localization. In: Proc. Eur. Signal Process. Conf.
+(EUSIPCO), pp. 1–5 (2013)
+[137] C ¸ ¨ oteli, M.B., Olgun, O., Hacıhabibo˘ glu, H.: Multiple
+sound source localization with steered response power
+density and hierarchical grid refinement. IEEE/ACM
+Trans. Audio, Speech, Language Process. 26(11), 2215–
+2229 (2018)
+[138] Segura, C., Abad, A., Hernando, J., Nadeu, C.: Multi-
+speaker localization and tracking in intelligent environ-
+ments. In: Multimodal Technologies for Perception of
+Humans, pp. 82–90 (2008)
+[139] Madhu, N., Martin, R.: A scalable framework for mul-
+tiple speaker localization and tracking. In: Proc. Int.
+Workshop on Acoust. Signal Enhancement (IWAENC)
+(2008)
+[140] Do, H., Silverman, H.F.: A method for locating multi-
+ple sources from a frame of a large-aperture microphone
+array data without tracking. In: Proc. IEEE Int. Conf.
+on Acoust., Speech and Signal Process. (ICASSP), pp.
+301–304 (2008)
+[141] Do, H., Silverman, H.F.: SRP-PHAT methods of locating
+simultaneous multiple talkers using a frame of micro-
+phone array data. In: Proc. IEEE Int. Conf. on Acoust.,
+Speech and Signal Process. (ICASSP), pp. 125–128
+(2010)
+[142] Cai, W., Zhao, X., Wu, Z.: Localization of multi-
+ple speech sources based on sub-band steered response
+power. In: Proc. Int. Conf. on Elec. and Control Eng.,
+pp. 1246–1249 (2010)
+[143] Khanal, S., Silverman, H.F.: Multi-stage rejection sam-
+pling (MSRS): A robust SRP-PHAT peak detection
+algorithm for localization of cocktail-party talkers. In:
+Proc. IEEE Workshop on Appl. of Signal Process. to
+Audio and Acoust. (WASPAA), pp. 1–5 (2015)
+[144] Boora, R., Dhull, S.K.: A TDOA-based multiple source
+localization using delay density maps. S¯ adhan¯ a45(1),
+28
+## PDF page 29
+204 (2020)
+[145] Dehghan Firoozabadi, A., Irarr´ azaval, P., Adasme, P.,
+Zabala-Blanco, D., Palacios-J´ ativa, P., Durney, H.,
+Olave, M.S., Azurdia, C.: Multi-speaker localization by
+central and lateral microphone arrays based on the com-
+bination of 2D-SRP and subband GEVD algorithms. In:
+Proc. Int. Conf. on Signal Processing and Communica-
+tion (ICSC), pp. 433–438 (2022)
+[146] Tengan, E., Dietzen, T., Elvander, F., van Waterschoot,
+T.: Multi-source direction-of-arrival estimation using
+group-sparse fitting of steered response power maps.
+In: Proc. IEEE Workshop on Appl. of Signal Pro-
+cess. to Audio and Acoust. (WASPAA), New Paltz,
+NY, USA, pp. 1–5 (2023). https://doi.org/10.1109/
+WASPAA58266.2023.10248095
+[147] Stoica, P., Babu, P., Li, J.: SPICE: A sparse covariance-
+based estimation method for array processing. IEEE
+Trans. Signal Process. 59(2), 629–638 (2011) https://
+doi.org/10.1109/TSP.2010.2090525
+[148] Park, H., Li, J.: A frequency-domain SPICE approach
+to high-resolution time delay estimation. IEEE Wireless
+Commun. Lett. 7(3), 360–363 (2018) https://doi.org/10.
+1109/LWC.2017.2778109
+[149] Pavlidi, D., Griffin, A., Puigt, M., Mouchtaris, A.: Real-
+time multiple sound source localization and counting
+using a circular microphone array. IEEE Trans. Audio,
+Speech, Language Process. 21(10), 2193–2206 (2013)
+[150] Rickard, S., Yilmaz, O.: On the approximate W-disjoint
+orthogonality of speech. In: Proc. IEEE Int. Conf. on
+Acoust., Speech and Signal Process. (ICASSP), vol. 1,
+pp. 529–532 (2002)
+[151] Hadad, E., Gannot, S.: Multi-speaker direction of arrival
+estimation using SRP-PHAT algorithm with a weighted
+histogram. In: IEEE Int. Conf. on the Science of Elec.
+Eng. in Israel (ICSEE), pp. 1–5 (2018)
+[152] Padois, T., Doutres, O., Sgard, F., Berry, A.: Time
+domain localization technique with sparsity constraint
+for imaging acoustic sources. Mechanical Systems and
+Signal Proc. 94, 85–93 (2017)
+[153] Pati, Y.C., Rezaiifar, R., Krishnaprasad, P.S.: Orthogo-
+nal matching pursuit: Recursive function approximation
+with applications to wavelet decomposition. In: Proc.
+Asilomar Conf. on Signals, Syst. & Comput., pp. 40–44
+(1993)
+[154] Kim, S.-J., Koh, K., Lustig, M., Boyd, S., Gorinevsky,
+D.: An interior-point method for large-scale ℓ1-
+regularized least squares. IEEE J. Sel. Topics Signal
+Process. 1(4), 606–617 (2007)
+[155] Chu, Z., Weng, J., Yang, Y.: Determination of propaga-
+tion model matrix in generalized cross-correlation based
+inverse model for broadband acoustic source localization.
+J. Acoust. Soc. Am. 147(4), 2098–2109 (2020)
+[156] Thakallapalli, S., Gangashetty, S.V., Madhu, N.: NMF-
+weighted SRP for multi-speaker direction of arrival
+estimation: Robustness to spatial aliasing while exploit-
+ing sparsity in the atom-time domain. EURASIP J. on
+Audio, Speech, and Music Process. 2021(1), 13 (2021)
+[157] Lee, D., Seung, H.S.: Algorithms for non-negative matrix
+factorization. In: Advances in Neural Information Pro-
+cessing Systems, vol. 13 (2000)
+[158] Bai, M.R., Ho, P.: Using a steered-response power-phase
+transform to optimize speech pickup in reverberant envi-
+ronments. J. Audio Eng. Soc. (AES) 56(4), 280–291
+(2008)
+[159] Levi, A., Silverman, H.F.: An alternate approach to
+adaptive beamforming using SRP-PHAT. In: Proc. IEEE
+Int. Conf. on Acoust., Speech and Signal Process.
+(ICASSP), pp. 2726–2729 (2010)
+[160] Traa, J., Wingate, D., Stein, N.D., Smaragdis, P.:
+Robust source localization and enhancement with a
+probabilistic steered response power model. IEEE/ACM
+Trans. Audio, Speech, Language Process. 24(3), 493–503
+(2016)
+[161] Blauth, D.A., Minotto, V.P., Jung, C.R., Lee, B., Kalker,
+T.: Voice activity detection and speaker localization
+using audiovisual cues. Pattern Recognition Lett. 33(4),
+373–380 (2012)
+[162] Schwartz, O., David, A., Shahen-Tov, O., Gannot, S.:
+Multi-microphone voice activity and single-talk detec-
+tors based on steered-response power output entropy. In:
+Proc. IEEE Int. Conf. on the Science of Elec. Eng. in
+Israel (ICSEE), pp. 1–4 (2018)
+[163] Traa, J., Smaragdis, P., Stein, N.D., Wingate, D.: Direc-
+tional NMF for joint source localization and separation.
+In: Proc. IEEE Workshop on Appl. of Signal Process. to
+Audio and Acoust. (WASPAA), pp. 1–5 (2015)
+[164] Nikunen, J., Diment, A., Virtanen, T.: Separation of
+moving sound sources using multichannel NMF and
+acoustic tracking. IEEE/ACM Trans. Audio, Speech,
+Language Process. 26(2), 281–295 (2018)
+[165] Caba˜ nas-Molero, P., Lucena, M., Fuertes, J.M., Vera-
+Candeas, P., Ruiz-Reyes, N.: Multimodal speaker
+diarization for meetings using volume-evaluated SRP-
+PHAT and video analysis. Multimedia Tools and Appli-
+cations 77(20), 27685–27707 (2018)
+[166] Kang, W., Roy, B.C., Chow, W.: Multimodal speaker
+diarization of real-world meetings using d-vectors with
+spatial features. In: Proc. IEEE Int. Conf. on Acoust.,
+Speech and Signal Process. (ICASSP), pp. 6509–6513
+(2020)
+[167] Gburrek, T., Boeddeker, C., Neumann, T., Cord-
+Landwehr, T., Schmalenstroeer, J., Haeb-Umbach, R.:
+A meeting transcription system for an ad-hoc acous-
+tic sensor network. Technical Report arXiv:2205.00944,
+Paderborn University (2022)
+[168] Dam, H.Q.H., Nordholm, S.: Source separation employ-
+ing beamforming and SRP-PHAT localization in three-
+speaker room environments. Vietnam J. of Computer
+Science 4(3), 161–170 (2017)
+[169] Hennecke, M., Plotz, T., Fink, G.A., Schmalenstroer, J.,
+Haeb-Umbach, R.: A hierarchical approach to unsuper-
+vised shape calibration of microphone array networks.
+In: Proc. IEEE/SP Workshop on Statistical Signal Pro-
+cess., pp. 257–260 (2009)
+[170] Even, J., Ishi, C., Heracleous, P., Miyashita, T.,
+Hagita, N.: Combining laser range finders and local
+steered response power for audio monitoring. In: Proc.
+IEEE/RSJ Int. Conf. on Intelligent Robots and Syst.
+(IROS), pp. 986–991 (2012)
+[171] Even, J., Morales, Y., Furrer, J., Ishi, C.T., Hagita, N.:
+Combining steered response power with 3D LIDAR scans
+for building sound maps. JSAI Technical Report (2013)
+[172] Seewald, L.A., Gonzaga, L., Veronez, M.R., Minotto,
+V.P., Jung, C.R.: Combining SRP-PHAT and two
+Kinects for 3D sound source localization. Expert Sys-
+tems with Applications 41(16), 7106–7113 (2014)
+[173] Sedunov, A., Salloum, H., Sutin, A., Sedunov, N.,
+Tsyuryupa, S.: UAV passive acoustic detection. In: Proc.
+IEEE Int. Symp. on Technologies for Homeland Security
+(HST), pp. 1–6 (2018)
+[174] Harvey, B., O’Young, S.: A harmonic spectral beam-
+former for the enhanced localization of propeller-driven
+aircraft. J. of Unmanned Vehicle Systems 7(2), 156–174
+(2019)
+[175] Strauss, M., Mordel, P., Miguet, V., Deleforge, A.:
+DREGON: dataset and methods for UAV-embedded
+sound source localization. In: Proc. IEEE/RSJ Int. Conf.
+on Intelligent Robots and Syst. (IROS), p. 5735 (2018)
+[176] Tengan, E.: DOA-informed speech enhancement with
+a UAV. Spatial audio analysis with constrained micro-
+phone setups in adverse acoustic conditions, pp. 111–
+123. PhD thesis, KU Leuven (2024)
+[177] Zieger, C., Brutti, A., Svaizer, P.: Acoustic based surveil-
+lance system for intrusion detection. In: Proc. IEEE Int.
+Conf. on Adv. Video and Signal Based Surveillance, pp.
+314–319 (2009)
+[178] Kim, K., Wang, S., Ryu, H., Lee, S.Q.: Acoustic-based
+position estimation of an object and a person using
+active localization and sound field analysis. Applied
+Sciences 10(24), 9090 (2020)
+[179] Park, J.H., Cho, W., Kim, S.-C.: Improving acoustic
+29
+## PDF page 30
+localization accuracy by applying interaural level dif-
+ference and support vector machine for AoA outlier
+removal. In: Proc. Int. Conf. on Elec., Inf., and Commun.
+(ICEIC), pp. 1–4 (2021)
+[180] Chiariotti, P., Martarelli, M., Castellini, P.: Acoustic
+beamforming for noise source localization – reviews,
+methodology and applications. Mech. Syst. and Signal
+Process. 120, 422–448 (2019)
+[181] Royvaran, M., Donohue, K.D., Davis, B.: Localization
+of stationary source of floor vibration using steered
+response power method. In: Dynamics of Civil Struc-
+tures, Volume 2, pp. 141–149 (2021)
+[182] Tiete, J., Dom´ ınguez, F., Silva, B.D., Segers, L., Steen-
+haut, K., Touhafi, A.: SoundCompass: a distributed
+MEMS microphone array-based sensor for sound source
+localization. Sensors 14(2), 1918–1949 (2014)
+[183] Nie, P., Liu, B., Chen, P., Li, K., Han, Y.: SRP-PHAR
+combined velocity scanning for locating the shallow
+underground acoustic source. IEEE Access 7, 161350–
+161362 (2019)
+[184] DeVille, P.: Localization of soniferous fish using a sparse
+hydrophone array and conventional steered response
+power method. Master’s thesis, East Carolina University
+(2019)
+[185] Chen, J., Shen, X., Lu, M., Wu, J., Zhou, N., Luo,
+L.: Equipment fault acoustic source direction of arrival
+estimation with microphone arrays using SRP-PHAT
+method. In: Proc. Asia Conf. on Power and Elec. Eng.
+(ACPEE), pp. 1388–1392 (2020)
+[186] Shon, S., Kim, E., Yoon, J., Ko, H.: Sudden noise source
+localization system for intelligent automobile applica-
+tion with acoustic sensors. In: Proc. IEEE Int. Conf. on
+Consumer Elec. (ICCE), pp. 233–234 (2012)
+[187] Swerdlow, A., Machmer, T., Kroschel, K.: Speaker posi-
+tion estimation in vehicles by means of acoustic analysis.
+In: Proc. Int. Conf. on Acoust. (DAGA) (2008)
+[188] Van Den Broeck, B., Vuegen, L., Van hamme, H.,
+Moonen, M., Karsmakers, P., Vanrumste, B.: Footstep
+localization based on in-home microphone-array signals.
+In: ao, P.E., et al. (eds.) Assistive Technology: From
+Research to Practice, pp. 90–94. IOS Press, ??? (2013)
+[189] Wang, Q.H., Ivanov, T., Aarabi, P.: Acoustic robot navi-
+gation using distributed microphone arrays. Information
+Fusion 5(2), 131–140 (2004)
+[190] Lebarbenchon, R., Camberlein, E., Carlo, D., Gaultier,
+C., Deleforge, A., Bertin, N.: Evaluation of an open-
+source implementation of the SRP-PHAT algorithm
+within the 2018 LOCATA Challenge. Technical Report
+arXiv:1812.05901, Inria (2018)
+[191] Gamboa-Montero, J.J., Basiri, M., Castillo, J.C.,
+Marques-Villarroya, S., Salichs, M.A.: Real-time acous-
+tic touch localization in human-robot interaction based
+on steered response power. In: Proc. IEEE Int. Conf. on
+Development and Learning (ICDL), pp. 101–106 (2022)
+[192] Johansson, A., Grbic, N., Nordholm, S.: Speaker local-
+isation using the far-field SRP-PHAT in conference
+telephony. In: Proc. 2002 Int. Symp. on Intelligent Signal
+Process. and Commun. Syst. (ISPACS) (2002)
+[193] Butko, T., Pla, F.G., Segura, C., Nadeu, C., Hernando,
+J.: Two-source acoustic event detection and localiza-
+tion: Online implementation in a smart-room. In: Proc.
+Eur. Signal Process. Conf. (EUSIPCO), pp. 1317–1321
+(2011)
+[194] Zhang, Y., Meng, S.: Sound source localization algo-
+rithm based on a helmet-mounted microphone array. In:
+Intern. Symp. on Parallel Architectures, Algorithms and
+Programming, pp. 183–186 (2014)
+[195] Abad, A., Segura, C., Macho, D., Hernando, J., Nadeu,
+C.: Audio person tracking in a smart-room environ-
+ment. In: Proc. Conf. of Int. Speech Commun. Assoc.
+(INTERSPEECH) (2006)
+[196] Astapov, S., Berdnikova, J., Preden, J.-S.: Predictive
+acoustic localization and speaker tracking for distributed
+sensor networks. In: Proc. Int. Conf. on Control Automa-
+tion Robotics & Vision (ICARCV), pp. 833–838 (2014)
+[197] Grondin, F., Michaud, F.: Lightweight and optimized
+sound source localization and tracking methods for open
+and closed microphone array configurations. Robotics
+and Autonomous Syst. 113, 63–80 (2019)
+[198] Ward, D.B., Lehmann, E.A., Williamson, R.C.: Particle
+filtering algorithms for tracking an acoustic source in
+a reverberant environment. IEEE Trans. Speech Audio
+Process. 11(6), 826–836 (2003)
+[199] Valin, J.-M., Michaud, F., Rouat, J.: Robust 3D local-
+ization and tracking of sound sources using beamforming
+and particle filtering. In: Proc. IEEE Int. Conf. on
+Acoust., Speech and Signal Process. (ICASSP), vol. 4,
+p. (2006)
+[200] Habib, T., Romsdorfer, H.: Comparison of SRP-PHAT
+and Multiband-PoPi algorithms for speaker localization
+using particle filters. In: Proc. Conf. on Digital Audio
+Effects (2010)
+[201] Fallon, M.F., Godsill, S.J.: Acoustic source localization
+and tracking of a time-varying number of speakers. IEEE
+Trans. Audio, Speech, Language Process. 20(4), 1409–
+1415 (2012)
+[202] Wu, K., Khong, A.W.H.: Acoustic source tracking in
+reverberant environment using regional steered response
+power measurement. In: Proc. Asia-Pacific Signal and
+Inform. Process. Assoc. Annual Summit and Conf.
+(APSIPA), pp. 1–6 (2013)
+[203] Wu, K., Khong, A.W.H.: Sound source localization
+and tracking. In: Magnenat-Thalmann, N., Yuan,
+J., Thalmann, D., You, B.-J. (eds.) Context Aware
+Human-Robot and Human-Agent Interaction, pp. 55–78.
+Springer, ??? (2016)
+[204] Wang, L., Sanchez-Matilla, R., Cavallaro, A.: Tracking a
+moving sound source from a multi-rotor drone. In: Proc.
+IEEE/RSJ Int. Conf. on Intelligent Robots and Syst.
+(IROS), pp. 2511–2516 (2018)
+[205] Fallon, M.F., Godsill, S.: Acoustic source localization
+and tracking using track before detect. IEEE Trans.
+Audio, Speech, Language Process. 18(6), 1228–1242
+(2010)
+[206] Mungamuru, B., Aarabi, P.: Enhanced sound local-
+ization. IEEE Trans. Syst., Man, Cybern. B 34(3),
+1526–1540 (2004)
+[207] Nakadai, K., Nakajima, H., Yamada, K., Hasegawa, Y.,
+Nakamura, T., Tsujino, H.: Sound source tracking with
+directivity pattern estimation using a 64 ch microphone
+array. In: Proc. IEEE/RSJ Int. Conf. on Intelligent
+Robots and Syst. (IROS), pp. 1690–1696 (2005)
+[208] Abad, A., Segura, C., Nadeu, C., Hernando, J.: Audio-
+based approaches to head orientation estimation in a
+smart-room. In: Proc. Conf. of Int. Speech Commun.
+Assoc. (INTERSPEECH) (2007)
+[209] Togami, M., Kawaguchi, Y.: Head orientation estimation
+of a speaker by utilizing kurtosis of a DOA histogram
+with restoration of distance effect. In: Proc. IEEE Int.
+Conf. on Acoust., Speech and Signal Process. (ICASSP),
+pp. 133–136 (2010)
+[210] Segura, C., Hernando Peric´ as, F.J.: GCC-PHAT based
+head orientation estimation. In: Proc. Conf. of Int.
+Speech Commun. Assoc. (INTERSPEECH), pp. 1–4
+(2012)
+[211] Silverman, H.F., Yu, Y., Sachar, J.M., Patterson, W.R.:
+Performance of real-time source-location estimators for
+a large-aperture microphone array. IEEE Trans. Speech
+Audio Process. 13(4), 593–606 (2005)
+[212] Nguyen, U.T.K., Pham, T.V.: Performance assessment
+of generalized cross-correlation based algorithms for
+multisource point-based localization and detection. In:
+Int. Conf. on Advanced Technologies for Commun.
+(ATC), pp. 303–306 (2011)
+[213] Lathoud, G.: Further applications of sector-based detec-
+tion and short-term clustering. Technical Report Idiap-
+RR-26-2006, IDIAP, Martigny, Switzerland (2006)
+[214] Johansson, A., Cook, G., Nordholm, S.: Acoustic direc-
+tion of arrival estimation, a comparison between Root-
+MUSIC and SRP-PHAT. In: Proc. IEEE Region 10 Conf.
+(TENCON), vol. B, pp. 629–632 (2004)
+[215] Dmochowski, J., Benesty, J., Affes, S.: Direction of
+30
+## PDF page 31
+arrival estimation using the parameterized spatial cor-
+relation matrix. IEEE Trans. Audio, Speech, Language
+Process. 15(4), 1327–1339 (2007)
+[216] Dmochowski, J.P., Benesty, J.: Steered beamforming
+approaches for acoustic source localization. In: Cohen,
+I., Benesty, J., Gannot, S. (eds.) Speech Processing in
+Modern Communication: Challenges and Perspectives,
+pp. 307–337. Springer, ??? (2010)
+[217] Hafezi, S., Moore, A.H., Naylor, P.A.: Multiple source
+localization in the spherical harmonic domain using aug-
+mented intensity vectors based on grid search. In: Proc.
+Eur. Signal Process. Conf. (EUSIPCO), pp. 602–606
+(2016)
+[218] Peterson, J.M., Kyriakakis, C.: Analysis of fast localiza-
+tion algorithms for acoustical environments. In: Proc.
+Asilomar Conf. on Signals, Syst. & Comput., pp. 1385–
+1389 (2005)
+[219] Velasco, J., Mart´ ın-Arguedas, C.J., Macias-Guarasa, J.,
+Pizarro, D., Mazo, M.: Proposal and validation of an
+analytical generative model of SRP-PHAT power maps
+in reverberant scenarios. Signal Process. 119, 209–228
+(2016)
+[220] Swartling, M., Grbi´ c, N.: Calibration errors of uniform
+linear sensor arrays for DOA estimation: An analy-
+sis with SRP-PHAT. Signal Process. 91(4), 1071–1075
+(2011)
+[221] Nie, P., Liu, B., Chen, P., Han, Y.: Coherence-weighted
+steered response power for acoustic source localization.
+Acoustics Australia 50(3), 365–371 (2022)
+31

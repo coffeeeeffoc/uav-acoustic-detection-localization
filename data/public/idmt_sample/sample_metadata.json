@@ -1,0 +1,44 @@
+{
+  "access_date": "2026-10-02",
+  "dataset_citation_key": "idmt",
+  "audio": {
+    "channels": 8,
+    "sample_rate": 48000,
+    "sample_width_bytes": 2,
+    "frames": 1440000,
+    "seconds": 30.0
+  },
+  "labels": {
+    "file": "DOATruePos.csv",
+    "columns": [
+      "time",
+      "X",
+      "Y",
+      "Z",
+      "ele",
+      "azi"
+    ],
+    "rows": 3000,
+    "time_start_s": 0.0,
+    "time_end_s": 29.990000000000002,
+    "azimuth_range_degrees": [
+      283.32186019242556,
+      292.2688018941128
+    ],
+    "Z_unique": [
+      0.0
+    ],
+    "ele_unique": [
+      90.0
+    ],
+    "only_azimuth_valid_per_official_README": true
+  },
+  "geometry_source": "upstream_Reusev301.yaml",
+  "channel_mapping_status": "Positions/order agree with the paper Figure 1; raw WAV channel mapping and 157.5-degree rotation relative to GPS labels have not been independently verified.",
+  "measurements_not_performed": [
+    "No DOA estimation",
+    "No classification",
+    "No benchmark validation",
+    "No measured end-to-end timing calibration"
+  ]
+}

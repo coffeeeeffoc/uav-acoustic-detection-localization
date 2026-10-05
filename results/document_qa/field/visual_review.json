@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "reviewer": "Authoring agent visual inspection",
+  "date": "2026-10-05",
+  "english_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "chinese_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "checks": [
+    "All final page previews visually inspected",
+    "Equations and figures legible",
+    "Tables fit within text area",
+    "No clipped or overlapping content",
+    "Titles, captions and references checked"
+  ],
+  "reviewed_files": {
+    "paper/English_Main.docx": "8598c9caf024cadbb07f5906d19e2eff006472463b5587c88f6acba1c0c5ca3e",
+    "paper/English_Main.pdf": "237cfc4b2ec133417875248b2bdff0cae58b6900bccae369a75dca77c9e0a842",
+    "paper/Chinese_Translation.docx": "934fc4c895b8d2c5e7edb7b4efda9a4aa8f4bcdb962524bc4645678b301cdcf2",
+    "paper/Chinese_Translation.pdf": "3d49f181e7a04f7fabc7ceb06941e1e92b55f9c73dc558ad6ea6c2be1751fad6"
+  }
+}

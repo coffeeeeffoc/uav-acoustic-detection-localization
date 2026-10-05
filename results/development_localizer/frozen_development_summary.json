@@ -1,0 +1,75 @@
+{
+  "frozen": true,
+  "development_only": true,
+  "positive_trials": 1000,
+  "negative_trials": 1000,
+  "no_fresh_acoustic_inputs": true,
+  "primary_evidence": "five-fold trial-grouped old-development predictions",
+  "default_model": "full",
+  "models": {
+    "full": {
+      "variant": "candidate_ranker_full_oof",
+      "group": "all",
+      "n": 1000,
+      "mean_deg": 17.631875627725243,
+      "median_deg": 2.517233172911716,
+      "p95_deg": 94.99778776699355,
+      "within10_rate": 0.747,
+      "azimuth_mae_deg": 19.41319237705567,
+      "elevation_mae_deg": 7.073039317706316,
+      "mean_improvement_vs_phat_deg": 7.208905142656873,
+      "within10_improvement_vs_phat": 0.083,
+      "feature_count": 149,
+      "mean_improvement_ci95": [
+        5.966038023634222,
+        8.493169518458458
+      ],
+      "within10_improvement_ci95": [
+        0.068,
+        0.099
+      ],
+      "in_sample_mean_deg": 16.464324067995545,
+      "in_sample_within10": 0.756,
+      "runtime_probe_n": 40,
+      "median_ms": 21.2482,
+      "p95_ms": 23.78373,
+      "model_path": "results/development_localizer/candidate_ranker_model.npz",
+      "model_sha256": "6338fad6611cc7b411387eb926cc3e7f9c981af434ce04f68b778e1f22524eed"
+    },
+    "no_null": {
+      "variant": "candidate_ranker_no_null_oof",
+      "group": "all",
+      "n": 1000,
+      "mean_deg": 18.90386129962962,
+      "median_deg": 2.5307391337815917,
+      "p95_deg": 97.34946107626367,
+      "within10_rate": 0.732,
+      "azimuth_mae_deg": 21.14596092873671,
+      "elevation_mae_deg": 7.49002643942674,
+      "mean_improvement_vs_phat_deg": 5.936919470752501,
+      "within10_improvement_vs_phat": 0.068,
+      "feature_count": 104,
+      "mean_improvement_ci95": [
+        4.653716277439566,
+        7.2213669717901965
+      ],
+      "within10_improvement_ci95": [
+        0.054,
+        0.083
+      ],
+      "in_sample_mean_deg": 18.469389513315445,
+      "in_sample_within10": 0.734,
+      "runtime_probe_n": 40,
+      "median_ms": 19.1003,
+      "p95_ms": 21.808215,
+      "model_path": "results/development_localizer/candidate_ranker_no_null_model.npz",
+      "model_sha256": "c311f34098767523df7a04eb26625e02e06e0c467c8759312e2562adf4d0536b"
+    }
+  },
+  "input_archive_sha256": "c21a6b97f0fadf5324adff68c814ee27c2a38ee492460a5f2598c7cefa733c8c",
+  "feature_sha256": "290328899f2de68e098962d97217092773792c7e78c4c508fd9105ea4a22cbcc",
+  "source_sha256": "6edd9b9b46f13bf5c601711827083f0a8a0aa8c4204916ffd458187e0c978f95",
+  "bootstrap_note": "2000 independent-trial resamples within scene/SNR strata of fixed OOF predictions; ignores fitting and selection uncertainty.",
+  "runtime_note": "40 fixed old -5dB frames per model; excludes setup,warmup,file I/O and 200ms acquisition; four calls include optional diagnostics; host-only, one-thread request.",
+  "in_sample_note": "Resubstitution is diagnostic only; primary figures are grouped OOF, not blind-test evidence."
+}

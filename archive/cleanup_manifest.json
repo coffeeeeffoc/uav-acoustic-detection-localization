@@ -1,0 +1,138 @@
+[
+  {
+    "sha256": "F3895CBE3B503DD08248D590E23F48A61BE7964940B87447D3164299CDEFB6DB",
+    "destination": "archive/legacy_manuscripts/manuscript_en.md",
+    "source": "paper/manuscript_en.md"
+  },
+  {
+    "sha256": "57D1F838671F9BD18D92B7981F5A9F0A977E28122F660D16A67093BA6C091D29",
+    "destination": "archive/legacy_manuscripts/manuscript_en.pdf",
+    "source": "paper/manuscript_en.pdf"
+  },
+  {
+    "sha256": "2C09CF9A47CD7B9E171656AB5108EA61B22ECE2C10631EFE23BB79B6AD987CBF",
+    "destination": "archive/legacy_manuscripts/manuscript_zh.md",
+    "source": "paper/manuscript_zh.md"
+  },
+  {
+    "sha256": "CD1F7F880886E7AA80CBF096E934F58F3F9C2D3CBDE4DD953F88D810A7B4FB9A",
+    "destination": "archive/legacy_manuscripts/manuscript_zh.pdf",
+    "source": "paper/manuscript_zh.pdf"
+  },
+  {
+    "sha256": "C2954058E392DE3E2E4039B39BC55A56597F71D012B7534EE0F5BD54E9A2BC20",
+    "destination": "archive/legacy_manuscripts/improved_en_draft.md",
+    "source": "paper/improved_en_draft.md"
+  },
+  {
+    "sha256": "338B35DD8AA75CE2B50C526FCFDD61C13BA9F274F3EE5D19289C0CB1B42EA3B5",
+    "destination": "archive/legacy_manuscripts/improved_zh_draft.md",
+    "source": "paper/improved_zh_draft.md"
+  },
+  {
+    "sha256": "3646D93D1CBDEB3D95190652F92842CD74D0A864C77C4ED5C2E4BD7AF3D1781F",
+    "destination": "archive/legacy_manuscripts/citation_map.json",
+    "source": "paper/citation_map.json"
+  },
+  {
+    "sha256": "8393B2A5801E92FD23EED21CFA4A7C2450C89AA5F207C69B96E9B31BA2CDEE55",
+    "destination": "archive/legacy_manuscripts/controlled_evaluation_v1.zip",
+    "source": "paper/controlled_evaluation_v1.zip"
+  },
+  {
+    "source": "results/document_qa/controlled_v1_paper_artifact_manifest.json",
+    "destination": "archive/legacy_document_qa/controlled_v1_paper_artifact_manifest.json"
+  },
+  {
+    "source": "results/document_qa/controlled_v1_render_report.json",
+    "destination": "archive/legacy_document_qa/controlled_v1_render_report.json"
+  },
+  {
+    "source": "results/document_qa/delivery_verification.json",
+    "destination": "archive/legacy_document_qa/delivery_verification.json"
+  },
+  {
+    "source": "results/document_qa/en-01.png",
+    "destination": "archive/legacy_document_qa/en-01.png"
+  },
+  {
+    "source": "results/document_qa/en-02.png",
+    "destination": "archive/legacy_document_qa/en-02.png"
+  },
+  {
+    "source": "results/document_qa/en-03.png",
+    "destination": "archive/legacy_document_qa/en-03.png"
+  },
+  {
+    "source": "results/document_qa/en-04.png",
+    "destination": "archive/legacy_document_qa/en-04.png"
+  },
+  {
+    "source": "results/document_qa/en-05.png",
+    "destination": "archive/legacy_document_qa/en-05.png"
+  },
+  {
+    "source": "results/document_qa/en-06.png",
+    "destination": "archive/legacy_document_qa/en-06.png"
+  },
+  {
+    "source": "results/document_qa/en-07.png",
+    "destination": "archive/legacy_document_qa/en-07.png"
+  },
+  {
+    "source": "results/document_qa/en-08.png",
+    "destination": "archive/legacy_document_qa/en-08.png"
+  },
+  {
+    "source": "results/document_qa/en-09.png",
+    "destination": "archive/legacy_document_qa/en-09.png"
+  },
+  {
+    "source": "results/document_qa/paper_artifact_manifest.json",
+    "destination": "archive/legacy_document_qa/paper_artifact_manifest.json"
+  },
+  {
+    "source": "results/document_qa/render_report.json",
+    "destination": "archive/legacy_document_qa/render_report.json"
+  },
+  {
+    "source": "results/document_qa/zh-01.png",
+    "destination": "archive/legacy_document_qa/zh-01.png"
+  },
+  {
+    "source": "results/document_qa/zh-02.png",
+    "destination": "archive/legacy_document_qa/zh-02.png"
+  },
+  {
+    "source": "results/document_qa/zh-03.png",
+    "destination": "archive/legacy_document_qa/zh-03.png"
+  },
+  {
+    "source": "results/document_qa/zh-04.png",
+    "destination": "archive/legacy_document_qa/zh-04.png"
+  },
+  {
+    "source": "results/document_qa/zh-05.png",
+    "destination": "archive/legacy_document_qa/zh-05.png"
+  },
+  {
+    "source": "results/document_qa/zh-06.png",
+    "destination": "archive/legacy_document_qa/zh-06.png"
+  },
+  {
+    "source": "results/document_qa/zh-07.png",
+    "destination": "archive/legacy_document_qa/zh-07.png"
+  },
+  {
+    "source": "results/document_qa/zh-08.png",
+    "destination": "archive/legacy_document_qa/zh-08.png"
+  },
+  {
+    "source": "results/document_qa/zh-09.png",
+    "destination": "archive/legacy_document_qa/zh-09.png"
+  },
+  {
+    "source": "results/document_qa/zh-10.png",
+    "destination": "archive/legacy_document_qa/zh-10.png"
+  }
+]

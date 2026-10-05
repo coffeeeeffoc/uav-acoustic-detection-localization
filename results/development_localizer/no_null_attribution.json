@@ -1,0 +1,21 @@
+{
+  "development_only": true,
+  "comparison": "full149 minus no_null104 using matched five-fold OOF positive trials",
+  "independent_trials": 1000,
+  "bootstrap_seed": 90210,
+  "bootstrap_replicates": 2000,
+  "mean_error_reduction_deg": 1.271985671904374,
+  "mean_error_reduction_ci95": [
+    0.5524166707323473,
+    2.0181824460882294
+  ],
+  "within10_rate_gain": 0.015,
+  "within10_rate_gain_ci95": [
+    0.005,
+    0.025
+  ],
+  "full_lower_error_trials": 55,
+  "full_higher_error_trials": 25,
+  "full_unchanged_error_trials": 920,
+  "note": "Scene/SNR-stratified independent-trial resampling of fixed OOF predictions. Conditional descriptive interval excludes fitting/selection uncertainty. No fresh acoustic data or additional fitting."
+}

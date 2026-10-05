@@ -1,0 +1,141 @@
+{
+  "simulation_only": true,
+  "mode": "quick",
+  "master_seed": 20261002,
+  "sample_rate_hz": 8000,
+  "frame_samples": 1600,
+  "frame_seconds": 0.2,
+  "nominal_sound_speed_m_s": 343.0,
+  "array_m": [
+    [
+      -0.015624999999999997,
+      0.0075000000000000015,
+      0.0
+    ],
+    [
+      0.184375,
+      0.0075000000000000015,
+      0.0
+    ],
+    [
+      0.088375,
+      0.1695,
+      0.0
+    ],
+    [
+      -0.088625,
+      0.1875,
+      0.0
+    ],
+    [
+      -0.209625,
+      0.0305,
+      0.0
+    ],
+    [
+      -0.126625,
+      -0.1465,
+      0.0
+    ],
+    [
+      0.04037500000000001,
+      -0.1825,
+      0.0
+    ],
+    [
+      0.127375,
+      -0.0735,
+      0.0
+    ]
+  ],
+  "diameter_m": 0.3946707488527621,
+  "validation_negatives_per_scene": 20,
+  "test_negatives_per_scene": 10,
+  "test_positives_per_scene_snr": 3,
+  "tracking_repeats_per_scene_snr": 1,
+  "tracking_snr_db": [
+    -10,
+    -5,
+    0
+  ],
+  "tracking_seconds": 8,
+  "sensitivity_per_scene_snr": 1,
+  "sensitivity_snr_db": [
+    -10,
+    -5,
+    0
+  ],
+  "sensitivity_conditions": {
+    "nominal": [
+      0,
+      0
+    ],
+    "position_5mm": [
+      0.005,
+      0
+    ],
+    "delay_20us": [
+      0,
+      2e-05
+    ],
+    "both": [
+      0.005,
+      2e-05
+    ]
+  },
+  "snr_db": [
+    -15,
+    -10,
+    -5,
+    0,
+    5
+  ],
+  "scenes": [
+    "sensor_noise",
+    "wind",
+    "directional",
+    "engine"
+  ],
+  "methods": [
+    "phat",
+    "coherence",
+    "harmonic",
+    "combined"
+  ],
+  "stft_nfft": 512,
+  "stft_hop": 256,
+  "stft_segments": 5,
+  "frequency_band_hz": [
+    200,
+    3000
+  ],
+  "gcc_oversampling": 8,
+  "grid_step_deg": 3,
+  "grid_points": 3601,
+  "f0_search_hz": [
+    80,
+    240,
+    2
+  ],
+  "f0_fft_n": 2048,
+  "comb_harmonics": 12,
+  "detector_alpha": 0.05,
+  "detector_rule": "score > sorted_validation[ceil((n+1)*0.95)-1]",
+  "tracking_alpha": 0.35,
+  "max_held_misses": 5,
+  "bootstrap_replicates": 2000,
+  "split_codes": {
+    "validation_negative": 1,
+    "test_negative": 2,
+    "test_positive": 3,
+    "sensitivity": 4,
+    "tracking": 5,
+    "bootstrap": 6,
+    "self_test": 90
+  },
+  "threads": 1,
+  "source_oversampling": 3,
+  "protocol": "Fixed before full run; quick is engineering validation, not a tuning set; no method parameters are optimized on test.",
+  "started_utc": "2026-10-01T17:51:41.982028+00:00",
+  "experiment_sha256": "eafa42bbc44392589e19f0114c809da0e048633a166952e1efce3370f1e76661"
+}

@@ -1,0 +1,97 @@
+[
+  {
+    "path": "START_HERE.md",
+    "sha256": "046948a6b98c5fc45cfcaabd12f640b4bcd9d005cbd77b0ff9449542e058d70e",
+    "bytes": 4685
+  },
+  {
+    "path": "paper/citation_map.json",
+    "sha256": "573f7a2bdbfcf67b53c3f1705fb47b449c7b74f8c27a363566ede026872991cb",
+    "bytes": 331
+  },
+  {
+    "path": "paper/manuscript_en.md",
+    "sha256": "8f9829d900a3f2e72e8b915e7eb088e765cf944c270b5d51b711186366fd5681",
+    "bytes": 48027
+  },
+  {
+    "path": "paper/manuscript_en.pdf",
+    "sha256": "42c3a23dc8f8b6ce035d7193d5c409f6be63d92f4417ec8a8db551466d2c56ff",
+    "bytes": 1058626
+  },
+  {
+    "path": "paper/manuscript_zh.md",
+    "sha256": "675b85f5edc6f2c69883aa8fcdfb24cc0aeaea4f2827f894190bffe7bc5dddd5",
+    "bytes": 41315
+  },
+  {
+    "path": "paper/manuscript_zh.pdf",
+    "sha256": "f59ec2b78efe833b6fe62a8593ce5fcb752f5b3dec3bbfbf4f9908bf963f71fa",
+    "bytes": 1144550
+  },
+  {
+    "path": "code/build_papers.py",
+    "sha256": "d1b284ad1b44e23c75333c80984c1b0198f4071bc10ecbbc46bab367a3bb32e7",
+    "bytes": 14480
+  },
+  {
+    "path": "code/experiment.py",
+    "sha256": "b5eb107652b9fa540b451104263d059c50339ebef1170a89263940b319140a20",
+    "bytes": 30293
+  },
+  {
+    "path": "code/inspect_public_audio.py",
+    "sha256": "6ab3c69af280430455cd815fa16a50356d4ed229e96c0e084a7da87d4d7efc9b",
+    "bytes": 3434
+  },
+  {
+    "path": "code/summarize_experiment.py",
+    "sha256": "a34df0ee3715f183bbf26c9e0d8f65d80a2f8e7a2eae657beed5c42174c9f359",
+    "bytes": 49962
+  },
+  {
+    "path": "code/verify_delivery.py",
+    "sha256": "206f2a4b071c27f18e685f4d8cb02f2fbf714fdf66cdf17d002b6abf3f39d7f5",
+    "bytes": 5282
+  },
+  {
+    "path": "code/verify_experiment.py",
+    "sha256": "1b755147ed6316bfbd8a78b1db3faee82501ae0635cf1ba2777766b63cb92837",
+    "bytes": 5735
+  },
+  {
+    "path": "code/paper-requirements.txt",
+    "sha256": "f432ca901c88420d539647888b085904008225e2222e2a1b735e8e70aadfe86a",
+    "bytes": 84
+  },
+  {
+    "path": "results/public_audio_inspection.json",
+    "sha256": "9a8fba358aeafe3a49192571c9413628e2a0fe3e7e7fd9d3eefd3f80cf665c46",
+    "bytes": 870
+  },
+  {
+    "path": "figures/public_audio_spectrogram.png",
+    "sha256": "6c44d7c784ca25ddddf62d6747b803b56f79caac7c32a7b640fff319b95337d7",
+    "bytes": 783226
+  },
+  {
+    "path": "figures/paper_localization.png",
+    "sha256": "f7c1bd819bd84e10902144598fa1a77344636179f5b53f0b6b8742664f0d96ce",
+    "bytes": 96930
+  },
+  {
+    "path": "figures/paper_roc.png",
+    "sha256": "6d96feec2388b3dca322f3c6ad538df58bb11d74416de5bf4d789504d3c7928b",
+    "bytes": 78359
+  },
+  {
+    "path": "results/document_qa/delivery_verification.json",
+    "sha256": "c6c3cbbc040b5beb111bd01463173c4b7a91df49e76a8ff268d59dd15e2a16a4",
+    "bytes": 2279
+  },
+  {
+    "path": "results/document_qa/render_report.json",
+    "sha256": "259db380a17754145af515bc641e0b6c7d5c21355b331f82c7f4d12042cf5c05",
+    "bytes": 2056
+  }
+]

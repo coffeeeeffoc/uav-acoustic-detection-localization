@@ -1,0 +1,10 @@
+{
+  "run": "Initial physical weighting pilot",
+  "site": 1,
+  "block_spacing_positive_s": 1,
+  "negative_window_s": 0.2,
+  "source_version_note": "Run started before final 0.1 degree angular refinement and SCOT addition; only an initial development comparison, not frozen test evidence.",
+  "results_file": "development.csv",
+  "results_sha256": "68d7d02942dfc4bc217ca2c52c3267c2c2c396d836223a014e1ac10c7dfe0e34",
+  "finding": "Reference subtraction and excess power weighting reduced development recall; not chosen as primary method. PHAT had high false alarm fraction under the site calibration."
+}

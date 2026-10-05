@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "frozen_files": 16,
+  "artifact_files": 7,
+  "source_files": 1921,
+  "all_source_hashes_verified": true,
+  "prediction_rows": 5100,
+  "candidate_rows": 3400,
+  "positive_windows": 600,
+  "negative_windows": 200,
+  "calibration_windows": 50,
+  "independent_metrics": {
+    "phat": {
+      "mean_deg": 14.782065830727324,
+      "tpr": 0.24666666666666667,
+      "fpr": 0.005,
+      "joint10": 0.19166666666666668
+    },
+    "scot": {
+      "mean_deg": 15.35071790119286,
+      "tpr": 0.10166666666666667,
+      "fpr": 0.005,
+      "joint10": 0.05
+    },
+    "coherence": {
+      "mean_deg": 18.46106861561871,
+      "tpr": 0.065,
+      "fpr": 0.005,
+      "joint10": 0.01
+    },
+    "reference": {
+      "mean_deg": 12.190048372403755,
+      "tpr": 0.06833333333333333,
+      "fpr": 0.005,
+      "joint10": 0.0016666666666666668
+    },
+    "ranker": {
+      "mean_deg": 6.96581558625978,
+      "tpr": 0.8566666666666667,
+      "fpr": 0.015,
+      "joint10": 0.855
+    },
+    "no_hard_negatives": {
+      "mean_deg": 6.965309305305923,
+      "tpr": 0.7883333333333333,
+      "fpr": 0.015,
+      "joint10": 0.7883333333333333
+    }
+  },
+  "summary_recomputed": true,
+  "limitations": [
+    "Four positive and two negative test recordings, single aircraft/day",
+    "Nominal static reference angles, no synchronized trajectory",
+    "Group-specific background calibration; temporal windows not independent"
+  ]
+}

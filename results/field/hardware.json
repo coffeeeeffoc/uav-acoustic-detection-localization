@@ -1,0 +1,7 @@
+{
+  "physical_cores": 12,
+  "logical_processors": 20,
+  "note": "Workstation wall-clock measurements during the full comparison run; no isolated real-time benchmark.",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700KF",
+  "ram_bytes": 16915070976
+}

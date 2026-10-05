@@ -1,0 +1,18 @@
+{
+  "phase_0_30": 0.01729474732540214,
+  "phase_90_60": 0.0,
+  "phase_225_88.3": 0.021625717588049348,
+  "phase_359_5": 0.05360841181101566,
+  "phase_270_0": 0.0,
+  "cache_s1_uav1": 0.0,
+  "cache_s1_uav2": 0.0,
+  "cache_s1_background": 0.0,
+  "gain_0.001": 1.0248200221774084e-07,
+  "gain_17.0": 2.258431930357574e-08,
+  "gain_1000.0": 9.899023378778793e-09,
+  "primary_model_sha256": "2c564a90abdb8b11fcea767ccdc8c508c407455ed8d8bd45ba0348eb48df973d",
+  "ablation_model_sha256": "d76bc6707e0c21cafc35ec476a2c4e7d0210884ad95d9152910b22220e332391",
+  "pairs": 1124,
+  "channels_covered": 208,
+  "coarse_grid": 1257
+}

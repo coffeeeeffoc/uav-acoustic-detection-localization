@@ -1,0 +1,21 @@
+{
+  "file": "data/public/idmt_sample/2022-08-03T12-47-08_Dronen_records_Phantom4-linear_flight-02_0_33.wav",
+  "sha256": "5ece8c30ffceff4d43b6f2a6b31899b1b54d561e26482519aaed492180edb617",
+  "sample_rate_hz": 48000,
+  "channels": 8,
+  "duration_s": 30.0,
+  "sample_count": 1440000,
+  "rms_per_channel": [
+    0.00015248490991090429,
+    0.00018927619109660406,
+    0.00018227865429541293,
+    0.00018751848094425178,
+    0.0004008314518520257,
+    0.00023132306325117678,
+    0.0001586376979613833,
+    0.0004065650434839107
+  ],
+  "clipped_sample_fraction": 0.0,
+  "analysis": "First recorded channel, 4096-sample Tukey window, 3072 overlap; power spectral density relative to its maximum in the shown band.",
+  "evidence_boundary": "Descriptive inspection of one real recording only; not a classification, localization or field-range evaluation."
+}

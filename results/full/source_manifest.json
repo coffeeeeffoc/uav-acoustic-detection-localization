@@ -1,0 +1,27 @@
+{
+  "sources": [
+    {
+      "path": "code/experiment.py",
+      "sha256": "b5eb107652b9fa540b451104263d059c50339ebef1170a89263940b319140a20"
+    },
+    {
+      "path": "code/summarize_experiment.py",
+      "sha256": "a34df0ee3715f183bbf26c9e0d8f65d80a2f8e7a2eae657beed5c42174c9f359"
+    },
+    {
+      "path": "code/verify_experiment.py",
+      "sha256": "1b755147ed6316bfbd8a78b1db3faee82501ae0635cf1ba2777766b63cb92837"
+    },
+    {
+      "path": "code/requirements-lock.txt",
+      "sha256": "c4bdd15469934c9418ff9e8b495da6c946f71567ab3462bcaca4c57c959a7e27"
+    },
+    {
+      "path": "code/EXPERIMENT_README.md",
+      "sha256": "dc554b77d238cf27a7939f5cda8932f66278e08803d1665375119c6ade8893ee"
+    }
+  ],
+  "executed_experiment_sha256": "b5eb107652b9fa540b451104263d059c50339ebef1170a89263940b319140a20",
+  "current_experiment_matches_executed": true,
+  "analysis_note": "Summary and audit source hashes describe final analysis; acoustic generation source hash was fixed in config before execution."
+}

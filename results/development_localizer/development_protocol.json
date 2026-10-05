@@ -1,0 +1,17 @@
+{
+  "status": "development_screening_not_blind_validation",
+  "input": "data/synthetic/full/test/pos-*.npz",
+  "input_count": 1000,
+  "old_partition_reclassified": "The former test positives are now explicitly development data; no blind-test claim is permitted.",
+  "audio_only_contract": "ImprovedLocalizer.analyze(audio) accepts only a finite (1600,8) array sampled at 8000 Hz. Truth/scene/SNR metadata are used only by the evaluation driver after estimation.",
+  "initial_candidates": ["beta_0p75", "beta_0p5", "excess_soft", "coherence_excess", "pair_excess", "beta_excess"],
+  "baseline": "Exactly reconstructed existing SRP-PHAT, checked against all 1000 saved baseline coordinates.",
+  "shared_geometry_and_analysis": {"sample_rate_hz": 8000, "frame_samples": 1600, "welch_window_samples": 512, "hop_samples": 256, "segments": 5, "band_hz": [200,3000], "gcc_interpolation": 8, "grid_points": 3601, "grid_step_deg": 3},
+  "initial_fixed_constants": {"median_filter_bins": 11, "spectral_floor_mode": "nearest", "excess_floor": 0.05, "excess_scale": 0.95, "excess_saturation": "e/(1+e)", "coherence_floor": 0.1, "coherence_scale": 0.9, "coherence_exponent": 0.5, "beta_excess_magnitude_clip": [0.2,5]},
+  "selection_rule": "Select one globally applied candidate with lower overall mean spherical error AND greater overall within10 rate than PHAT; prefer lowest mean error among qualifying candidates. Report every tested candidate and all scene, SNR and scene-by-SNR effects, including degradation.",
+  "no_scene_specific_tuning": true,
+  "no_true_f0_input": true,
+  "no_new_acoustic_test_seeds": true,
+  "existing_detection_threshold_untouched": true,
+  "limitations": "Development selection creates optimism. Any improved development score is provisional until the main thread validates frozen code on genuinely held-out independent trials. Localization scores are not calibrated UAV detection probabilities."
+}

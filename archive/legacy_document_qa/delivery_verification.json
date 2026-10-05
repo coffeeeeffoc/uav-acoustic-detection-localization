@@ -1,0 +1,100 @@
+{
+  "passed": true,
+  "checks": [
+    "16 identical numbered equations; six bilingual tables with identical numbers",
+    "three existing figure files and all 21 references cited in each manuscript",
+    "localization, detection, eight negative-group FPRs and joint-success tables match frozen fresh results",
+    "no task/competition language, unresolved placeholders or replacement characters",
+    "both PDFs at least four pages; all text/image boxes within printable page boundaries"
+  ],
+  "documents": {
+    "en": {
+      "pages": 8,
+      "page_details": [
+        {
+          "page": 1,
+          "text_characters": 5984
+        },
+        {
+          "page": 2,
+          "text_characters": 5027
+        },
+        {
+          "page": 3,
+          "text_characters": 5093
+        },
+        {
+          "page": 4,
+          "text_characters": 4814
+        },
+        {
+          "page": 5,
+          "text_characters": 4328
+        },
+        {
+          "page": 6,
+          "text_characters": 3853
+        },
+        {
+          "page": 7,
+          "text_characters": 6839
+        },
+        {
+          "page": 8,
+          "text_characters": 2568
+        }
+      ],
+      "pdf_sha256": "57d1f838671f9bd18d92b7981f5a9f0a977e28122f660d16a67093ba6c091d29"
+    },
+    "zh": {
+      "pages": 11,
+      "page_details": [
+        {
+          "page": 1,
+          "text_characters": 1996
+        },
+        {
+          "page": 2,
+          "text_characters": 1413
+        },
+        {
+          "page": 3,
+          "text_characters": 1435
+        },
+        {
+          "page": 4,
+          "text_characters": 776
+        },
+        {
+          "page": 5,
+          "text_characters": 556
+        },
+        {
+          "page": 6,
+          "text_characters": 1770
+        },
+        {
+          "page": 7,
+          "text_characters": 986
+        },
+        {
+          "page": 8,
+          "text_characters": 1065
+        },
+        {
+          "page": 9,
+          "text_characters": 1098
+        },
+        {
+          "page": 10,
+          "text_characters": 3752
+        },
+        {
+          "page": 11,
+          "text_characters": 2388
+        }
+      ],
+      "pdf_sha256": "cd1f7f880886e7aa80cbf096e934f58f3f9c2d3cbde4dd953f88d810a7b4fb9a"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+# Acquisition and protocol clarifications
+
+This note is supplementary to the immutable frozen protocol, not an amendment to the completed test.
+
+- The initial provenance audit read all files to verify hashes, headers, sample counts, raw channel means/RMS and clipping. Thus the phrase “held-out audio remains unprocessed” in development notes means **no detection/localization outputs or learning features from the held-out aircraft recordings were used for development**, not that their bytes or format statistics were never examined. Both held-out reference diagrams were also read when defining the evaluation.
+- The `site` field in the code means an acquisition position/group P1, P2 or P3. The documents do not establish three independent venues. All recordings are from one day and one aircraft, and the same array geometry is stored in each group.
+- Nominal angles are transcribed from acquisition diagrams. The native coordinate quadrant mapping is inferred from the supplied interface's direction conversion and diagram convention. No independent hardware alignment or synchronized flight-log verification was available. The initial inventory's “to be checked” coordinate-registration field records the audit stage; the subsequent protocol and pre-freeze checks document the adopted convention.
+- Site-specific background calibration is an explicit input to the evaluation procedure. It is separate from negative evaluation time, but is not evidence of calibration-free domain transfer.
+- The headline localization quantity is spherical discrepancy from a nominal reference. The absence of time-aligned trajectories prevents a metrological absolute-accuracy or tracking claim.
+- The raw channel data were not edited, filtered in place, synthesized, mixed, relabeled after viewing test results, or excluded according to estimator success. All 600 positive test windows remain in localization statistics.
+- The hard-negative ablation changes only three selected positive-window directions; all three exceed 10 degrees under both models. Its additional benefit is 41 detections at the same three false alarms, not a measurable aggregate localization gain.
+- The Office renderer is a local administrative extraction of the official LibreOffice 26.2.6.3 MSI. DOCX and PDF share the same manuscript content. The renderer's first log-decoding issue was avoided by using the Windows locale for subprocess output and UTF-8 for Python stdout; final exports were successful.

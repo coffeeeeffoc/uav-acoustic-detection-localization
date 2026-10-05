@@ -1,0 +1,62 @@
+{
+  "source_sha256": {
+    "code/experiment.py": "b5eb107652b9fa540b451104263d059c50339ebef1170a89263940b319140a20",
+    "code/improved_detector.py": "9e64390189f26e959ff95ae5adb61d7873c85d796c5edeac79f260b8a7c13cd4",
+    "code/improved_localizer.py": "6edd9b9b46f13bf5c601711827083f0a8a0aa8c4204916ffd458187e0c978f95",
+    "code/evaluate_improved.py": "459d28aa171adf4e9dd9bc36a02af60fb09cebd2c092471c6ff75fd027b72a36",
+    "code/summarize_experiment.py": "a34df0ee3715f183bbf26c9e0d8f65d80a2f8e7a2eae657beed5c42174c9f359",
+    "code/requirements-lock.txt": "c4bdd15469934c9418ff9e8b495da6c946f71567ab3462bcaca4c57c959a7e27",
+    "research/algorithm_revision_protocol.md": "f8c7808a0acb3429c4c652a1bd2408504acb9e96525f83947b2de97b8fd0f420"
+  },
+  "model_sha256": {
+    "results/development_detector/model.npz": "28dde699ca27b1fb8d4560630a04c10c865e0ef520c138a41bae4e97929636d7",
+    "results/development_detector/model_spectral.npz": "3a4d67a950b6e64a2474d59ca116128a0ae2399c17cac02e45b3e28211c326d8",
+    "results/development_localizer/candidate_ranker_model.npz": "6338fad6611cc7b411387eb926cc3e7f9c981af434ce04f68b778e1f22524eed",
+    "results/development_localizer/candidate_ranker_no_null_model.npz": "c311f34098767523df7a04eb26625e02e06e0c467c8759312e2562adf4d0536b"
+  },
+  "master_seed": 20261002,
+  "calibration_split": 1101,
+  "negative_test_split": 1102,
+  "positive_test_split": 1103,
+  "sensitivity_split": 1104,
+  "sequence_split": 1105,
+  "calibration_n": 800,
+  "test_positive_n": 1000,
+  "test_negative_n": 2000,
+  "negative_groups": [
+    "sensor_noise",
+    "wind",
+    "directional",
+    "engine",
+    "engine_engine",
+    "directional_directional",
+    "engine_directional",
+    "engine_directional_engine"
+  ],
+  "positive_scenes": [
+    "sensor_noise",
+    "wind",
+    "directional",
+    "engine"
+  ],
+  "snr_db": [
+    -15,
+    -10,
+    -5,
+    0,
+    5
+  ],
+  "detector_alpha": 0.05,
+  "strict_threshold": true,
+  "development_data": "old full/test plus 800 old-source hard-negative mixtures",
+  "inference_contract": "only audio plus fixed learned parameters/array",
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "numpy": "2.2.6",
+    "thread_request": 1,
+    "frame_seconds": 0.2,
+    "timing_excludes": "acquisition, synthesis, file IO, initialization, display"
+  },
+  "protocol": "research/algorithm_revision_protocol.md"
+}

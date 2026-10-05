@@ -1,0 +1,616 @@
+## PDF page 1
+Steered Response Power-Based Direction-of-Arrival
+Estimation Exploiting an Auxiliary Microphone
+Klaus Br ¨umann and Simon Doclo
+Dept. of Medical Physics and Acoustics and Cluster of Excellence Hearing4all,
+Carl von Ossietzky Universit ¨at, Oldenburg, Germany
+{klaus.bruemann,simon.doclo}@uni-oldenburg.de
+Abstract—Accurately estimating the direction-of-arrival
+(DOA) of a speech source using a compact microphone
+array (CMA) is often complicated by background noise and
+reverberation. A commonly used DOA estimation method is
+the steered response power with phase transform (SRP-PHAT)
+function, which has been shown to work reliably in moderate
+levels of noise and reverberation. Since for closely spaced
+microphones the spatial coherence of noise and reverberation
+may be high over an extended frequency range, this may
+negatively affect the SRP-PHAT spectra, resulting in DOA
+estimation errors. Assuming the availability of an auxiliary
+microphone at an unknown position which is spatially separated
+from the CMA, in this paper we propose to compute the
+SRP-PHAT spectra between the microphones of the CMA based
+on the SRP-PHAT spectra between the auxiliary microphone
+and the microphones of the CMA. For different levels of noise
+and reverberation, we show how far the auxiliary microphone
+needs to be spatially separated from the CMA for the auxiliary
+microphone-based SRP-PHAT spectra to be more reliable than
+the SRP-PHAT spectra without the auxiliary microphone. These
+findings are validated based on simulated microphone signals
+for several auxiliary microphone positions and two different
+noise and reverberation conditions.
+Index Terms —Steered-Response Power, Direction-of-arrival,
+Auxiliary Microphone, Source Localization
+I. I NTRODUCTION
+In many speech processing applications, compact micro-
+phone arrays (CMAs) are used to estimate the direction-of-
+arrival (DOA) of a speech source. A popular DOA estimation
+method is based on the steered response power (SRP) function
+[1–5], where the DOA is estimated as the direction maximiz-
+ing the SRP spectra over frequencies and microphone pairs.
+Despite its simplicity, the SRP function is rather sensitive
+to reverberation and spatially coherent noise and has a poor
+spatial resolution [6].
+To improve robustness against noise and reverberation,
+several frequency weightings have been proposed [7–10]. The
+most common frequency weighting is the phase transform
+(PHAT) [11], which removes the influence of the amplitude
+in the SRP spectra, effectively decorrelating the microphone
+signals and enhancing the spatial resolution. While the PHAT
+weighting is optimal in anechoic environments with spatially
+uncorrelated noise, it has also been demonstrated to work well
+in realistic noisy and reverberant acoustic environments where
+This work was funded by the Deutsche Forschungsgemeinschaft (DFG,
+German Research Foundation) under Germany’s Excellence Strategy - EXC
+2177/1 - Project ID 390895286 and Project ID 352015383 - SFB 1330 B2.
+these assumptions are not satisfied [12–14]. Nevertheless,
+for small inter-microphone distances noise and reverberation
+typically exhibit a larger spatial coherence than for large
+inter-microphone distances, especially at low frequencies,
+negatively affecting the SRP-PHAT spectra and the DOA
+estimation performance.
+In this paper, we assume that an additional microphone is
+available, which is spatially separated from the CMA. The
+main objective is to exploit this additional microphone to
+enhance the estimation accuracy of the SRP spectra in noisy
+and reverberant environments. In recent years, several source
+localization methods exploiting an auxiliary microphone have
+been proposed. While some methods assume that the auxiliary
+microphone is in the vicinity of the source [15–17], other
+methods just assume that the auxiliary microphone is spatially
+separated from the microphone array [18–20]. In both cases
+the spatial coherence of the noise and reverberation between
+the microphones of the array and the auxiliary microphone
+is typically lower than the spatial coherence between the
+microphones of the array. Similarly to [20], in this paper
+we propose to compute the SRP-PHAT spectra between the
+microphones of the CMA based on the SRP-PHAT spectra
+between the auxiliary microphone and the microphones of
+the CMA. Assuming a spherically isotropic sound field and
+a constant power spectrum for the noise and reverberation,
+we theoretically analyse the influence of the noise and re-
+verberation on the auxiliary microphone-based SRP-PHAT
+spectrum. We show that the auxiliary microphone-based SRP-
+PHAT spectrum is more reliable than the conventional SRP-
+PHAT spectrum without the auxiliary microphone when the
+distance between the auxiliary microphone and the CMA is
+larger (depending on the noise and reverberation level).
+Based on simulated microphone signals for a speech source
+in a reverberant room with multi-talker babble noise, we
+validate these findings for several positions of the auxiliary
+microphone. Simulation results show that for most positions
+of the auxiliary microphone a notable improvement in terms
+of DOA estimation accuracy is achieved, even in challenging
+acoustical conditions.
+II. SRP-B ASED DOA E STIMATION EXPLOITING AN
+AUXILIARY MICROPHONE
+We consider an acoustic scenario with a single speech
+source in a noisy and reverberant environment, recorded with
+917ISBN: 978-9-4645-9361-7 EUSIPCO 2024
+## PDF page 2
+s
+mi
+mj
+dc
+dij
+mA
+dA
+dAi
+dAj
+vs
+mc
+Fig. 1: Exemplary arrangement of a source at position s,
+closely spaced microphones at positions mi and mj, and an
+auxiliary microphone at position mA.
+a CMA consisting of M microphones. The position of the
+source is denoted by s and the position of the j-th microphone
+is denoted by mj (see Fig. 1).
+In the continuous-time Fourier transform domain, the re-
+verberant and noisy j-th microphone signal Yj(ω) can be
+decomposed as
+Yj(ω) = X D
+j (ω) + X R
+j (ω) + Nj(ω)
+| {z }
+Uj (ω)
+, (1)
+where ω denotes the radial frequency, X D
+j (ω) denotes the di-
+rect path component and Uj(ω) denotes the undesired compo-
+nent, comprising of the reverberation component X R
+j (ω) and
+the noise component Nj(ω). Assuming a free field acoustic
+scenario, the direct path component is equal to the source
+signal S(ω) with a phase shift and attenuation, i.e.,
+X D
+j (ω) = 1
+Adj
+S(ω) exp(−ȷωdj/ν) , (2)
+with ȷ = √−1, A = 4 π the attenuation factor of a point
+source, dj = ||s − mj|| the distance between the source and
+the j-th microphone, and ν the speed of sound. Assuming
+that the source is in the far field of the CMA, the direct path
+components in the i-th and j-th microphones are related as
+X D
+j (ω) = X D
+i (ω) exp(ȷωτij(vs)) , (3)
+where τij(vs) = −vT
+s (mi − mj)/ν denotes the TDOA
+between the i-th and j-th microphones. The time-difference of
+arrival (TDOA) is defined relative to the source DOA vector
+vs = [cos(θs), sin(θs)]T, where θs denotes the azimuthal angle
+of the source, relative to the centroid of the CMA. The SRP
+function [1–5] is defined as
+φ(v) =
+X
+(i,j) : i>j
+Z ∞
+−∞
+ψij(ω) exp(ȷωτij(v))dω , (4)
+with DOA vector v = [cos( θ), sin(θ)]T. The weighted SRP
+spectrum between the i-th and j-th microphones is defined as
+ψij(ω) = Wij(ω) E{Yi(ω)Y ∗
+j (ω)}
+| {z }
+˜ψij (ω)
+, (5)
+with E{·} the expected value operator, {·}∗ the complex
+conjugate operator, ˜ψij(ω) the (unweighted) SRP spectrum
+and Wij(ω) a weighting determining the contribution of the
+SRP spectrum in each frequency to the integral in (4).
+The source DOA vector is then estimated as the DOA vector
+maximizing the SRP function in (4), i.e.,
+ˆvs = argmax
+v
+φ(v) . (6)
+In this paper, we consider the commonly used PHAT weighting
+W PHAT
+ij (ω) = 1 /| ˜ψij(ω)| in (5), yielding the SRP-PHAT
+spectrum ψPHAT
+ij (ω). Assuming the direct path component
+X D
+j (ω) and the undesired component Uj(ω) to be uncorrelated
+in each microphone, the SRP-PHAT spectrum is given by
+ψPHAT
+ij (ω) =
+˜ψD
+ij (ω) + ˜ψU
+ij(ω)
+| ˜ψD
+ij (ω) + ˜ψU
+ij(ω)|
+, (7)
+with the SRP spectrum of the direct path component ˜ψD
+ij (ω) =
+E{X D
+i (ω)X D,∗
+j (ω)} and the SRP spectrum of the undesired
+component ˜ψU
+ij(ω) = E{Ui(ω)U ∗
+j (ω)}. Assuming the unde-
+sired component to be spatially uncorrelated, i.e., ˜ψU
+ij(ω) = 0
+for i ̸= j, and using (3), the SRP-PHAT spectrum in (5) is
+given by ψPHAT
+ij (ω) = exp ( −ȷωτij(vs)), for which it can be
+easily shown that ˆvs = vs.
+Even though in practice both assumptions (i.e., uncorrelated
+direct path and undesired components, spatially uncorrelated
+undesired component) are typically not satisfied, it has been
+shown that the SRP-PHAT method works rather well in real
+noisy and reverberant environments [12–14]. However, in
+the presence of spatially coherent noise and reverberation,
+the performance may suffer, especially when using CMAs,
+for which the spatial coherence between the microphones is
+typically larger than for arrays with large inter-microphone
+distances.
+Instead of considering alternative weightings that are more
+robust to noise and reverberation [7–10], in this paper we
+propose to compute the SRP-PHAT spectrum exploiting the
+availability of an additional microphone at an unknown po-
+sition mA (see Fig. 1), which is spatially separated from
+the CMA (analysis in the following section). Similarly to
+[20], but now in the frequency domain instead of the time
+domain, we propose to compute the auxiliary microphone-
+based SRP-PHAT spectrum ψPHAT-A
+ij (ω) between the i-th and
+j-th microphones by multiplying the SRP-PHAT spectrum
+ψPHAT
+iA (ω) between the i-th microphone and the auxiliary
+microphone with the SRP-PHAT spectrum ψPHAT
+Aj (ω) between
+the auxiliary microphone and the j-th microphone, i.e.,
+ψPHAT-A
+ij (ω) = ψPHAT
+iA (ω)ψPHAT
+Aj (ω) (8)
+Assuming the undesired component to be spatially uncorre-
+lated, it can easily be shown that the auxiliary microphone-
+based SRP-PHAT spectrum is equivalent to the SRP-PHAT
+spectrum without the auxiliary microphone, i.e., ψPHAT-A
+ij (ω) =
+exp (−ȷωτij(vs)). However, for spatially coherent noise and
+reverberation, the SRP-PHAT spectra ψPHAT
+iA (ω) and ψPHAT
+Aj (ω)
+between the auxiliary microphone and the microphones of
+the CMA are assumed to be less affected by noise and
+reverberation than the SRP-PHAT spectrum ψPHAT
+ij (ω) due to
+the spatial separation of the auxiliary microphone from the
+CMA. This will be analysed and validated in more detail in
+the following sections.
+918
+## PDF page 3
+III. A NALYSIS OF AUXILIARY MICROPHONE -BASED
+SRP-PHAT S PECTRUM
+The main objective of this section is to theoretically analyse
+the influence of the undesired component on the auxiliary
+microphone-based SRP-PHAT spectrum in (8) compared to
+the conventional SRP-PHAT spectrum in (7). To this end,
+we define a distortion measure and analyse its contribution
+across frequencies for different positions of the auxiliary
+microphone and different power ratios between the source and
+the undesired component.
+Since the source is assumed to be in the far field of the
+CMA, we assume that di = dj = dc, with dc the distance
+between the source and the centroid of the CMA (see Fig.
+1). In addition, for the analysis in this section we assume a
+spherically isotropic sound field [21] for the undesired compo-
+nent (noise and reverberation). In the next section, the findings
+will be validated with realistic microphone signals. Using the
+aforementioned assumptions, the SRP-PHAT spectrum in (7)
+can be written as
+ψPHAT
+ij (ω) =
+ϕS (ω)
+(Adc)2 exp(−ȷωτij(vs)) + ϕU (ω) sinc( ωdij
+ν )
+| ϕS (ω)
+(Adc)2 exp(−ȷωτij(vs)) + ϕU (ω) sinc( ωdij
+ν )|
+,
+(9)
+with ϕS(ω) = E{|S(ω)|2} and ϕU (ω) = E{|U (ω)|2} the
+power spectral densities of the source and undesired compo-
+nent, respectively. By defining the source-to-undesired ratio
+(SUR) at the source position as SUR (ω) = ϕS(ω)/ϕU (ω),
+the expression in (9) can be written as
+ψPHAT
+ij (ω) =
+exp(−ȷωτij(vs)) +
+Dij (ω)
+z }| {
+(Adc)2
+SUR(ω) sinc
+
+ωdij
+ν
+
+| exp(−ȷωτij(vs)) + (Adc)2
+SUR(ω) sinc
+
+ωdij
+ν
+
+|
+,
+(10)
+with Dij(ω) the distortion to the optimal phase shift
+exp (−ȷωτij(vs)). This distortion depends on the SUR, the
+distance dc between the source and the centroid of the CMA,
+and the distance dij between the i-th and j-th microphones.
+Similarly to (10), we can also rewrite the auxiliary
+microphone-based SRP-PHAT spectrum in (8) as
+ψPHAT-A
+ij (ω) =
+exp(−ȷωτiA(vs)) + A2dcdA
+SUR(ω) sinc( ωdAi
+ν )
+| exp(−ȷωτiA(vs)) + A2dcdA
+SUR(ω) sinc( ωdAi
+ν )|
+· . . .
+exp(−ȷωτAj(vs)) + A2dcdA
+SUR(ω) sinc( ωdAj
+ν )
+| exp(−ȷωτAj(vs)) + A2dcdA
+SUR(ω) sinc( ωdAj
+ν )|
+,
+(11a)
+= exp(−ȷωτij(vs)) + DA
+ij(ω)
+| exp(−ȷωτij(vs)) + DA
+ij(ω)| , (11b)
+with dA the distance between the source and the auxiliary
+microphone position and DA
+ij(ω) the auxiliary microphone-
+based distortion, defined in (12). It is not straightforward to
+analytically show under which conditions the absolute value
+of the auxiliary microphone-based distortion |DA
+ij(ω)| in (12)
+is smaller than the absolute value of the distortion |Dij(ω)| in
+(10), leading to a more reliable SRP-PHAT spectrum. How-
+ever, due to the overall decaying nature of the sinc-function
+and the fact that for most microphone constellations the
+distances dAi and dAj between the auxiliary microphone and
+the CMA are larger than the inter-microphone distances dij,
+the chances are high that the condition |DA
+ij(ω)| < |Dij(ω)|
+is satisfied. To investigate the influence of the constellations,
+SURs and frequencies on the distortions, we analyse the
+proportion of frequencies up to ω0 for which this condition
+is satisfied, i.e.,
+P = 1
+ω0
+Z ω0
+0
+H
+ 
+|Dij(ω)| − |DA
+ij(ω)|
+
+dω , (13)
+with H(x) the Heaviside step function, which returns the value
+H(x) = 0 if x ≤ 0 and H(x) = 1 if x > 0. Since the
+PHAT weighting normalizes each frequency so that it has an
+equal contribution in (4), it is assumed that when P > 0.5,
+the auxiliary microphone-based SRP-PHAT function is more
+suitable for source localization than the SRP-PHAT function
+without the auxiliary microphone. To analyse the influence of
+the auxiliary microphone position on the proportion in (13), we
+consider an exemplary constellation, consisting of a CMA with
+M = 2 microphones and inter-microphone distance d12 = 5
+cm, and a source dc = 2 m from the centroid of the CMA
+(see Fig. 2).
+To average out the influence of the microphone pair ori-
+entation, we average the proportion in (13) over 18 different
+orientations in the x-y plane from 0◦ to 170◦. For simplicity,
+we assume SUR (ω) to be constant for all frequencies, i.e.,
+SUR(ω) = SUR, considering 1025 frequencies between 0 and
+8 kHz. For different SURs, Fig. 2 shows the influence of the
+auxiliary microphone position on the averaged proportion of
+frequencies Pavg. The red and blue boundaries at values Pavg
+equal to 0.5 or 0.9 indicate the auxiliary microphone positions
+for which in 50% or 90% of the frequencies, respectively,
+the distortion of the auxiliary microphone-based SRP-PHAT
+spectrum is smaller than the distortion of the SRP-PHAT
+spectrum without the auxiliary microphone. It can clearly be
+observed that the averaged proportion Pavg depends both on
+the SUR as well as on the auxiliary microphone position. For
+the auxiliary microphone to improve the reliability of the SRP-
+PHAT function, it should be located far enough from the CMA.
+As the SUR decreases, the size of the bounded areas notably
+increases. This means that for increasing levels of noise and
+reverberation, the auxiliary microphone needs to be located
+farther from the CMA to yield a benefit. It should however be
+noted that for SUR ≥ 10 dB the auxiliary microphone only
+needs to be located 20 cm from the centroid of the CMA,
+DA
+ij(ω) = A2dcdA
+SUR(ω) [sinc(ωdAi/ν) exp(−ȷωτAj(vs)) + sinc(ωdAj/ν) exp(−ȷωτiA(vs))] + A4d2
+cd2
+A
+SUR2(ω) sinc(ωdAi/ν) sinc(ωdAj/ν)
+(12)
+919
+## PDF page 4
+whereas for SUR ≥ 0 dB this increases to 75 cm. Interestingly,
+incorporating an auxiliary microphone can be beneficial even
+when it is located farther from the source than the CMA, as
+long as it is spatially separated from the CMA. Similar results
+are also obtained for other values of d12 and dc.
+IV. E XPERIMENTAL VALIDATION
+To experimentally validate the findings from the previous
+section, in this section the DOA estimation performance of the
+SRP-PHAT method without and with an auxiliary microphone
+is compared based on simulated microphone signals. The
+performance is compared for various positions of the auxiliary
+microphone and different levels of noise and reverberation.
+A. Scenario and Algorithm Parameters
+For the simulations, we considered a rectangular room with
+dimensions 6 m × 6 m × 2.4 m and simulated room impulse
+responses using the image source method [22], [23], assuming
+equal reflection coefficients for all walls. We considered a
+similar constellation as in Section III, now consisting of a
+CMA with M = 3 microphones (to estimate the DOA without
+ambiguity), centered at mc = [4 , 3, 1.75] and with inter-
+microphone distance dij = 5 cm, and a source position
+s = [2, 3, 1.75] m, located dc = 2 m from the centroid of the
+CMA. We considered 601 auxiliary microphone positions on
+a 2D grid in the x-y plane, with an increased spatial resolution
+close to the CMA (see Fig. 3). To average out the influence of
+the orientation of the CMA, 12 azimuthal orientations of the
+CMA in the x-y plane were considered from 0◦ to 110◦. For
+each orientation, we considered 10 different speech signals of
+length 3 s, randomly selected from [24] (with equal probability
+for a male or female speaker), resulting in a total of 120
+simulated scenarios for each auxiliary microphone position. To
+compare directly with two of the plots from Fig. 2 where the
+SUR was equal to 15 dB and 0 dB, we considered two noise
+and reverberation conditions with similar broadband SURs. In
+the first condition, the broadband direct-to-reverberant ratio
+(DRR) and the broadband reverberant signal-to-noise ratio
+(RSNR) were both equal to -1.4 dB across the microphones of
+the CMA, corresponding to a broadband SUR of 14.9 dB at the
+source position, while in the second condition, the RSNR and
+the DRR were both equal to -7.2 dB across the microphones of
+the CMA, corresponding to a broadband SUR of 0.0 dB at the
+source position. For each condition, the reflection coefficients
+were determined which achieve the desired average DRR
+across the microphones, leading to T60 = 0 .18 s for the first
+condition and T60 = 0.32 s for the second condition.
+The algorithms were implemented at a sampling frequency
+of 16 kHz and using a short-time Fourier transform with
+a frame length of 512 samples (corresponding to 32 ms),
+50% overlap between frames, and using a square-root-Hann
+analysis window. The SRP-PHAT spectra in (5) and (8) were
+computed using recursive averaging, i.e.,
+˜ψi,j[k, l] = λ ˜ψi,j[k, l − 1] + (1 − λ)YiY ∗
+j [k, l] , (14)
+with frequency bin k ∈ { 1, . . . , K}, time frame l ∈
+{1, . . . , L}, and smoothing factor λ = 0 .98 (corresponding
+to an averaging over approximately 0.8 s). The DOA estimate
+in (6) was obtained by first averaging the SRP-PHAT spectra
+over all time frames, i.e., 1/LPL
+l=1 ψPHAT
+i,j [k, l], and then using
+the averaged SRP-PHAT spectra in (4), where the integral was
+approximated by a sum over discrete frequency bins k.
+B. Comparison of DOA Estimation Performance
+To compare the DOA estimation performance of the SRP-
+PHAT method without and with an auxiliary microphone, we
+evaluated the DOA estimation error
+ε = cos−1
+ ˆvT
+s vs
+||ˆvs||2 · ||vs||2
+
+, (15)
+averaged over the 120 simulated scenarios.
+For all considered auxiliary microphone positions, Fig. 3
+illustrates the mean DOA estimation error, for both noise and
+reverberation conditions. The mean DOA estimation error for
+the SRP-PHAT method without an auxiliary microphone was
+equal to 3.8◦ in the first condition (RSNR = -1.4 dB, DRR
+= -1.4 dB), and 34.0◦ in the second condition (RSNR = -7.2
+dB, DRR = -7.2 dB). It can clearly be seen that incorporating
+an auxiliary microphone in the SRP-PHAT method generally
+results in a reduced mean DOA estimation error, especially
+for larger distances between the auxiliary microphone and the
+CMA. This aligns well with our findings from Section III.
+The red-bordered pixels in Fig. 3 indicate positions of the
+auxiliary microphone for which incorporating the auxiliary
+microphone did not reduce the mean DOA estimation error.
+First, it can be seen that in the vicinity of the CMA the
+spread of red-bordered pixels is larger for the more challenging
+noise and reverberation condition. This corresponds to the
+area bounded by the red line in Fig. 2, which increases
+as the SUR decreases. Second, it can be seen that certain
+auxiliary microphone positions in the vicinity of walls exhibit
+a slightly larger mean DOA estimation error when the auxiliary
+microphone is used. This can be attributed to the limitations of
+the assumed model in Section III, which assumed a spherically
+isotropic field for the reverberation without considering early
+reflections from the walls.
+V. C ONCLUSIONS
+In this paper, we have proposed a method to improve
+SRP-PHAT-based DOA estimation in CMAs, where noise and
+reverberation with a high spatial coherence may negatively
+affect the reliability of the SRP-PHAT spectra. Assuming the
+availability of a spatially separated auxiliary microphone, we
+proposed to compute the SRP-PHAT spectra in a different way,
+using the SRP-PHAT spectra between the auxiliary micro-
+phone and the microphones of the CMA. For different SURs,
+we showed how far the auxiliary microphone needs to be
+spatially separated from the CMA for the SRP-PHAT spectra
+to be estimated more reliably with the auxiliary microphone
+than without. Furthermore, we validated these findings with
+simulation results based on simulated microphone signals for
+many different auxiliary microphone positions and two differ-
+ent noise and reverberation conditions, showing the beneficial
+impact of incorporating an auxiliary microphone for DOA
+estimation.
+920
+## PDF page 5
+Fig. 2: Averaged proportion of frequencies for which the distortion of the auxiliary microphone-based SRP-PHAT spectrum is
+smaller than the distortion of the SRP-PHAT spectrum without the auxiliary microphone, where each point in the 2D plane
+corresponds to a different position of the auxiliary microphone.
+Fig. 3: Mean DOA estimation error of the auxiliary
+microphone-based SRP-PHAT function compared to the SRP-
+PHAT function without the auxiliary microphone, for different
+auxiliary microphone positions in a 2D plane and two different
+noise and reverberation conditions.
+REFERENCES
+[1] M. Omologo and P. Svaizer, “Use of the crosspower-spectrum phase
+in acoustic event location,” IEEE Trans. on Audio, Speech, Language
+Processing, no. 3, pp. 288–292, 1997.
+[2] J. H. DiBiase, A high-accuracy, low-latency technique for talker local-
+ization in reverberant environments using microphone arrays . Ph.D.
+thesis, Brown University, Providence, RI, USA, 2000.
+[3] J. P. Dmochowski and J. Benesty, “Steered beamforming approaches
+for acoustic source localization,” in Speech Processing in Modern
+Communication: Challenges and Perspectives. Springer, 2010, pp. 307–
+337.
+[4] P. Pertil ¨a, A. Brutti, P. Svaizer, and M. Omologo, “Multichannel source
+activity detection, localization, and tracking,” in Audio source separation
+and speech enhancement . Wiley, 2018, pp. 47–64.
+[5] T. Dietzen, E. De Sena, and T. van Waterschoot, “Low-complexity
+steered response power mapping based on Nyquist-Shannon sampling,”
+in Proc. IEEE Workshop on Applications of Signal Processing to Audio
+and Acoustics (WASPAA) , New Paltz, NY , USA, 2021, pp. 206–210.
+[6] D. Salvati, C. Drioli, and G. L. Foresti, “Incoherent frequency fusion for
+broadband steered response power algorithms in noisy environments,”
+IEEE Signal Processing Letters , vol. 21, no. 5, pp. 581–585, 2014.
+[7] J.-M. Valin, F. Michaud, and J. Rouat, “Robust localization and tracking
+of simultaneous moving sound sources using beamforming and particle
+filtering,” Robotics and Autonomous Systems , vol. 55, no. 3, pp. 216–
+228, 2007.
+[8] H. R. Abutalebi and H. Momenzadeh, “Performance improvement of
+TDOA-based speaker localization in joint noisy and reverberant condi-
+tions,” EURASIP Journal on Advances in Signal Processing , vol. 2011,
+pp. 1–13, 2011.
+[9] G. Athanasopoulos, “Contributions to acoustic localization for robotic
+audition,” Ph.D. dissertation, Vrije Universiteit Brussel, 2016.
+[10] S. Braun, W. Zhou, and E. A. Habets, “Narrowband direction-of-arrival
+estimation for binaural hearing aids using relative transfer functions,”
+in Proc. IEEE Workshop on Applications of Signal Processing to Audio
+and Acoustics (WASPAA) , New Paltz, NY , USA, 2015, pp. 1–5.
+[11] C. Knapp and G. Carter, “The generalized correlation method for
+estimation of time delay,” IEEE Trans. on Acoustics, Speech, and Signal
+Processing, vol. 24, no. 4, pp. 320–327, 1976.
+[12] J. Chen, J. Benesty, and Y . Huang, “Time delay estimation in room
+acoustic environments: An overview,” EURASIP Journal on Applied
+Signal Processing, pp. 1–19, 2006.
+[13] C. Zhang, D. Flor ˆencio, and Z. Zhang, “Why does PHAT work well
+in low noise, reverberative environments?” in Proc. IEEE International
+Conference of Acoustics, Speech and Signal Processing (ICASSP) , Las
+Vegas, NV , USA, 2008, pp. 2565–2568.
+[14] J. Velasco, C. J. Martin-Arguedas, J. Macias-Guarasa, D. Pizarro, and
+M. Mazo, “Proposal and validation of an analytical generative model
+of SRP-PHAT power maps in reverberant scenarios,” ELSEVIER Signal
+Processing, vol. 119, pp. 209–228, 2016.
+[15] M. Farmani, M. S. Pedersen, Z.-H. Tan, and J. Jensen, “Informed sound
+source localization using relative transfer functions for hearing aid ap-
+plications,” IEEE/ACM Trans. on Audio, Speech, Language Processing ,
+vol. 25, no. 3, pp. 611–623, 2017.
+[16] M. Farmani, M. S. Pedersen, Z.-H. Tan, and J. Jensen, “Bias-
+compensated informed sound source localization using relative transfer
+functions,” IEEE/ACM Trans. on Audio, Speech, Language Processing ,
+vol. 26, no. 7, pp. 1275–1289, 2018.
+[17] U. Kowalk, S. Doclo, and J. Bitzer, “Signal-informed DNN-based DOA
+estimation combining an external microphone and GCC-PHAT features,”
+in Proc. International Workshop on Acoustic Echo and Noise Control
+(IWAENC), Bamberg, Germany, 2022, pp. 1–5.
+[18] D. Fejgin and S. Doclo, “Comparison of binaural RTF-vector-based di-
+rection of arrival estimation methods exploiting an external microphone,”
+in Proc. European Signal Processing Conference (EUSIPCO) , Online,
+2021, pp. 241–245.
+[19] D. Fejgin and S. Doclo, “Exploiting an external microphone for binaural
+RTF-vector-based direction of arrival estimation for multiple speakers,”
+in Proc. F orum Acusticum, Turin, Italy, 2023.
+[20] K. Br ¨umann and S. Doclo, “Exploiting an external microphone to im-
+prove time-difference-of-arrival estimates for Euclidean distance matrix-
+based source localization,” in Proc. ITG Conference on Speech Commu-
+nication, Aachen, Germany, 2023, pp. 16–20.
+[21] G. W. Elko, “Spatial coherence functions for differential microphones
+in isotropic noise fields,” in Microphone Arrays: Signal Processing
+Techniques and Applications . Springer, 2001, pp. 61–85.
+[22] J. B. Allen and D. A. Berkley, “Image method for efficiently simulating
+small-room acoustics,” Journal of the Acoustical Society of America ,
+vol. 65, no. 4, pp. 943–950, 1979.
+[23] E. A. P. Habets, RIR-Generator, available at ”https://github.com/ehabets/
+RIR-Generator”.
+[24] I. Solak, M-AILABS Speech Dataset , available at
+”https://www.caito.de/2019/01/03/the-m-ailabs-speech-dataset/”.
+921

@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": [
+    "wrapped and spherical angular error",
+    "finite-sample threshold order statistic",
+    "five known-direction broadband localization cases, all four weights",
+    "reproducible independent seeds and SNR",
+    "wrap-safe causal smoothing and bounded hold",
+    "frequency/time steering sign agreement"
+  ],
+  "seconds": 0.07197570000425912,
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]"
+}
