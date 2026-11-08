@@ -46,17 +46,32 @@
   },
   {
     "number": 10,
+    "id": "imaging",
+    "doi": "10.48550/arXiv.2508.00307"
+  },
+  {
+    "number": 11,
+    "id": "echohawk2026",
+    "doi": "10.48550/arXiv.2606.29589"
+  },
+  {
+    "number": 12,
     "id": "ddl",
     "doi": "10.1109/MLSP62443.2025.11204285"
   },
   {
-    "number": 11,
+    "number": 13,
     "id": "uavirbase",
     "doi": "10.3390/app15105378"
   },
   {
-    "number": 12,
+    "number": 14,
+    "id": "ridge",
+    "doi": "10.1080/00401706.1970.10488634"
+  },
+  {
+    "number": 15,
     "id": "field_acquisition",
-    "source": "Original acquisition description and channel metadata; see results/field/source_manifest.json"
+    "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/附件4：试验说明文档.docx; accompanying recordings and channel metadata: results/field/source_manifest.json"
   }
 ]

@@ -9,7 +9,7 @@
 | 英文主稿，5 页 | [English_Main.docx](paper/English_Main.docx) | [English_Main.pdf](paper/English_Main.pdf) | [field_en.md](paper/field_en.md) |
 | 中文完整译稿，5 页 | [Chinese_Translation.docx](paper/Chinese_Translation.docx) | [Chinese_Translation.pdf](paper/Chinese_Translation.pdf) | [field_zh.md](paper/field_zh.md) |
 
-两稿均包含 9 个公式、4 张表、3 幅图和 12 条参考文献，按 `模板/wordtemplates.doc` 的实际 A4 页面及双栏样式排版，图形紧凑跨栏、四张表采用单栏。论文围绕研究问题、算法、实验和局限展开。作者顺序为 Ju Luo、Yuqian Zhou，两人单位均为南京航空航天大学，城市为南京；尚未提供邮编和通信邮箱，未限定目标期刊。
+两稿均包含 9 个公式、4 张表、3 幅图和 15 条参考文献，按 `模板/wordtemplates.doc` 的实际 A4 页面及双栏样式排版，图形紧凑跨栏、四张表采用单栏。论文围绕研究问题、算法、实验和局限展开。作者顺序为 Ju Luo、Yuqian Zhou，两人单位均为南京航空航天大学，城市为南京；尚未提供邮编和通信邮箱，未限定目标期刊。
 
 ## 数据和主要结果
 
@@ -45,6 +45,7 @@ DCCR 检出 514/600（85.7%），背景虚警 3/200（1.5%）。各方法独立�
 | 统计汇总与结果摘要清单 | [summary.json](results/field/summary.json)、[artifact_manifest.json](results/field/artifact_manifest.json) |
 | 已执行的只读结果核验 | [verification.json](results/field/verification.json)、[verify_field.py](code/verify_field.py) |
 | 论文一致性与导出检查 | [delivery_verification.json](results/document_qa/field/delivery_verification.json) |
+| 参考文献复核与正式稿修订 | [复核报告](research/real_data/reference_audit_2026-11-08.md)、[修订与核验记录](results/document_qa/reference_revision_2026-11-08/REVISION_REPORT.md) |
 | 图形源文件 | `figures/field/`，中英文 PNG 与矢量 PDF |
 | 参考文献资料 | `references/`；本稿引用映射为 [field_citation_map.json](paper/field_citation_map.json) |
 

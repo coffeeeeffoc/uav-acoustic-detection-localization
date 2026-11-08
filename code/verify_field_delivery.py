@@ -28,7 +28,7 @@ def main():
     assert '\n'+authors+'\n' in en and '\n'+authors+'\n' in zh
     assert 'Nanjing University of Aeronautics and Astronautics' in en
     assert '南京航空航天大学' in zh
-    forbidden = ['用户提供', '用户要求', '赛题', '参赛', '声华杯',
+    forbidden = ['用户提供', '用户要求', '参赛',
                  'user-provided', 'user provided', 'user requirements',
                  'competition requirements', 'contest requirements',
                  '作为AI', '作为人工智能', '如需我', '希望对你', '你可以', '您可以',
@@ -43,12 +43,20 @@ def main():
         assert [int(n) for _, n in eq] == list(range(1, 10))
         equations.append(eq)
         refs = re.findall(r'^\[(\d+)\]', text, re.M)
-        assert list(map(int, refs)) == list(range(1, 13))
+        assert list(map(int, refs)) == list(range(1, 16))
         body = text[:re.search(r'^\[1\]', text, re.M).start()]
         seen = list(dict.fromkeys(map(int, re.findall(r'\[(\d+)\]', body))))
-        assert seen == list(range(1, 13)), seen
+        assert seen == list(range(1, 16)), seen
         assert len(re.findall(r'^!\[', text, re.M)) == 3
     assert equations[0] == equations[1]
+    reference_pattern = r'^\[\d+\].+$'
+    reference_lines = re.findall(reference_pattern, en, re.M)
+    assert reference_lines == re.findall(reference_pattern, zh, re.M)
+    citation_map = json.loads((ROOT/'paper/field_citation_map.json').read_text(encoding='utf-8'))
+    assert [r['number'] for r in citation_map] == list(range(1, 16))
+    for entry, line in zip(citation_map, reference_lines):
+        if 'doi' in entry:
+            assert f'https://doi.org/{entry["doi"]}' in line
     assert len(tables(en)) == len(tables(zh)) == 4
     assert tables(en) == tables(zh)
     summary = json.loads((ROOT / 'results/field/summary.json').read_text())
@@ -87,6 +95,12 @@ def main():
                 for part in ['word/numbering.xml','word/theme/theme1.xml','word/fontTable.xml']:
                     if part in reference.namelist():assert archive.read(part)==reference.read(part),part
             document_text = ' '.join(t.text or '' for t in xml.findall('.//w:t', NS))
+            document_refs = [''.join(t.text or '' for t in p.findall('.//w:t', NS))
+                             for p in xml.findall('.//w:p', NS)]
+            document_refs = [t for t in document_refs if re.match(r'^\[\d+\]', t)]
+            expected_refs = [re.sub(r'\[([^\]]+)\]\(https?://[^)]+\)', r'\1', t)
+                             for t in reference_lines]
+            assert document_refs == expected_refs, (name, 'reference text differs from source')
             assert authors in document_text
             core=ET.fromstring(archive.read('docProps/core.xml'))
             assert core.find('{http://purl.org/dc/elements/1.1/}creator').text==authors
@@ -101,7 +115,7 @@ def main():
             assert authors in content
             for value in ['14.78', '6.97', '85.7', '1.5', '54.16', '414.9', '588.7']:
                 assert value in content, (name, value)
-            for n in range(1, 13):
+            for n in range(1, 16):
                 assert '[' + str(n) + ']' in content
             for n in range(1,10):assert f'({n})' in content,(name,'broken equation number',n)
             fonts = {}
@@ -120,7 +134,7 @@ def main():
             assert all(fonts.values()), fonts
         doc_reports.append(dict(language=lang, docx=docx.relative_to(ROOT).as_posix(),
             pdf=pdf.relative_to(ROOT).as_posix(), pages=pages, figures=3, equations=9,
-            data_tables=4, references=12, pdf_images=image_placements, fonts_embedded=fonts,
+            data_tables=4, references=15, pdf_images=image_placements, fonts_embedded=fonts,
             template_geometry_verified=True,template_design_parts_preserved=True))
         for path in [docx, pdf]:
             manifest[path.relative_to(ROOT).as_posix()] = sha(path)

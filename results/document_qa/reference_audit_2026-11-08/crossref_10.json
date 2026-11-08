@@ -1,0 +1,322 @@
+{
+  "indexed": {
+    "date-parts": [
+      [
+        2025,
+        11,
+        5
+      ]
+    ],
+    "date-time": "2025-11-05T18:41:19Z",
+    "timestamp": 1762368079725,
+    "version": "build-2065373602"
+  },
+  "reference-count": 14,
+  "publisher": "IEEE",
+  "license": [
+    {
+      "start": {
+        "date-parts": [
+          [
+            2025,
+            8,
+            31
+          ]
+        ],
+        "date-time": "2025-08-31T00:00:00Z",
+        "timestamp": 1756598400000
+      },
+      "content-version": "stm-asf",
+      "delay-in-days": 0,
+      "URL": "https://doi.org/10.15223/policy-029"
+    },
+    {
+      "start": {
+        "date-parts": [
+          [
+            2025,
+            8,
+            31
+          ]
+        ],
+        "date-time": "2025-08-31T00:00:00Z",
+        "timestamp": 1756598400000
+      },
+      "content-version": "stm-asf",
+      "delay-in-days": 0,
+      "URL": "https://doi.org/10.15223/policy-037"
+    }
+  ],
+  "content-domain": {
+    "domain": [],
+    "crossmark-restriction": false
+  },
+  "short-container-title": [],
+  "published-print": {
+    "date-parts": [
+      [
+        2025,
+        8,
+        31
+      ]
+    ]
+  },
+  "DOI": "10.1109/mlsp62443.2025.11204285",
+  "type": "proceedings-article",
+  "created": {
+    "date-parts": [
+      [
+        2025,
+        10,
+        24
+      ]
+    ],
+    "date-time": "2025-10-24T17:15:52Z",
+    "timestamp": 1761326152000
+  },
+  "page": "01-06",
+  "source": "Crossref",
+  "is-referenced-by-count": 0,
+  "title": [
+    "DDL: A Dataset for Drone Detection and Localization From Multi-Channel Audio and a Deep Uncertainty-Aware Framework"
+  ],
+  "prefix": "10.1109",
+  "author": [
+    {
+      "given": "Saeid",
+      "family": "Safavi",
+      "sequence": "first",
+      "affiliation": [
+        {
+          "name": "Centre for Vision, Speech and Signal Processing University of Surrey,United Kingdom"
+        }
+      ],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    },
+    {
+      "given": "Özkan",
+      "family": "Çayli",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Centre for Vision, Speech and Signal Processing University of Surrey,United Kingdom"
+        }
+      ],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    },
+    {
+      "given": "Mohammad Amin",
+      "family": "Safavi",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "DeepX Inc,Japan"
+        }
+      ],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    },
+    {
+      "given": "Ben",
+      "family": "Cook",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Airspeed Electronics Ltd,United Kingdom"
+        }
+      ],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    },
+    {
+      "given": "Wenwu",
+      "family": "Wang",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "DeepX Inc,Japan"
+        }
+      ],
+      "role": [
+        {
+          "role": "author",
+          "vocabulary": "crossref"
+        }
+      ]
+    }
+  ],
+  "member": "263",
+  "reference": [
+    {
+      "doi-asserted-by": "publisher",
+      "key": "ref1",
+      "DOI": "10.1109/TASE.2014.2326952"
+    },
+    {
+      "doi-asserted-by": "publisher",
+      "key": "ref2",
+      "DOI": "10.1007/s11042-017-5276-7"
+    },
+    {
+      "doi-asserted-by": "publisher",
+      "key": "ref3",
+      "DOI": "10.1109/TASLP.2022.3140550"
+    },
+    {
+      "volume-title": "The mystery of the gatwick drone",
+      "year": "2022",
+      "key": "ref4"
+    },
+    {
+      "doi-asserted-by": "publisher",
+      "key": "ref5",
+      "DOI": "10.1109/MSP.2014.2326181"
+    },
+    {
+      "doi-asserted-by": "publisher",
+      "key": "ref6",
+      "DOI": "10.1109/EUSIPCO.2016.7760424"
+    },
+    {
+      "volume-title": "Proc. of International Workshop on Detection and Classification of Acoustic Scenes and Events (DCASE’20)",
+      "author": "Safavi",
+      "article-title": "Open-window: A sound event dataset for window state detection and recognition",
+      "key": "ref7"
+    },
+    {
+      "doi-asserted-by": "publisher",
+      "key": "ref8",
+      "DOI": "10.1109/SMARTCOMP.2017.7946996"
+    },
+    {
+      "doi-asserted-by": "publisher",
+      "key": "ref9",
+      "DOI": "10.21437/Interspeech.2020-3015"
+    },
+    {
+      "key": "ref10",
+      "first-page": "1613",
+      "article-title": "Weight uncertainty in neural network",
+      "volume-title": "International conference on machine learning. PMLR",
+      "author": "Blundell",
+      "year": "2015"
+    },
+    {
+      "doi-asserted-by": "publisher",
+      "key": "ref11",
+      "DOI": "10.48550/arXiv.1506.02142"
+    },
+    {
+      "key": "ref12",
+      "article-title": "Simple and scalable predictive uncertainty estimation using deep ensembles",
+      "volume": "30",
+      "author": "Lakshminarayanan",
+      "year": "2017",
+      "journal-title": "Advances in neural information processing systems"
+    },
+    {
+      "doi-asserted-by": "publisher",
+      "key": "ref13",
+      "DOI": "10.5555/3295222.3295309"
+    },
+    {
+      "volume-title": "Mathematical handbook for scientists and engineers: definitions, theorems, and formulas for reference and review",
+      "year": "2000",
+      "author": "Korn",
+      "key": "ref14"
+    }
+  ],
+  "event": {
+    "name": "2025 IEEE 35th International Workshop on Machine Learning for Signal Processing (MLSP)",
+    "start": {
+      "date-parts": [
+        [
+          2025,
+          8,
+          31
+        ]
+      ]
+    },
+    "location": "Istanbul, Turkiye",
+    "end": {
+      "date-parts": [
+        [
+          2025,
+          9,
+          3
+        ]
+      ]
+    }
+  },
+  "container-title": [
+    "2025 IEEE 35th International Workshop on Machine Learning for Signal Processing (MLSP)"
+  ],
+  "original-title": [],
+  "link": [
+    {
+      "URL": "http://xplorestaging.ieee.org/ielx8/11204201/11204202/11204285.pdf?arnumber=11204285",
+      "content-type": "unspecified",
+      "content-version": "vor",
+      "intended-application": "similarity-checking"
+    }
+  ],
+  "deposited": {
+    "date-parts": [
+      [
+        2025,
+        11,
+        5
+      ]
+    ],
+    "date-time": "2025-11-05T18:37:07Z",
+    "timestamp": 1762367827000
+  },
+  "score": 1,
+  "resource": {
+    "primary": {
+      "URL": "https://ieeexplore.ieee.org/document/11204285/"
+    }
+  },
+  "subtitle": [],
+  "short-title": [],
+  "issued": {
+    "date-parts": [
+      [
+        2025,
+        8,
+        31
+      ]
+    ]
+  },
+  "references-count": 14,
+  "URL": "https://doi.org/10.1109/mlsp62443.2025.11204285",
+  "relation": {},
+  "subject": [],
+  "published": {
+    "date-parts": [
+      [
+        2025,
+        8,
+        31
+      ]
+    ]
+  }
+}

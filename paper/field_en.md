@@ -14,13 +14,13 @@ Coherent background sources can dominate an acoustic spatial map and obscure the
 
 ## I Introduction
 
-Passive acoustic sensing must detect UAV emissions and associate them with a bearing in the presence of wind, vehicles and machinery [1]. Generalized cross-correlation and steered response power (SRP) combine intermicrophone delay evidence [2], [3]. The phase transform (PHAT) emphasizes phase alignment, so coherent non-UAV sources can also dominate the response. Existing SRP extensions improve spectral reliability and spatial search [4], but multiplying an entire spatial map by a positive detection weight leaves its maximizing direction unchanged.
+Passive acoustic sensing must detect UAV emissions and estimate their bearing in noisy environments, where low signal-to-noise ratios hinder localization [1]. Generalized cross-correlation estimates pairwise delays [2], while steered response power (SRP) aggregates correlation evidence over candidate directions [3], [4]. The phase transform (PHAT) emphasizes phase alignment, so coherent non-UAV sources can also dominate the response. SRP extensions improve spectral reliability and spatial search [4], but multiplying an entire spatial map by a positive detection weight leaves its maximizing direction unchanged.
 
 DCCR instead ranks four SRP-PHAT proposals using directional coherence spectra. Training includes competing directions from the same aircraft observations, which share background and overall gain. The contribution is candidate-conditioned source association using established array operations. A shared-detector comparison separates changes in bearing selection from changes in alarm decisions.
 
 ## II Related Work
 
-Noise-dependent beamforming and tracking [5], partial PHAT weighting [6], and auxiliary-microphone SRP in coherent noise [7] improve spatial reliability. UAV-specific approaches exploit rotor harmonics [8] or combine synthesized signals with neural localization [9]. DCCR uses fixed frequency bands and a compact linear model; no direct comparison with those trained neural systems is available. DDL [10] and UaVirBASE [11] provide multichannel UAV data and emphasize documented geometry and reference measurements. The present recordings support nominal static-bearing comparisons but lack synchronized trajectories for tracking evaluation.
+SNR-weighted beamforming with particle tracking [5], PHAT-β partial spectral whitening [6], and SRP with a spatially separated auxiliary microphone [7] address noise and reverberation under different operating conditions. UAV approaches use rotor harmonics [8], neural localization trained on synthesized signals [9], or U-Net segmentation of dense beamformed spectral maps [10]. EchoHawk combines detection with classical localization and examines recording-session leakage [11]. DCCR ranks four candidates using normalized band-coherence features and a linear model; no direct comparison with these learned systems is available. DDL synchronizes audio with flight-log positions [12], whereas UaVirBASE documents measured static configurations [13]. Our data provide nominal static bearings without synchronized trajectories.
 
 ## III Signal Model and Directional Representation
 
@@ -64,7 +64,7 @@ These signed features retain frequency-dependent directional support. Positive g
 
 P1 supplies 300 aircraft and 100 background windows. Training proposals use the coarse PHAT grid. Reference-steered beams and proposals within 5° of the nominal direction are positive; proposals at least 15° away and background proposals are negative. Intermediate proposals are excluded. Reference beams are never used at inference. The 1779 examples comprise 598 positives and 1181 negatives, including 781 wrong aircraft directions.
 
-Two grouped folds each hold out one aircraft recording and one contiguous 10 s half of the development background, keeping each window's examples together. This does not test transfer across independent background recordings. Class-balanced feature means and standard deviations are fitted within each fold, with a standard-deviation floor of 0.01. For N examples with standardized features z_n and labels y_n ∈ {−1,+1}, the model minimizes
+Two grouped folds each hold out one aircraft recording and one contiguous 10 s half of the development background, keeping each window's examples together. This does not test transfer across independent background recordings. Class-balanced feature means and standard deviations are fitted within each fold, with a standard-deviation floor of 0.01. For N examples with standardized features z_n and labels y_n ∈ {−1,+1}, the model minimizes the weighted objective with a ridge penalty [14]
 
 $$ \sum_{n=1}^{N}w_n(\boldsymbol{\beta}^{T}\mathbf{z}_n+b-y_n)^2+\lambda\|\boldsymbol{\beta}\|_2^2. $$ (7)
 
@@ -84,7 +84,7 @@ The selected direction and detection score are u_q* and s_q*. Scores are regress
 
 ### A Recordings and evaluation split
 
-An upward-facing CRY8501/SonoCam Pi array recorded a DJI Air 3S on 25 May 2026 [12]. Each acquisition group supplies two aircraft recordings and one background recording (Table I), with 208 channels at 48 kHz, 16-bit PCM. The nine recordings total 273.75 s. Channel sample counts agree within each recording, and no sample reaches the PCM limits across 1872 WAV files; this does not independently verify phase or clock calibration. Nominal bearings come from acquisition diagrams, without synchronized trajectories to quantify hovering displacement or reference uncertainty. Videos are not estimator inputs or ground truth.
+We use recordings supplied for the 4th Shenghua Cup Acoustic Technology Competition: an upward-facing CRY8501/SonoCam Pi array captured a DJI Air 3S on 25 May 2026 [15]. Each acquisition group supplies two aircraft recordings and one background recording (Table I), with 208 channels at 48 kHz, 16-bit PCM. The nine recordings total 273.75 s. Channel sample counts agree within each recording, and no sample reaches the PCM limits across 1872 WAV files; this does not independently verify phase or clock calibration. Nominal bearings come from acquisition diagrams, without synchronized trajectories to quantify hovering displacement or reference uncertainty. Videos are not estimator inputs or ground truth.
 
 **Table I. Recording groups and nominal directions; two aircraft takes and one background recording per group.**
 
@@ -193,8 +193,14 @@ Ranking four bearings using 24 coherence bands reduces held-out mean nominal-dir
 
 [9] X. Yang, P. A. Naylor, S. Doclo, and J. Bitzer, "Neural Drone Localization Exploiting Signal Synthesis of Real-World Audio Data," in Proc. 33rd European Signal Processing Conference (EUSIPCO), pp. 256–260, 2025. [doi: 10.23919/EUSIPCO63237.2025.11226465](https://doi.org/10.23919/EUSIPCO63237.2025.11226465).
 
-[10] S. Safavi, Ö. Çaylı, M. A. Safavi, B. Cook, and W. Wang, "DDL: A Dataset for Drone Detection and Localization From Multi-Channel Audio and a Deep Uncertainty-Aware Framework," in Proc. IEEE 35th International Workshop on Machine Learning for Signal Processing (MLSP), pp. 1–6, 2025. [doi: 10.1109/MLSP62443.2025.11204285](https://doi.org/10.1109/MLSP62443.2025.11204285).
+[10] B. J. Rodríguez, S. F. Chevtchenko, M. Herrera Martínez, Y. Bethi, and S. Afshar, "Acoustic Imaging for UAV Detection: Dense Beamformed Energy Maps and U-Net SELD," arXiv preprint arXiv:2508.00307v4, 2026. [doi: 10.48550/arXiv.2508.00307](https://doi.org/10.48550/arXiv.2508.00307).
 
-[11] G. Jekateryńczuk, R. Szadkowski, and Z. Piotrowski, "UaVirBASE: A Public-Access Unmanned Aerial Vehicle Sound Source Localization Dataset," Applied Sciences, vol. 15, no. 10, Art. no. 5378, 2025. [doi: 10.3390/app15105378](https://doi.org/10.3390/app15105378).
+[11] D. Shulman, "EchoHawk: A Reproducible Acoustic Pipeline for Drone Detection, Classification, and Direction-Finding, with a Cautionary Study of Session-Level Data Leakage," arXiv preprint arXiv:2606.29589v2, 2026. [doi: 10.48550/arXiv.2606.29589](https://doi.org/10.48550/arXiv.2606.29589).
 
-[12] "Experimental measurement description," acquisition documentation accompanying the CRY8501 Air 3S recordings of 25 May 2026, unpublished technical dataset, 2026 (in Chinese).
+[12] S. Safavi, Ö. Çaylı, M. A. Safavi, B. Cook, and W. Wang, "DDL: A Dataset for Drone Detection and Localization From Multi-Channel Audio and a Deep Uncertainty-Aware Framework," in Proc. IEEE 35th International Workshop on Machine Learning for Signal Processing (MLSP), pp. 1–6, 2025. [doi: 10.1109/MLSP62443.2025.11204285](https://doi.org/10.1109/MLSP62443.2025.11204285).
+
+[13] G. Jekateryńczuk, R. Szadkowski, and Z. Piotrowski, "UaVirBASE: A Public-Access Unmanned Aerial Vehicle Sound Source Localization Dataset," Applied Sciences, vol. 15, no. 10, Art. no. 5378, 2025. [doi: 10.3390/app15105378](https://doi.org/10.3390/app15105378).
+
+[14] A. E. Hoerl and R. W. Kennard, "Ridge Regression: Biased Estimation for Nonorthogonal Problems," Technometrics, vol. 12, no. 1, pp. 55–67, 1970. [doi: 10.1080/00401706.1970.10488634](https://doi.org/10.1080/00401706.1970.10488634).
+
+[15] "Shenghua Cup 2026, Attachment 4: Experimental Description," technical documentation accompanying the problem-1 data package of the 4th Shenghua Cup Acoustic Technology Competition, release package "0609 update," 2026 (in Chinese).

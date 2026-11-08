@@ -166,6 +166,10 @@ def build(lang):
                 assert author=='Ju Luo, Yuqian Zhou'
                 frontmatter=False;section(doc,body_section)
                 abstract=True;continue
+            # Start the subsection with its last table, avoiding a stranded lead paragraph.
+            if label in ['B Detection and ablation','B 检测与消融']:
+                section(doc,body_section)
+                doc.sections[-1].start_type=WD_SECTION_START.NEW_PAGE
             in_refs=label in ['References','参考文献']
             numbered=bool(re.match(r'^[IVX]+ ',label)) if level==2 else True
             p=doc.add_paragraph(style=f'Heading {level-1}' if numbered else 'Heading 5')
@@ -186,10 +190,6 @@ def build(lang):
             elif item.startswith('**Keywords') or item.startswith('**关键词'):
                 p=doc.add_paragraph(style='key words');inline(p,item.replace('**',''),zh)
             elif item.startswith('**Table') or item.startswith('**表'):
-                # Keep the last table and its caption off the preceding page's short tail.
-                if counts['data_tables']==3:
-                    section(doc,body_section)
-                    doc.sections[-1].start_type=WD_SECTION_START.NEW_PAGE
                 p=doc.add_paragraph(style='table head');unnumber(p)
                 inline(p,item.replace('**',''),zh)
                 p.paragraph_format.keep_with_next=True

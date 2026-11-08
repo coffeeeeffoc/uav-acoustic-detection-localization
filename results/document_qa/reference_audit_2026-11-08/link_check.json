@@ -1,0 +1,222 @@
+{
+  "English_Main": {
+    "docx_hyperlinks": [
+      {
+        "text": "doi: 10.12141/j.issn.1000-565X.220277",
+        "target": "https://doi.org/10.12141/j.issn.1000-565X.220277"
+      },
+      {
+        "text": "doi: 10.1109/TASSP.1976.1162830",
+        "target": "https://doi.org/10.1109/TASSP.1976.1162830"
+      },
+      {
+        "text": "doi: 10.1007/978-3-662-04619-7_8",
+        "target": "https://doi.org/10.1007/978-3-662-04619-7_8"
+      },
+      {
+        "text": "doi: 10.1186/s13636-024-00377-z",
+        "target": "https://doi.org/10.1186/s13636-024-00377-z"
+      },
+      {
+        "text": "doi: 10.1016/j.robot.2006.08.004",
+        "target": "https://doi.org/10.1016/j.robot.2006.08.004"
+      },
+      {
+        "text": "doi: 10.1016/j.sigpro.2007.01.013",
+        "target": "https://doi.org/10.1016/j.sigpro.2007.01.013"
+      },
+      {
+        "text": "doi: 10.23919/EUSIPCO63174.2024.10715232",
+        "target": "https://doi.org/10.23919/EUSIPCO63174.2024.10715232"
+      },
+      {
+        "text": "doi: 10.1177/1475472X241259082",
+        "target": "https://doi.org/10.1177/1475472X241259082"
+      },
+      {
+        "text": "doi: 10.23919/EUSIPCO63237.2025.11226465",
+        "target": "https://doi.org/10.23919/EUSIPCO63237.2025.11226465"
+      },
+      {
+        "text": "doi: 10.1109/MLSP62443.2025.11204285",
+        "target": "https://doi.org/10.1109/MLSP62443.2025.11204285"
+      },
+      {
+        "text": "doi: 10.3390/app15105378",
+        "target": "https://doi.org/10.3390/app15105378"
+      }
+    ],
+    "pdf_uris": [
+      {
+        "page": 4,
+        "target": "https://doi.org/10.12141/j.issn.1000-565X.220277"
+      },
+      {
+        "page": 4,
+        "target": "https://doi.org/10.12141/j.issn.1000-565X.220277"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.3390/app15105378"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1109/MLSP62443.2025.11204285"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.23919/EUSIPCO63237.2025.11226465"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1177/1475472X241259082"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1177/1475472X241259082"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.23919/EUSIPCO63174.2024.10715232"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.23919/EUSIPCO63174.2024.10715232"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1016/j.sigpro.2007.01.013"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1016/j.robot.2006.08.004"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1186/s13636-024-00377-z"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1007/978-3-662-04619-7_8"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1007/978-3-662-04619-7_8"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1109/TASSP.1976.1162830"
+      }
+    ]
+  },
+  "Chinese_Translation": {
+    "docx_hyperlinks": [
+      {
+        "text": "doi: 10.12141/j.issn.1000-565X.220277",
+        "target": "https://doi.org/10.12141/j.issn.1000-565X.220277"
+      },
+      {
+        "text": "doi: 10.1109/TASSP.1976.1162830",
+        "target": "https://doi.org/10.1109/TASSP.1976.1162830"
+      },
+      {
+        "text": "doi: 10.1007/978-3-662-04619-7_8",
+        "target": "https://doi.org/10.1007/978-3-662-04619-7_8"
+      },
+      {
+        "text": "doi: 10.1186/s13636-024-00377-z",
+        "target": "https://doi.org/10.1186/s13636-024-00377-z"
+      },
+      {
+        "text": "doi: 10.1016/j.robot.2006.08.004",
+        "target": "https://doi.org/10.1016/j.robot.2006.08.004"
+      },
+      {
+        "text": "doi: 10.1016/j.sigpro.2007.01.013",
+        "target": "https://doi.org/10.1016/j.sigpro.2007.01.013"
+      },
+      {
+        "text": "doi: 10.23919/EUSIPCO63174.2024.10715232",
+        "target": "https://doi.org/10.23919/EUSIPCO63174.2024.10715232"
+      },
+      {
+        "text": "doi: 10.1177/1475472X241259082",
+        "target": "https://doi.org/10.1177/1475472X241259082"
+      },
+      {
+        "text": "doi: 10.23919/EUSIPCO63237.2025.11226465",
+        "target": "https://doi.org/10.23919/EUSIPCO63237.2025.11226465"
+      },
+      {
+        "text": "doi: 10.1109/MLSP62443.2025.11204285",
+        "target": "https://doi.org/10.1109/MLSP62443.2025.11204285"
+      },
+      {
+        "text": "doi: 10.3390/app15105378",
+        "target": "https://doi.org/10.3390/app15105378"
+      }
+    ],
+    "pdf_uris": [
+      {
+        "page": 4,
+        "target": "https://doi.org/10.1109/TASSP.1976.1162830"
+      },
+      {
+        "page": 4,
+        "target": "https://doi.org/10.12141/j.issn.1000-565X.220277"
+      },
+      {
+        "page": 4,
+        "target": "https://doi.org/10.12141/j.issn.1000-565X.220277"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.3390/app15105378"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1109/MLSP62443.2025.11204285"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.23919/EUSIPCO63237.2025.11226465"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1177/1475472X241259082"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1177/1475472X241259082"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.23919/EUSIPCO63174.2024.10715232"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.23919/EUSIPCO63174.2024.10715232"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1016/j.sigpro.2007.01.013"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1016/j.robot.2006.08.004"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1186/s13636-024-00377-z"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1007/978-3-662-04619-7_8"
+      },
+      {
+        "page": 5,
+        "target": "https://doi.org/10.1007/978-3-662-04619-7_8"
+      }
+    ]
+  }
+}

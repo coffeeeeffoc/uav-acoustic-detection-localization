@@ -21,7 +21,8 @@ def table(headers,rows):
 
 def references():
     refs=json.loads((ROOT/'references/references.json').read_text(encoding='utf-8'))
-    keys=['chen','gcc','srp','srpreview','noiseweight','phatbeta','brumann','harmonics','yang','ddl','uavirbase']
+    keys=['chen','gcc','srp','srpreview','noiseweight','phatbeta','brumann','harmonics','yang',
+          'imaging','echohawk2026','ddl','uavirbase','ridge']
     result=[];mapping=[]
     author_text={
         'chen':'P. Chen, Y. Chen, and W. Wang',
@@ -35,6 +36,9 @@ def references():
         'yang':'X. Yang, P. A. Naylor, S. Doclo, and J. Bitzer',
         'ddl':'S. Safavi, Ö. Çaylı, M. A. Safavi, B. Cook, and W. Wang',
         'uavirbase':'G. Jekateryńczuk, R. Szadkowski, and Z. Piotrowski',
+        'imaging':'B. J. Rodríguez, S. F. Chevtchenko, M. Herrera Martínez, Y. Bethi, and S. Afshar',
+        'echohawk2026':'D. Shulman',
+        'ridge':'A. E. Hoerl and R. W. Kennard',
     }
     venue_text={
         'gcc':'IEEE Transactions on Acoustics, Speech, and Signal Processing, vol. 24, no. 4, pp. 320–327',
@@ -47,6 +51,9 @@ def references():
         'yang':'in Proc. 33rd European Signal Processing Conference (EUSIPCO), pp. 256–260',
         'ddl':'in Proc. IEEE 35th International Workshop on Machine Learning for Signal Processing (MLSP), pp. 1–6',
         'uavirbase':'Applied Sciences, vol. 15, no. 10, Art. no. 5378',
+        'imaging':'arXiv preprint arXiv:2508.00307v4',
+        'echohawk2026':'arXiv preprint arXiv:2606.29589v2',
+        'ridge':'Technometrics, vol. 12, no. 1, pp. 55–67',
     }
     for i,k in enumerate(keys,1):
         r=next(x for x in refs if x['id']==k)
@@ -57,8 +64,8 @@ def references():
         authors=author_text[k];venue=venue_text.get(k,venue)
         result.append(f'[{i}] {authors}, "{title}," {venue}, {r["year"]}. [doi: {r["doi"]}](https://doi.org/{r["doi"]}).')
         mapping.append(dict(number=i,id=k,doi=r['doi']))
-    result.append('[12] "Experimental measurement description," acquisition documentation accompanying the CRY8501 Air 3S recordings of 25 May 2026, unpublished technical dataset, 2026 (in Chinese).')
-    mapping.append(dict(number=12,id='field_acquisition',source='Original acquisition description and channel metadata; see results/field/source_manifest.json'))
+    result.append('[15] "Shenghua Cup 2026, Attachment 4: Experimental Description," technical documentation accompanying the problem-1 data package of the 4th Shenghua Cup Acoustic Technology Competition, release package "0609 update," 2026 (in Chinese).')
+    mapping.append(dict(number=15,id='field_acquisition',source='赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/附件4：试验说明文档.docx; accompanying recordings and channel metadata: results/field/source_manifest.json'))
     (ROOT/'paper/field_citation_map.json').write_text(json.dumps(mapping,ensure_ascii=False,indent=2),encoding='utf-8')
     return '\n\n'.join(result)
 

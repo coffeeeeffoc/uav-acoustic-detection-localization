@@ -17,21 +17,19 @@
     5
   ],
   "reviewed_files": {
-    "paper/English_Main.docx": "7c3575f20df62af86cb4c7a65b603fe3d80493013967101f918ea876e9b7f653",
-    "paper/English_Main.pdf": "ea77c57a9ab41bf3116629a1b9727a5c5e2e005a9645ca0e6342d3654f0d6bea",
-    "paper/Chinese_Translation.docx": "8f43cfd3f4c6a18b7aab3eca513229a69e98f6632315e9364781c68733e2a8b3",
-    "paper/Chinese_Translation.pdf": "d940fe2d8d94661e9de2cc6a5fb48b523152b3e90dda38ac28e7e64da807ae97"
+    "paper/English_Main.docx": "72df8fecf7f4878a220c3cbe3fe205030d35fce14771c285bc5882e1cbd33b80",
+    "paper/English_Main.pdf": "ff39119d69917966dd9f0c0c234f70ce260f1ce4857aebe8d7a31ed46dd62cfb",
+    "paper/Chinese_Translation.docx": "730aa300ccd477e0a548f9a38aacb6e645bc220d87978feaf3ead2e3acda4643",
+    "paper/Chinese_Translation.pdf": "38ed9de9cb727bddb59ea2b05dd2ee233d00048b7a5fbe503e697538705b7b76"
   },
   "checks": [
-    "Pages 1-3 in each language are byte-identical to previously inspected images; final pages 4-5 visually inspected",
-    "Five pages per language including references",
+    "All ten final rendered pages visually inspected (English 1-5 and Chinese 1-5)",
+    "Five pages per language including all 15 references; no stranded detection subsection lead paragraph",
     "Ju Luo followed by Yuqian Zhou; shared university and Nanjing affiliation",
-    "10 pt body retained",
-    "No full-page figures or tables",
-    "All four tables remain whole with their captions",
-    "All 9 equations and numeric table values unchanged from previous draft",
-    "No clipping, overlap, blank page, chat language or template residue",
-    "Availability heading and paragraph removed in both languages; all other document text and embedded media unchanged"
+    "10 pt body retained; no full-page figures or tables",
+    "All four tables remain whole with their captions; all three figures and nine equations readable",
+    "15 numbered references fit on the final page in each language, including versioned preprints and specific acquisition-document attribution",
+    "No clipping, overlap, blank page, chat language or template residue"
   ],
   "render_directory": "results/document_qa/field/{en,zh}"
 }

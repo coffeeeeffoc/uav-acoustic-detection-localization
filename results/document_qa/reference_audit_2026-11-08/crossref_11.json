@@ -1,0 +1,495 @@
+{
+  "indexed": {
+    "date-parts": [
+      [
+        2026,
+        11,
+        4
+      ]
+    ],
+    "date-time": "2026-11-04T18:31:50Z",
+    "timestamp": 1793817110336,
+    "version": "4.6.1"
+  },
+  "reference-count": 45,
+  "publisher": "MDPI AG",
+  "issue": "10",
+  "license": [
+    {
+      "start": {
+        "date-parts": [
+          [
+            2025,
+            5,
+            12
+          ]
+        ],
+        "date-time": "2025-05-12T00:00:00Z",
+        "timestamp": 1747008000000
+      },
+      "content-version": "vor",
+      "delay-in-days": 0,
+      "URL": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  ],
+  "funder": [
+    {
+      "DOI": "10.13039/501100006141",
+      "name": "Military University of Technology, Faculty of Electronics",
+      "doi-asserted-by": "publisher",
+      "award": [
+        "UGB/22-747"
+      ],
+      "award-info": [
+        {
+          "award-number": [
+            "UGB/22-747"
+          ]
+        }
+      ],
+      "id": [
+        {
+          "id": "10.13039/501100006141",
+          "id-type": "DOI",
+          "asserted-by": "publisher"
+        }
+      ]
+    }
+  ],
+  "content-domain": {
+    "domain": [],
+    "crossmark-restriction": false
+  },
+  "short-container-title": [
+    "Applied Sciences"
+  ],
+  "abstract": "<jats:p>This article presents UaVirBASE, a publicly available dataset for the sound source localization (SSL) of unmanned aerial vehicles (UAVs). The dataset contains synchronized multi-microphone recordings captured under controlled conditions, featuring variations in UAV distances, altitudes, azimuths, and orientations relative to a fixed microphone array. UAV orientations include front, back, left, and right-facing configurations. UaVirBASE addresses the growing need for standardized SSL datasets tailored for UAV applications, filling a gap left behind by existing databases that often lack such specific variations. Additionally, we describe the software and hardware employed for data acquisition and annotation alongside an analysis of the dataset’s structure. With its well-annotated and diverse data, UaVirBASE is ideally suited for applications in artificial intelligence, particularly in developing and benchmarking machine learning and deep learning models for SSL. Controlling the dataset’s variations enables the training of AI systems capable of adapting to complex UAV-based scenarios. We also demonstrate the architecture and results of the deep neural network (DNN) trained on this dataset, evaluating model performance across different features. Our results show an average Mean Absolute Error (MAE) of 0.5 m for distance and height, an average azimuth error of around 1 degree, and side errors under 10 degrees. UaVirBASE serves as a valuable resource to support reproducible research and foster innovation in UAV-based acoustic signal processing by addressing the need for a standardized and versatile UAV SSL dataset.</jats:p>",
+  "DOI": "10.3390/app15105378",
+  "type": "journal-article",
+  "created": {
+    "date-parts": [
+      [
+        2025,
+        5,
+        12
+      ]
+    ],
+    "date-time": "2025-05-12T12:18:06Z",
+    "timestamp": 1747052286000
+  },
+  "page": "5378",
+  "update-policy": "https://doi.org/10.3390/mdpi_crossmark_policy",
+  "source": "Crossref",
+  "is-referenced-by-count": 11,
+  "title": [
+    "UaVirBASE: A Public-Access Unmanned Aerial Vehicle Sound Source Localization Dataset"
+  ],
+  "prefix": "10.3390",
+  "volume": "15",
+  "author": [
+    {
+      "ORCID": "https://orcid.org/0000-0001-9544-6061",
+      "authenticated-orcid": false,
+      "given": "Gabriel",
+      "family": "Jekateryńczuk",
+      "sequence": "first",
+      "affiliation": [
+        {
+          "name": "Institute of Communication Systems, Faculty of Electronics, Military University of Technology, 00-908 Warsaw, Poland"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "ORCID": "https://orcid.org/0000-0003-3478-4096",
+      "authenticated-orcid": false,
+      "given": "Rafał",
+      "family": "Szadkowski",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Institute of Communication Systems, Faculty of Electronics, Military University of Technology, 00-908 Warsaw, Poland"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "ORCID": "https://orcid.org/0000-0003-3556-0297",
+      "authenticated-orcid": false,
+      "given": "Zbigniew",
+      "family": "Piotrowski",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Institute of Communication Systems, Faculty of Electronics, Military University of Technology, 00-908 Warsaw, Poland"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "member": "1968",
+  "published-online": {
+    "date-parts": [
+      [
+        2025,
+        5,
+        12
+      ]
+    ]
+  },
+  "reference": [
+    {
+      "key": "ref_1",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Senocak, A., Ryu, H., Kim, J., Oh, T.-H., Pfister, H., and Chung, J.S. (2023). Sound Source Localization Is All about Cross-Modal Alignment. arXiv.",
+      "DOI": "10.1109/ICCV51070.2023.00715"
+    },
+    {
+      "key": "ref_2",
+      "doi-asserted-by": "crossref",
+      "first-page": "184",
+      "DOI": "10.1016/j.robot.2017.07.011",
+      "article-title": "Localization of Sound Sources in Robotics: A Review",
+      "volume": "96",
+      "author": "Rascon",
+      "year": "2017",
+      "journal-title": "Robot. Auton. Syst."
+    },
+    {
+      "key": "ref_3",
+      "unstructured": "Jung, I.-J., Jung, S.S., Cho, W.-H., Lee, B.K., and Park, T. (2023, January 11–15). Application of Sound Source Localization Algorithm for Urban Noise Source Monitoring. Proceedings of the 10 th Convention of the European Acoustics Association, Turin, Italy."
+    },
+    {
+      "key": "ref_4",
+      "unstructured": "Song, Z., Wang, Y., Fan, J., Tan, T., and Zhang, Z. (2022). Self-Supervised Predictive Learning: A Negative-Free Method for Sound Source Localization in Visual Scenes. arXiv."
+    },
+    {
+      "key": "ref_5",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Verreycken, E., Simon, R., Quirk-Royal, B., Daems, W., Barber, J., and Steckel, J. (2021). Bio-Acoustic Tracking and Localization Using Heterogeneous, Scalable Microphone Arrays. Commun. Biol., 4.",
+      "DOI": "10.1038/s42003-021-02746-2"
+    },
+    {
+      "key": "ref_6",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Ko, J., Kim, H., and Kim, J. (2022). Real-Time Sound Source Localization for Low-Power IoT Devices Based on Multi-Stream CNN. Sensors, 22.",
+      "DOI": "10.3390/s22124650"
+    },
+    {
+      "key": "ref_7",
+      "doi-asserted-by": "crossref",
+      "first-page": "103607",
+      "DOI": "10.1016/j.jnca.2023.103607",
+      "article-title": "A Comprehensive Survey on Security, Privacy Issues and Emerging Defence Technologies for UAVs",
+      "volume": "213",
+      "author": "Hadi",
+      "year": "2023",
+      "journal-title": "J. Netw. Comput. Appl."
+    },
+    {
+      "key": "ref_8",
+      "doi-asserted-by": "crossref",
+      "first-page": "20828",
+      "DOI": "10.1109/JSEN.2022.3207660",
+      "article-title": "Deep-Learning-Assisted Sound Source Localization from a Flying Drone",
+      "volume": "22",
+      "author": "Wang",
+      "year": "2022",
+      "journal-title": "IEEE Sens. J."
+    },
+    {
+      "key": "ref_9",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Seidaliyeva, U., Ilipbayeva, L., Taissariyeva, K., Smailov, N., and Matson, E.T. (2023). Advances and Challenges in Drone Detection and Classification Techniques: A State-of-the-Art Review. Sensors, 24.",
+      "DOI": "10.3390/s24010125"
+    },
+    {
+      "key": "ref_10",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Famili, A., Stavrou, A., Wang, H., Park (Jerry), J.-M., and Gerdes, R. (2024). Securing Your Airspace: Detection of Drones Trespassing Protected Areas. Sensors, 24.",
+      "DOI": "10.3390/s24072028"
+    },
+    {
+      "key": "ref_11",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Chiper, F.-L., Martian, A., Vladeanu, C., Marghescu, I., Craciunescu, R., and Fratu, O. (2022). Drone Detection and Defense Systems: Survey and a Software-Defined Radio-Based Solution. Sensors, 22.",
+      "DOI": "10.3390/s22041453"
+    },
+    {
+      "key": "ref_12",
+      "doi-asserted-by": "crossref",
+      "first-page": "793",
+      "DOI": "10.1049/icp.2024.1187",
+      "article-title": "Effective Detection and Localization of Small Maneuvering UAV Swarm via Coherent FDA Radar",
+      "volume": "2023",
+      "author": "Lei",
+      "year": "2024",
+      "journal-title": "IET Conf. Proc."
+    },
+    {
+      "key": "ref_13",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Yousaf, J., Zia, H., Alhalabi, M., Yaghi, M., Basmaji, T., Shehhi, E.A., Gad, A., Alkhedher, M., and Ghazal, M. (2022). Drone and Controller Detection and Localization: Trends and Challenges. Appl. Sci., 12.",
+      "DOI": "10.3390/app122412612"
+    },
+    {
+      "key": "ref_14",
+      "unstructured": "Zitar, R.A., Al-Betar, M., Ryalat, M., and Kassaymeh, S. (2023). A Review of UAV Visual Detection and Tracking Methods. arXiv."
+    },
+    {
+      "key": "ref_15",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Jamil, S., Rahman, M., Ullah, A., Badnava, S., Forsat, M., and Mirjavadi, S.S. (2020). Malicious UAV Detection Using Integrated Audio and Visual Features for Public Safety Applications. Sensors, 20.",
+      "DOI": "10.3390/s20143923"
+    },
+    {
+      "key": "ref_16",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Dudczyk, J., Czyba, R., and Skrzypczyk, K. (2022). Multi-Sensory Data Fusion in Terms of UAV Detection in 3D Space. Sensors, 22.",
+      "DOI": "10.3390/s22124323"
+    },
+    {
+      "key": "ref_17",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Frid, A., Ben-Shimol, Y., Manor, E., and Greenberg, S. (2024). Drones Detection Using a Fusion of RF and Acoustic Features and Deep Neural Networks. Sensors, 24.",
+      "DOI": "10.3390/s24082427"
+    },
+    {
+      "key": "ref_18",
+      "doi-asserted-by": "crossref",
+      "first-page": "68791",
+      "DOI": "10.1109/ACCESS.2023.3293124",
+      "article-title": "CNN-Based UAV Detection and Classification Using Sensor Fusion",
+      "volume": "11",
+      "author": "Lee",
+      "year": "2023",
+      "journal-title": "IEEE Access"
+    },
+    {
+      "key": "ref_19",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Jekateryńczuk, G., and Piotrowski, Z. (2023). A Survey of Sound Source Localization and Detection Methods and Their Applications. Sensors, 24.",
+      "DOI": "10.3390/s24010068"
+    },
+    {
+      "key": "ref_20",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Liaquat, M.U., Munawar, H.S., Rahman, A., Qadir, Z., Kouzani, A.Z., and Mahmud, M.A.P. (2021). Localization of Sound Sources: A Systematic Review. Energies, 14.",
+      "DOI": "10.3390/en14133910"
+    },
+    {
+      "key": "ref_21",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Bistroń, M., and Piotrowski, Z. (2023). Efficient Video Watermarking Algorithm Based on Convolutional Neural Networks with Entropy-Based Information Mapper. Entropy, 25.",
+      "DOI": "10.3390/e25020284"
+    },
+    {
+      "key": "ref_22",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Rojek, I., Mikołajewski, D., Kotlarz, P., Tyburek, K., Kopowski, J., and Dostatni, E. (2021). Traditional Artificial Neural Networks Versus Deep Learning in Optimization of Material Aspects of 3D Printing. Materials, 14.",
+      "DOI": "10.3390/ma14247625"
+    },
+    {
+      "key": "ref_23",
+      "first-page": "136722",
+      "article-title": "Intelligent System Supporting Technological Process Planning for Machining and 3D Printing",
+      "volume": "357",
+      "author": "Rojek",
+      "year": "2021",
+      "journal-title": "Bull. Pol. Acad. Sci. Tech. Sci."
+    },
+    {
+      "key": "ref_24",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Naitali, A., Ridouani, M., Salahdine, F., and Kaabouch, N. (2023). Deepfake Attacks: Generation, Detection, Datasets, Challenges, and Research Directions. Computers, 12.",
+      "DOI": "10.3390/computers12100216"
+    },
+    {
+      "key": "ref_25",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Piotrowski, Z., Bistroń, M., Jekateryńczuk, G., Kaczmarek, P., and Pietrow, D. (2025). Victim Verification with the Use of Deep Metric Learning in DVI System Supported by Mobile Application. Appl. Sci., 15.",
+      "DOI": "10.3390/app15020727"
+    },
+    {
+      "key": "ref_26",
+      "doi-asserted-by": "crossref",
+      "first-page": "1919",
+      "DOI": "10.1017/pds.2024.194",
+      "article-title": "Datasets in Design Research: Needs and Challenges and the Role of AI and GPT in Filling the Gaps",
+      "volume": "4",
+      "author": "Hajali",
+      "year": "2024",
+      "journal-title": "Proc. Des. Soc."
+    },
+    {
+      "key": "ref_27",
+      "unstructured": "(2025, May 04). GitHub—Saraalemadi/DroneAudioDataset. Available online: https://github.com/saraalemadi/DroneAudioDataset."
+    },
+    {
+      "key": "ref_28",
+      "unstructured": "(2025, May 04). Sound-Based Drone Fault Classification Using Multi-Task Learning. Available online: https://zenodo.org/records/7779574#.ZCOvfXZBwQ8."
+    },
+    {
+      "key": "ref_29",
+      "unstructured": "(2025, May 04). Drone Authentication via Acoustic Fingerprint—Enlighten Research Data. Available online: https://researchdata.gla.ac.uk/1348/."
+    },
+    {
+      "key": "ref_30",
+      "unstructured": "(2025, May 04). DroneNoise Database. Available online: https://salford.figshare.com/articles/dataset/DroneNoise_Database/22133411."
+    },
+    {
+      "key": "ref_31",
+      "unstructured": "(2025, May 04). The DREGON Dataset—DREGON. Available online: http://dregon.inria.fr/datasets/dregon/."
+    },
+    {
+      "key": "ref_32",
+      "unstructured": "(2025, May 04). ScienceDB. Available online: https://www.scidb.cn/en/detail?dataSetId=b2b4bdad91284ecaa6ffc26f919199ff."
+    },
+    {
+      "key": "ref_33",
+      "unstructured": "(2025, May 04). Acoustic Interactions for Robot Audition—Unmanned Aerial Systems (AIRA-UAS). Available online: https://calebrascon.info/AIRA-UAS/."
+    },
+    {
+      "key": "ref_34",
+      "unstructured": "(2025, May 04). The SPCup19 Egonoise Dataset—DREGON. Available online: http://dregon.inria.fr/datasets/the-spcup19-egonoise-dataset/."
+    },
+    {
+      "key": "ref_35",
+      "unstructured": "(2025, May 04). Signal Processing Cup 2019—DREGON. Available online: http://dregon.inria.fr/datasets/signal-processing-cup-2019/."
+    },
+    {
+      "key": "ref_36",
+      "unstructured": "(2025, May 04). GitHub—AcousticPrint/AcousticPrint: Harini Kolamunna, Junye Li, Thilini Dahanayake, Suranga Seneviratne, Kanchana Thilakaratne, Albert Y. Zomaya, and Aruna Seneviratne. Available online: https://github.com/AcousticPrint/AcousticPrint."
+    },
+    {
+      "key": "ref_37",
+      "unstructured": "(2025, May 04). GitHub—Cri-Lab-Hbku/Drone-Payload. Available online: https://github.com/cri-lab-hbku/Drone-Payload."
+    },
+    {
+      "key": "ref_38",
+      "unstructured": "(2025, May 04). Malicious UAVs Detection. Available online: https://www.kaggle.com/datasets/sonain/malicious-uavs-detection."
+    },
+    {
+      "key": "ref_39",
+      "unstructured": "(2025, February 05). Audacity ® | Free Audio Editor, Recorder, Music Making and More!. Available online: https://www.audacityteam.org/."
+    },
+    {
+      "key": "ref_40",
+      "doi-asserted-by": "crossref",
+      "unstructured": "Dostatni, E., Osiński, F., Mikołajewski, D., Sapietová, A., and Rojek, I. (2024). Neural Networks for Prediction of 3D Printing Parameters for Reducing Particulate Matter Emissions and Enhancing Sustainability. Sustainability, 16.",
+      "DOI": "10.3390/su16198616"
+    },
+    {
+      "key": "ref_41",
+      "unstructured": "(2025, February 05). NTG2 | Multi-Powered Shotgun Microphone | RØDE. Available online: https://rode.com/en/microphones/shotgun/ntg2."
+    },
+    {
+      "key": "ref_42",
+      "unstructured": "(2025, February 05). Behringer | Product | UMC1820. Available online: https://www.behringer.com/product.html?modelCode=0805-AAN."
+    },
+    {
+      "key": "ref_43",
+      "unstructured": "(2025, February 05). SenseCAP S2120 8-in-1 LoRaWAN Weather Sensor—Seeed Studio. Available online: https://www.seeedstudio.com/sensecap-s2120-lorawan-8-in-1-weather-sensor-p-5436.html."
+    },
+    {
+      "key": "ref_44",
+      "unstructured": "(2025, February 05). Zoom H4essential—ZOOM Europe. Available online: https://www.zoom-europe.com/en/handy-recorders/zoom-h4e."
+    },
+    {
+      "key": "ref_45",
+      "unstructured": "(2025, February 05). Behringer | Product | B-1. Available online: https://www.behringer.com/product.html?modelCode=0504-AAB."
+    }
+  ],
+  "container-title": [
+    "Applied Sciences"
+  ],
+  "original-title": [],
+  "language": "en",
+  "link": [
+    {
+      "URL": "https://www.mdpi.com/2076-3417/15/10/5378/pdf",
+      "content-type": "unspecified",
+      "content-version": "vor",
+      "intended-application": "similarity-checking"
+    }
+  ],
+  "deposited": {
+    "date-parts": [
+      [
+        2025,
+        10,
+        9
+      ]
+    ],
+    "date-time": "2025-10-09T17:31:09Z",
+    "timestamp": 1760031069000
+  },
+  "score": 1,
+  "resource": {
+    "primary": {
+      "URL": "https://www.mdpi.com/2076-3417/15/10/5378"
+    }
+  },
+  "subtitle": [],
+  "short-title": [],
+  "issued": {
+    "date-parts": [
+      [
+        2025,
+        5,
+        12
+      ]
+    ]
+  },
+  "references-count": 45,
+  "journal-issue": {
+    "issue": "10",
+    "published-online": {
+      "date-parts": [
+        [
+          2025,
+          5
+        ]
+      ]
+    }
+  },
+  "alternative-id": [
+    "app15105378"
+  ],
+  "URL": "https://doi.org/10.3390/app15105378",
+  "relation": {},
+  "ISSN": [
+    "2076-3417"
+  ],
+  "issn-type": [
+    {
+      "value": "2076-3417",
+      "type": "electronic"
+    }
+  ],
+  "subject": [],
+  "published": {
+    "date-parts": [
+      [
+        2025,
+        5,
+        12
+      ]
+    ]
+  }
+}

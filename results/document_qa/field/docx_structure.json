@@ -5,7 +5,7 @@
     "equations": 9,
     "data_tables": 4,
     "sections": 10,
-    "sha256": "7c3575f20df62af86cb4c7a65b603fe3d80493013967101f918ea876e9b7f653"
+    "sha256": "72df8fecf7f4878a220c3cbe3fe205030d35fce14771c285bc5882e1cbd33b80"
   },
   {
     "path": "paper/Chinese_Translation.docx",
@@ -13,6 +13,6 @@
     "equations": 9,
     "data_tables": 4,
     "sections": 10,
-    "sha256": "8f43cfd3f4c6a18b7aab3eca513229a69e98f6632315e9364781c68733e2a8b3"
+    "sha256": "730aa300ccd477e0a548f9a38aacb6e645bc220d87978feaf3ead2e3acda4643"
   }
 ]

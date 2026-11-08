@@ -14,13 +14,13 @@ Ju Luo, Yuqian Zhou
 
 ## I 引言
 
-被动声学感知需要在风、车辆及机械噪声中检出无人机辐射声并确定其方向[1]。广义互相关与导向响应功率（steered response power，SRP）汇总麦克风间时延证据[2]、[3]。相位变换（phase transform，PHAT）强调相位一致性，相干非目标声源也可能主导空间响应。已有SRP扩展改善了频谱可靠性与空间搜索[4]，但将整幅空间图乘以相同的正检测权重，不会改变其最大值方向。
+被动声学感知需要在噪声环境中检出无人机辐射声并估计其方向，低信噪比会增加定位难度[1]。广义互相关用于估计麦克风对时延[2]，导向响应功率（steered response power，SRP）则在候选方向上汇总相关证据[3]、[4]。相位变换（phase transform，PHAT）强调相位一致性，相干非目标声源也可能主导空间响应。已有SRP扩展改善了频谱可靠性与空间搜索[4]，但将整幅空间图乘以相同的正检测权重，不会改变其最大值方向。
 
 DCCR利用方向相干谱对四个SRP-PHAT候选排序。训练包含来自同一无人机观测的竞争方向，其背景和整体增益相同。本文贡献在于以既有阵列运算实现候选方向条件下的声源关联，并通过共用检测器的比较区分方向选择与报警决策的影响。
 
 ## II 相关研究
 
-噪声相关波束形成与跟踪[5]、部分PHAT加权[6]及相干噪声中的辅助麦克风SRP[7]均着重改善空间可靠性。无人机专用方法利用旋翼谐波[8]，或结合合成信号与神经网络定位[9]。DCCR采用固定频带和紧凑线性模型，本文未与上述训练后的神经网络系统直接比较。DDL[10]和UaVirBASE[11]提供多通道无人机数据，强调采集几何及参考测量记录。现有录音支持标称静态方向比较，但缺乏用于跟踪评价的同步轨迹。
+基于信噪比加权的波束形成与粒子跟踪[5]、PHAT-β部分频谱白化[6]及采用空间分离辅助麦克风的SRP[7]，分别在相应条件下处理噪声与混响问题。无人机方法包括旋翼谐波定位[8]、合成信号训练的神经定位[9]及稠密波束形成频谱图的U-Net分割[10]。EchoHawk结合检测与经典定位，并分析录音会话泄漏[11]。DCCR通过归一化频带相干特征和线性模型对四个候选排序，本文未与这些学习系统直接比较。DDL将音频与飞行日志位置同步[12]，UaVirBASE则记录实测静态配置[13]。本文数据提供标称静态方向，不含同步轨迹。
 
 ## III 信号模型与方向特征
 
@@ -64,7 +64,7 @@ $$ f_b(\mathbf{u})=\frac{1}{|\mathcal{P}|\,|\mathcal{F}_b|}\sum_{(i,j)\in\mathca
 
 P1包含300个无人机窗及100个背景窗，训练候选取自PHAT粗网格。参考导向波束和偏差不超过5°的候选为正例；偏差至少15°的候选及背景候选为负例；中间候选排除。推理不使用参考波束。1779个样本包括598个正例和1181个负例，其中781个为无人机观测中的错误方向。
 
-两个分组折各保留一整段无人机录音及开发背景中连续10 s的一半，同一观测窗的样本保持在同一折。这不构成跨独立背景录音的泛化检验。特征均值与标准差在训练折内按类别平衡权重估计，标准差下限为0.01。对N个样本的标准化特征z_n和标签y_n ∈ {−1,+1}，模型最小化
+两个分组折各保留一整段无人机录音及开发背景中连续10 s的一半，同一观测窗的样本保持在同一折。这不构成跨独立背景录音的泛化检验。特征均值与标准差在训练折内按类别平衡权重估计，标准差下限为0.01。对N个样本的标准化特征z_n和标签y_n ∈ {−1,+1}，模型最小化含岭惩罚[14]的加权目标
 
 $$ \sum_{n=1}^{N}w_n(\boldsymbol{\beta}^{T}\mathbf{z}_n+b-y_n)^2+\lambda\|\boldsymbol{\beta}\|_2^2. $$ (7)
 
@@ -84,7 +84,7 @@ $$ s_q=\boldsymbol{\beta}^{T}[(\mathbf{f}(\mathbf{u}_q)-\boldsymbol{\mu})/\bolds
 
 ### A 录音与评价划分
 
-2026年5月25日，朝向上方的CRY8501/SonoCam Pi阵列采集DJI Air 3S录音[12]。各采集组包含两段无人机录音和一段背景录音（表I），每段208通道、48 kHz、16位PCM。九段录音总计273.75 s。每段录音内各通道样本数一致，1872个WAV文件均无样本达到PCM边界，但这不独立验证相位或时钟标定。标称方向来自采集示意图，缺乏用于量化悬停位移及参考不确定性的同步轨迹。视频既不输入估计器，也不替代真值。
+本文使用第四届“声华杯”声学技术大赛提供的录音：2026年5月25日，朝向上方的CRY8501/SonoCam Pi阵列采集DJI Air 3S声信号[15]。各采集组包含两段无人机录音和一段背景录音（表I），每段208通道、48 kHz、16位PCM。九段录音总计273.75 s。每段录音内各通道样本数一致，1872个WAV文件均无样本达到PCM边界，但这不独立验证相位或时钟标定。标称方向来自采集示意图，缺乏用于量化悬停位移及参考不确定性的同步轨迹。视频既不输入估计器，也不替代真值。
 
 **表I 录音分组及标称方向，各组含两段无人机录音和一段背景录音。**
 
@@ -193,8 +193,14 @@ DCCR通过24频带相干特征对四个方向排序，使保留录音平均标�
 
 [9] X. Yang, P. A. Naylor, S. Doclo, and J. Bitzer, "Neural Drone Localization Exploiting Signal Synthesis of Real-World Audio Data," in Proc. 33rd European Signal Processing Conference (EUSIPCO), pp. 256–260, 2025. [doi: 10.23919/EUSIPCO63237.2025.11226465](https://doi.org/10.23919/EUSIPCO63237.2025.11226465).
 
-[10] S. Safavi, Ö. Çaylı, M. A. Safavi, B. Cook, and W. Wang, "DDL: A Dataset for Drone Detection and Localization From Multi-Channel Audio and a Deep Uncertainty-Aware Framework," in Proc. IEEE 35th International Workshop on Machine Learning for Signal Processing (MLSP), pp. 1–6, 2025. [doi: 10.1109/MLSP62443.2025.11204285](https://doi.org/10.1109/MLSP62443.2025.11204285).
+[10] B. J. Rodríguez, S. F. Chevtchenko, M. Herrera Martínez, Y. Bethi, and S. Afshar, "Acoustic Imaging for UAV Detection: Dense Beamformed Energy Maps and U-Net SELD," arXiv preprint arXiv:2508.00307v4, 2026. [doi: 10.48550/arXiv.2508.00307](https://doi.org/10.48550/arXiv.2508.00307).
 
-[11] G. Jekateryńczuk, R. Szadkowski, and Z. Piotrowski, "UaVirBASE: A Public-Access Unmanned Aerial Vehicle Sound Source Localization Dataset," Applied Sciences, vol. 15, no. 10, Art. no. 5378, 2025. [doi: 10.3390/app15105378](https://doi.org/10.3390/app15105378).
+[11] D. Shulman, "EchoHawk: A Reproducible Acoustic Pipeline for Drone Detection, Classification, and Direction-Finding, with a Cautionary Study of Session-Level Data Leakage," arXiv preprint arXiv:2606.29589v2, 2026. [doi: 10.48550/arXiv.2606.29589](https://doi.org/10.48550/arXiv.2606.29589).
 
-[12] "Experimental measurement description," acquisition documentation accompanying the CRY8501 Air 3S recordings of 25 May 2026, unpublished technical dataset, 2026 (in Chinese).
+[12] S. Safavi, Ö. Çaylı, M. A. Safavi, B. Cook, and W. Wang, "DDL: A Dataset for Drone Detection and Localization From Multi-Channel Audio and a Deep Uncertainty-Aware Framework," in Proc. IEEE 35th International Workshop on Machine Learning for Signal Processing (MLSP), pp. 1–6, 2025. [doi: 10.1109/MLSP62443.2025.11204285](https://doi.org/10.1109/MLSP62443.2025.11204285).
+
+[13] G. Jekateryńczuk, R. Szadkowski, and Z. Piotrowski, "UaVirBASE: A Public-Access Unmanned Aerial Vehicle Sound Source Localization Dataset," Applied Sciences, vol. 15, no. 10, Art. no. 5378, 2025. [doi: 10.3390/app15105378](https://doi.org/10.3390/app15105378).
+
+[14] A. E. Hoerl and R. W. Kennard, "Ridge Regression: Biased Estimation for Nonorthogonal Problems," Technometrics, vol. 12, no. 1, pp. 55–67, 1970. [doi: 10.1080/00401706.1970.10488634](https://doi.org/10.1080/00401706.1970.10488634).
+
+[15] "Shenghua Cup 2026, Attachment 4: Experimental Description," technical documentation accompanying the problem-1 data package of the 4th Shenghua Cup Acoustic Technology Competition, release package "0609 update," 2026 (in Chinese).

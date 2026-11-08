@@ -1,4 +1,6 @@
-# Final manuscript citation keys
+# Reference library keys
+
+The numbers below identify the broader library and retain historical numbering. Current field-manuscript citation numbers are defined in [field_citation_map.json](../paper/field_citation_map.json).
 
 | Number | Key | Title |
 |---|---|---|
@@ -23,3 +25,4 @@
 | 19 | dregon | DREGON: Dataset and Methods for UAV-Embedded Sound Source Localization |
 | 20 | droneaudioset | DroneAudioset: An Audio Dataset for Drone-based Search and Rescue |
 | 21 | idmt | Real-World Drone Audio Dataset Collected by Fraunhofer IDMT (August 2022) |
+| 22 | ridge | Ridge Regression: Biased Estimation for Nonorthogonal Problems |

@@ -468,17 +468,17 @@
       "Saeed Afshar"
     ],
     "title": "Acoustic Imaging for UAV Detection: Dense Beamformed Energy Maps and U-Net SELD",
-    "year": 2025,
-    "venue": "arXiv preprint arXiv:2508.00307 (v4 reviewed)",
+    "year": 2026,
+    "venue": "arXiv preprint arXiv:2508.00307v4 (revised 2026-07-17; first posted 2025)",
     "doi": "10.48550/arXiv.2508.00307",
-    "url": "https://arxiv.org/abs/2508.00307",
+    "url": "https://arxiv.org/abs/2508.00307v4",
     "evidence": [
       {
         "url": "https://arxiv.org/abs/2508.00307",
         "verified": "作者arXiv页及下载PDF题名页；首发年2025，当前所读v4为2026年修订，非已核实期刊论文。"
       }
     ],
-    "access_date": "2026-10-02",
+    "access_date": "2026-11-08",
     "notes": "已读摘要及3.2–3.5采集/标签部分。24麦克风DAS图+U-Net，真实Air3/GPS；论文写6次录制，数据页写4个session，未下载整库核清版本覆盖，不能自行等同。",
     "number": 15
   },
@@ -630,5 +630,26 @@
     ],
     "access_date": "2026-10-02",
     "notes": "1,515,112,211 bytes压缩包；描述为8次可靠飞行约106分钟、8麦克风15cm立方配置。实际ZIP有163个30秒WAV，即81.5分钟，不能把采集总时长等同于本发布子集。已用HTTP Range仅提取一个原始30秒8通道48kHz PCM16 WAV及对应DOATruePos.csv，SHA256见data/public/idmt_sample/provenance.json。CSV有Z=0、ele=90占位，官方只承诺azimuth。本稿仅用于描述性频谱，不开展单样本方位pilot、不报告定位成绩；几何/通道/对齐未独立校验，非完整benchmark。"
+  },
+  {
+    "id": "ridge",
+    "number": 22,
+    "authors": [
+      "Arthur E. Hoerl",
+      "Robert W. Kennard"
+    ],
+    "title": "Ridge Regression: Biased Estimation for Nonorthogonal Problems",
+    "year": 1970,
+    "venue": "Technometrics, 12(1), 55–67",
+    "doi": "10.1080/00401706.1970.10488634",
+    "url": "https://www.tandfonline.com/doi/abs/10.1080/00401706.1970.10488634",
+    "access_date": "2026-11-08",
+    "evidence": [
+      {
+        "url": "https://www.tandfonline.com/doi/abs/10.1080/00401706.1970.10488634",
+        "verified": "Publisher title, authors, original volume/year, issue, pages and DOI checked; 2012 web posting and the 2000 reprint are not the original publication."
+      }
+    ],
+    "notes": "Foundation for the ridge penalty only; class weighting and candidate labels are defined by the present study."
   }
 ]

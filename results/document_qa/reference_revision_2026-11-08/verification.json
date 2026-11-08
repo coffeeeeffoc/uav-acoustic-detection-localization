@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "date": "2026-11-08",
+  "baseline_commit": "96cafa584a4fe6165359eb82c2a508214cc550f8",
+  "documents": [
+    {
+      "language": "en",
+      "pages": 5,
+      "references": 15,
+      "unique_doi_links": 14,
+      "body_first_citation_order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "markdown_docx_pdf_references_identical": true,
+      "doi_display_and_targets_consistent": true,
+      "equations_tables_captions_unchanged_from_baseline": true,
+      "all_12_embedded_images_identical_to_baseline": true
+    },
+    {
+      "language": "zh",
+      "pages": 5,
+      "references": 15,
+      "unique_doi_links": 14,
+      "body_first_citation_order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "markdown_docx_pdf_references_identical": true,
+      "doi_display_and_targets_consistent": true,
+      "equations_tables_captions_unchanged_from_baseline": true,
+      "all_12_embedded_images_identical_to_baseline": true
+    }
+  ],
+  "file_sha256": {
+    "paper/field_en.md": "2eace1e49f5ee489cc24eab4397026b8b1e8be1af081d7b4e3d6a7bf39880f34",
+    "paper/English_Main.docx": "72df8fecf7f4878a220c3cbe3fe205030d35fce14771c285bc5882e1cbd33b80",
+    "paper/English_Main.pdf": "ff39119d69917966dd9f0c0c234f70ce260f1ce4857aebe8d7a31ed46dd62cfb",
+    "paper/field_zh.md": "52139832e01d3b1acd613c1ac76fd4b06be55244e9c654072ae9379b70a4d9fe",
+    "paper/Chinese_Translation.docx": "730aa300ccd477e0a548f9a38aacb6e645bc220d87978feaf3ead2e3acda4643",
+    "paper/Chinese_Translation.pdf": "38ed9de9cb727bddb59ea2b05dd2ee233d00048b7a5fbe503e697538705b7b76"
+  },
+  "frozen_files_unchanged": 16,
+  "evaluation_artifacts_unchanged": 7,
+  "related_delivery_verification": "../field/delivery_verification.json",
+  "limitations": [
+    "No acoustic inference rerun",
+    "No external plagiarism screening",
+    "Full-source access limitations remain as documented in the pre-edit citation audit"
+  ]
+}
