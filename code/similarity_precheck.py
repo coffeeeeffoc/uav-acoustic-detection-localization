@@ -12,8 +12,7 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / '.python-packages'))
-import fitz
+import pymupdf as fitz
 
 OUT = ROOT / 'results' / 'similarity_precheck'
 WORD = re.compile(r"[a-z0-9]+(?:'[a-z]+)?", re.I)
@@ -49,7 +48,8 @@ def markdown_blocks(path):
 def extract(path):
     if path.suffix.lower() == '.pdf':
         with fitz.open(path) as doc:
-            text = '\n'.join(page.get_text(sort=True) for page in doc)
+            # Geometric sorting interleaves columns and corrupts hyphenated words.
+            text = '\n'.join(page.get_text(sort=False) for page in doc)
     else:
         with ZipFile(path) as doc:
             xml = ET.fromstring(doc.read('word/document.xml'))
@@ -65,7 +65,7 @@ def docx_body_blocks(path):
     result = []
     for p in xml.findall('./w:body/w:p', ns):
         text = ''.join(p.itertext()).strip()
-        if text == 'References':
+        if text in ['References','参考文献']:
             break
         if not text or re.fullmatch(r'\(\d+\)', text):
             continue
@@ -128,6 +128,7 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     attachment = ROOT / '赛题信息' / '第四届“声华杯”赛题一附件（发布版）-0609更新'
     paths = sorted((ROOT / 'references' / 'papers').glob('*.pdf'))
+    paths += sorted((ROOT / 'references' / 'improved').glob('*.pdf'))
     paths += sorted((ROOT / '参考资料').glob('*.pdf'))
     paths += [attachment / name for name in (
         '附件4：试验说明文档.docx', '赛题一：说明文档.docx',
@@ -154,10 +155,15 @@ def main():
     docx_blocks = docx_body_blocks(ROOT/'paper/English_Main.docx')
     english_docx = audit(docx_blocks, sources, 'en', [5, 8, 12])
     chinese = audit(zh, sources, 'zh', [13, 20, 30])
+    chinese_docx=audit(docx_body_blocks(ROOT/'paper/Chinese_Translation.docx'),sources,'zh',[13,20,30])
     main_pdf = ROOT / 'paper/English_Main.pdf'
     pdf_text = extract(main_pdf)
-    md_words = set(units(' '.join(en), 'en'))
+    pdf_source=re.sub(r'([A-Za-z])_(ij|ii|ref|m|i|j|n|b|q\*)',r'\1\2',' '.join(en))
+    md_words = set(units(pdf_source, 'en'))
     pdf_words = set(WORD.findall(pdf_text.casefold()))
+    with fitz.open(main_pdf) as document:
+        # Preserve genuine compound-word hyphens as well as joined wrap hyphens.
+        pdf_words.update(WORD.findall('\n'.join(p.get_text() for p in document).casefold()))
     missing = sorted(md_words - pdf_words)
     with fitz.open(main_pdf) as doc:
         pdf_pages = len(doc)
@@ -169,7 +175,7 @@ def main():
         'method': {
             'english': 'Case-insensitive exact consecutive word/token matching; punctuation normalized; 5/8/12-token sensitivity.',
             'chinese': 'Exact CJK character runs after removing non-CJK characters; 13/20/30-character sensitivity; indicative only.',
-            'denominator': 'Markdown body through Data and Code Availability, including headings/captions; excludes bibliography, display equations and table rows.',
+            'denominator': 'Markdown body before References, including headings/captions; excludes bibliography, display equations and table rows.',
             'docx_crosscheck': 'Independent audit of actual English_Main.docx body paragraphs; excludes tables, reference list and empty equation-image paragraphs.',
             'aggregation': 'Union of covered manuscript token positions; each position counted once; single-source coverage uses same denominator.',
             'exclusions': 'Previous drafts, templates, translations of this manuscript, internal research notes, and internal generated reports are not external sources.',
@@ -177,10 +183,11 @@ def main():
         },
         'manuscripts': [
             {'path': p.relative_to(ROOT).as_posix(), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()}
-            for p in [en_path, zh_path, main_pdf, ROOT/'paper/English_Main.docx', ROOT/'paper/Chinese_Translation.pdf']
+            for p in [en_path, zh_path, main_pdf, ROOT/'paper/English_Main.docx', ROOT/'paper/Chinese_Translation.pdf',ROOT/'paper/Chinese_Translation.docx']
         ],
         'pdf_crosscheck': {'pages': pdf_pages, 'unique_markdown_tokens': len(md_words), 'missing_from_pdf': missing},
         'sources': manifest, 'english': english, 'english_docx_crosscheck': english_docx, 'chinese_translation': chinese,
+        'chinese_docx_crosscheck':chinese_docx,
         'missing_cited_full_text': [
             '[2] Knapp and Carter 1976: local PDF is image-only; no OCR comparison.',
             '[3] DiBiase et al. 2001: no local full text.',

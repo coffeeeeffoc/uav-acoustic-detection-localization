@@ -4,8 +4,7 @@ import sys, re, json, hashlib, zipfile, ast
 from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / '.python-packages'))
-import fitz
+import pymupdf as fitz
 
 QA = ROOT / 'results/document_qa/field'
 NS = {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main',
@@ -25,9 +24,16 @@ def main():
     en = (ROOT / 'paper/field_en.md').read_text(encoding='utf-8')
     zh = (ROOT / 'paper/field_zh.md').read_text(encoding='utf-8')
     assert not re.search(r'[\u4e00-\u9fff]', en)
+    authors='Ju Luo, Yuqian Zhou'
+    assert '\n'+authors+'\n' in en and '\n'+authors+'\n' in zh
+    assert 'Nanjing University of Aeronautics and Astronautics' in en
+    assert '南京航空航天大学' in zh
     forbidden = ['用户提供', '用户要求', '赛题', '参赛', '声华杯',
                  'user-provided', 'user provided', 'user requirements',
-                 'competition requirements', 'contest requirements']
+                 'competition requirements', 'contest requirements',
+                 '作为AI', '作为人工智能', '如需我', '希望对你', '你可以', '您可以',
+                 'as an AI', 'as a language model', 'let me know', 'I can help',
+                 'Paper Title', 'Authors Name', 'name@xyz.com', 'electronic document is a']
     equations = []
     for text in [en, zh]:
         assert not re.search(r'\{\{[A-Za-z][A-Za-z0-9_]*\}\}', text)
@@ -54,31 +60,57 @@ def main():
         assert value in en and value in zh
     doc_reports = []
     manifest = {}
-    for name, lang, pages in [('English_Main', 'en', 10), ('Chinese_Translation', 'zh', 9)]:
+    for name, lang in [('English_Main', 'en'), ('Chinese_Translation', 'zh')]:
         docx = ROOT / 'paper' / (name + '.docx')
         pdf = ROOT / 'paper' / (name + '.pdf')
         assert sha(pdf) == sha(QA / lang / (name + '.pdf'))
         with zipfile.ZipFile(docx) as archive:
+            assert 'word/comments.xml' not in archive.namelist()
+            assert len([n for n in archive.namelist() if n.startswith('word/media/')])==12
             xml = ET.fromstring(archive.read('word/document.xml'))
             inline_images = len(xml.findall('.//wp:inline', NS))
             table_count = len(xml.findall('.//w:tbl', NS))
             assert inline_images == 12 and table_count == 13
+            sections=xml.findall('.//w:sectPr',NS)
+            assert len(sections)==10
+            for section in sections:
+                size=section.find('w:pgSz',NS);margins=section.find('w:pgMar',NS)
+                assert size.attrib['{'+NS['w']+'}w']=='11906'
+                assert size.attrib['{'+NS['w']+'}h']=='16838'
+                for side,value in [('left','1080'),('right','1080'),('top','1440'),('bottom','1440')]:
+                    assert margins.attrib['{'+NS['w']+'}'+side]==value
+                assert section.find('w:headerReference',NS) is None
+                assert section.find('w:footerReference',NS) is None
+            assert sum(s.find('w:cols',NS) is not None and s.find('w:cols',NS).get('{'+NS['w']+'}num')=='2' for s in sections)==5
+            assert not xml.findall('.//w:ins',NS) and not xml.findall('.//w:del',NS)
+            with zipfile.ZipFile(ROOT/'results/document_qa/template_revision/wordtemplates.docx') as reference:
+                for part in ['word/numbering.xml','word/theme/theme1.xml','word/fontTable.xml']:
+                    if part in reference.namelist():assert archive.read(part)==reference.read(part),part
             document_text = ' '.join(t.text or '' for t in xml.findall('.//w:t', NS))
+            assert authors in document_text
+            core=ET.fromstring(archive.read('docProps/core.xml'))
+            assert core.find('{http://purl.org/dc/elements/1.1/}creator').text==authors
+            assert ('南京航空航天大学' if lang=='zh' else 'Nanjing University of Aeronautics and Astronautics') in document_text
             for term in forbidden:
                 assert term.casefold() not in document_text.casefold()
         with fitz.open(pdf) as document:
-            assert len(document) == pages
+            pages=len(document)
+            assert 1<=pages<=5, (name, 'five-page limit', pages)
             content = '\n'.join(p.get_text() for p in document)
             assert '\ufffd' not in content
+            assert authors in content
             for value in ['14.78', '6.97', '85.7', '1.5', '54.16', '414.9', '588.7']:
                 assert value in content, (name, value)
             for n in range(1, 13):
                 assert '[' + str(n) + ']' in content
+            for n in range(1,10):assert f'({n})' in content,(name,'broken equation number',n)
             fonts = {}
             image_placements = 0
             for page in document:
                 assert len(page.get_text().strip()) > 100, (name, page.number, 'empty page')
                 image_placements += len(page.get_image_info())
+                for placement in page.get_image_info():
+                    assert placement['bbox'][3]-placement['bbox'][1] < page.rect.height*.32, (name,page.number,'oversized figure')
                 for block in page.get_text('dict')['blocks']:
                     x0, y0, x1, y1 = block['bbox']
                     assert min(x0, y0) >= -.5 and x1 <= page.rect.width+.5 and y1 <= page.rect.height+.5, (name, page.number, block['bbox'])
@@ -88,7 +120,8 @@ def main():
             assert all(fonts.values()), fonts
         doc_reports.append(dict(language=lang, docx=docx.relative_to(ROOT).as_posix(),
             pdf=pdf.relative_to(ROOT).as_posix(), pages=pages, figures=3, equations=9,
-            data_tables=4, references=12, pdf_images=image_placements, fonts_embedded=fonts))
+            data_tables=4, references=12, pdf_images=image_placements, fonts_embedded=fonts,
+            template_geometry_verified=True,template_design_parts_preserved=True))
         for path in [docx, pdf]:
             manifest[path.relative_to(ROOT).as_posix()] = sha(path)
     visual = json.loads((QA / 'visual_review.json').read_text(encoding='utf-8'))

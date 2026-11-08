@@ -6,10 +6,10 @@
 
 | 版本 | Word | PDF | 可重建源稿 |
 |---|---|---|---|
-| 英文主稿，10 页 | [English_Main.docx](paper/English_Main.docx) | [English_Main.pdf](paper/English_Main.pdf) | [field_en.md](paper/field_en.md) |
-| 中文完整译稿，9 页 | [Chinese_Translation.docx](paper/Chinese_Translation.docx) | [Chinese_Translation.pdf](paper/Chinese_Translation.pdf) | [field_zh.md](paper/field_zh.md) |
+| 英文主稿，5 页 | [English_Main.docx](paper/English_Main.docx) | [English_Main.pdf](paper/English_Main.pdf) | [field_en.md](paper/field_en.md) |
+| 中文完整译稿，5 页 | [Chinese_Translation.docx](paper/Chinese_Translation.docx) | [Chinese_Translation.pdf](paper/Chinese_Translation.pdf) | [field_zh.md](paper/field_zh.md) |
 
-两稿均包含 9 个公式、4 张表、3 幅图和 12 条参考文献，采用通用学术单栏排版。论文围绕研究问题、算法、实验和局限展开。作者与单位未虚构，未限定目标期刊。
+两稿均包含 9 个公式、4 张表、3 幅图和 12 条参考文献，按 `模板/wordtemplates.doc` 的实际 A4 页面及双栏样式排版，图形紧凑跨栏、四张表采用单栏。论文围绕研究问题、算法、实验和局限展开。作者顺序为 Ju Luo、Yuqian Zhou，两人单位均为南京航空航天大学，城市为南京；尚未提供邮编和通信邮箱，未限定目标期刊。
 
 ## 数据和主要结果
 
@@ -54,4 +54,4 @@ DCCR 检出 514/600（85.7%），背景虚警 3/200（1.5%）。各方法独立�
 
 旧仿真稿及旧入口说明移至 [archive/](archive/README.md)。旧仿真实验的数据、模型及冻结记录保留，供追溯使用，其数值不属于当前实测论文的结果。
 
-当前文件是完整研究稿。正式投稿前仍需填写真实作者、单位及相应声明，并根据目标刊会调整模板。尚未执行正式相似度检测，不能声称已满足指定重复率阈值。录音公开分发应遵守原始提供方的条件；本目录不另行授予公开再分发许可。
+当前文件是完整研究稿。正式投稿前仍需补充邮编、通信邮箱及目标刊会要求的声明，当前已应用提供的模板。2026-11-08 版的[修订核验记录](results/document_qa/template_revision/REVISION_REPORT.md)和[相似文字初检](results/similarity_precheck/REPORT.md)单独保存。尚未执行正式相似度检测，不能声称已满足指定重复率阈值。录音公开分发应遵守原始提供方的条件；本目录不另行授予公开再分发许可。

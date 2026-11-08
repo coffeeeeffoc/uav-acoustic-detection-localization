@@ -4,13 +4,15 @@
     "figures": 3,
     "equations": 9,
     "data_tables": 4,
-    "sha256": "8598c9caf024cadbb07f5906d19e2eff006472463b5587c88f6acba1c0c5ca3e"
+    "sections": 10,
+    "sha256": "7c3575f20df62af86cb4c7a65b603fe3d80493013967101f918ea876e9b7f653"
   },
   {
     "path": "paper/Chinese_Translation.docx",
     "figures": 3,
     "equations": 9,
     "data_tables": 4,
-    "sha256": "934fc4c895b8d2c5e7edb7b4efda9a4aa8f4bcdb962524bc4645678b301cdcf2"
+    "sections": 10,
+    "sha256": "8f43cfd3f4c6a18b7aab3eca513229a69e98f6632315e9364781c68733e2a8b3"
   }
 ]

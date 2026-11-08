@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-05T11:14:43.288573+08:00",
+  "checked_at": "2026-11-08T21:05:14.160836+08:00",
   "status": "LOCAL_PRECHECK_ONLY_NO_ITHENTICATE_REPORT",
   "submission_limits": {
     "overall_percent": 24,
@@ -8,7 +8,7 @@
   "method": {
     "english": "Case-insensitive exact consecutive word/token matching; punctuation normalized; 5/8/12-token sensitivity.",
     "chinese": "Exact CJK character runs after removing non-CJK characters; 13/20/30-character sensitivity; indicative only.",
-    "denominator": "Markdown body through Data and Code Availability, including headings/captions; excludes bibliography, display equations and table rows.",
+    "denominator": "Markdown body before References, including headings/captions; excludes bibliography, display equations and table rows.",
     "docx_crosscheck": "Independent audit of actual English_Main.docx body paragraphs; excludes tables, reference list and empty equation-image paragraphs.",
     "aggregation": "Union of covered manuscript token positions; each position counted once; single-source coverage uses same denominator.",
     "exclusions": "Previous drafts, templates, translations of this manuscript, internal research notes, and internal generated reports are not external sources.",
@@ -17,43 +17,40 @@
   "manuscripts": [
     {
       "path": "paper/field_en.md",
-      "sha256": "3c0c45c554ffbffa096fd6fdc39fa93d01879e16cf0fef61d18f1173d778ee7e"
+      "sha256": "c2a33e3c2778836e65f9913c8244f1ffc7cfae3e4ee990b7842ca3410a59767d"
     },
     {
       "path": "paper/field_zh.md",
-      "sha256": "222a00515ed5522710ecd874fb70be2c79a16c284109f1736d09d62c5204cf84"
+      "sha256": "26d1e6698531cb5ae8644c492258bdc03c3292e011cb42baa58f522f2122f8cb"
     },
     {
       "path": "paper/English_Main.pdf",
-      "sha256": "237cfc4b2ec133417875248b2bdff0cae58b6900bccae369a75dca77c9e0a842"
+      "sha256": "ea77c57a9ab41bf3116629a1b9727a5c5e2e005a9645ca0e6342d3654f0d6bea"
     },
     {
       "path": "paper/English_Main.docx",
-      "sha256": "8598c9caf024cadbb07f5906d19e2eff006472463b5587c88f6acba1c0c5ca3e"
+      "sha256": "7c3575f20df62af86cb4c7a65b603fe3d80493013967101f918ea876e9b7f653"
     },
     {
       "path": "paper/Chinese_Translation.pdf",
-      "sha256": "3d49f181e7a04f7fabc7ceb06941e1e92b55f9c73dc558ad6ea6c2be1751fad6"
+      "sha256": "d940fe2d8d94661e9de2cc6a5fb48b523152b3e90dda38ac28e7e64da807ae97"
+    },
+    {
+      "path": "paper/Chinese_Translation.docx",
+      "sha256": "8f43cfd3f4c6a18b7aab3eca513229a69e98f6632315e9364781c68733e2a8b3"
     }
   ],
   "pdf_crosscheck": {
-    "pages": 10,
-    "unique_markdown_tokens": 1232,
-    "missing_from_pdf": [
-      "aliasing",
-      "anti",
-      "cached",
-      "ij",
-      "q",
-      "r"
-    ]
+    "pages": 5,
+    "unique_markdown_tokens": 786,
+    "missing_from_pdf": []
   },
   "sources": [
     {
       "path": "references/papers/brumann2024_auxiliary.pdf",
       "sha256": "000ea03a22157cd96ec28b7301fd877a3294b92f92bca050ddea06715c7d4db1",
-      "extracted_characters": 38053,
-      "english_tokens": 4375,
+      "extracted_characters": 27396,
+      "english_tokens": 4427,
       "cjk_characters": 0,
       "included": true,
       "limitation": null
@@ -61,8 +58,8 @@
     {
       "path": "references/papers/grinstein2024_srp_review.pdf",
       "sha256": "d6a0ad311d2940a6361bea828414b58eea901f5a7b90c34182720bee64b98d89",
-      "extracted_characters": 184396,
-      "english_tokens": 22756,
+      "extracted_characters": 139609,
+      "english_tokens": 22574,
       "cjk_characters": 0,
       "included": true,
       "limitation": null
@@ -70,8 +67,8 @@
     {
       "path": "references/papers/gupta2025_droneaudioset.pdf",
       "sha256": "ceeb16889e02a18bbac50b3a2c2e67c8eccaa51fba7c64dfaeb69d7161781724",
-      "extracted_characters": 115383,
-      "english_tokens": 15711,
+      "extracted_characters": 102088,
+      "english_tokens": 15766,
       "cjk_characters": 0,
       "included": true,
       "limitation": null
@@ -79,8 +76,8 @@
     {
       "path": "references/papers/jekaterynczuk2025_uavirbase.pdf",
       "sha256": "9a9e496fc6155c1243a1ab2c053573c5f583d8f4900b82a18757c134f2a92fcd",
-      "extracted_characters": 89464,
-      "english_tokens": 9766,
+      "extracted_characters": 61974,
+      "english_tokens": 9764,
       "cjk_characters": 0,
       "included": true,
       "limitation": null
@@ -97,8 +94,8 @@
     {
       "path": "references/papers/rodriguez2025_acoustic_imaging.pdf",
       "sha256": "686a7fb285c68307f84e97e8b46c5675c146bb181ee856cd07f8e295ab4fff35",
-      "extracted_characters": 60450,
-      "english_tokens": 6896,
+      "extracted_characters": 45093,
+      "english_tokens": 6918,
       "cjk_characters": 0,
       "included": true,
       "limitation": null
@@ -106,8 +103,8 @@
     {
       "path": "references/papers/safavi2025_ddl.pdf",
       "sha256": "a6d1d5060638ad8e24a267b8b514e95992af9f1fb44f375ef6ebe69848f94c54",
-      "extracted_characters": 35343,
-      "english_tokens": 4078,
+      "extracted_characters": 25904,
+      "english_tokens": 4076,
       "cjk_characters": 0,
       "included": true,
       "limitation": null
@@ -115,8 +112,8 @@
     {
       "path": "references/papers/salvati_2017_gsg_arxiv_v4.pdf",
       "sha256": "25e13f2db9ae31ef145e5053cdeb34f0726119ffdee692af6005554a9472da64",
-      "extracted_characters": 96125,
-      "english_tokens": 10272,
+      "extracted_characters": 54989,
+      "english_tokens": 10325,
       "cjk_characters": 0,
       "included": true,
       "limitation": null
@@ -124,8 +121,8 @@
     {
       "path": "references/papers/valin2007_robust_localization.pdf",
       "sha256": "48598755fd24d4d8d5dbc703d13c58b393cf690629e5c17286ef7ae4bf4d1b5b",
-      "extracted_characters": 70079,
-      "english_tokens": 9219,
+      "extracted_characters": 52411,
+      "english_tokens": 9253,
       "cjk_characters": 0,
       "included": true,
       "limitation": null
@@ -133,8 +130,17 @@
     {
       "path": "references/papers/yang2025_neural_drone.pdf",
       "sha256": "03d41eb060c3370cf016318493e0d569d8a8b9aa25a139c190bd4c8521c69b5e",
-      "extracted_characters": 37777,
-      "english_tokens": 4469,
+      "extracted_characters": 28961,
+      "english_tokens": 4449,
+      "cjk_characters": 0,
+      "included": true,
+      "limitation": null
+    },
+    {
+      "path": "references/improved/echohawk_2606.29589v2.pdf",
+      "sha256": "aa153846fe42a324fad3a0b33e8870b5a8cffc25b39474ee0ffaafbb17f12131",
+      "extracted_characters": 25285,
+      "english_tokens": 4127,
       "cjk_characters": 0,
       "included": true,
       "limitation": null
@@ -142,8 +148,8 @@
     {
       "path": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
       "sha256": "0cf65931fac8bf9c712d411f3f700d35fe34c24ac84b78bd61113a479bed18dd",
-      "extracted_characters": 62383,
-      "english_tokens": 3652,
+      "extracted_characters": 34914,
+      "english_tokens": 3659,
       "cjk_characters": 12794,
       "included": true,
       "limitation": null
@@ -169,7 +175,7 @@
     {
       "path": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/赛题一题目-发布版-更新方位角定义.pdf",
       "sha256": "f3b4690c94360a6628aeb791719d152a7c7289c1f2b99bc1df981e528c51ff89",
-      "extracted_characters": 4148,
+      "extracted_characters": 3397,
       "english_tokens": 115,
       "cjk_characters": 2621,
       "included": true,
@@ -178,7 +184,7 @@
     {
       "path": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/附件1：声像派产品手册.pdf",
       "sha256": "7f7031f0a20cebbd08a908fd4b3ab02cc4f482cc9697b3b84fddfbabf04d40fa",
-      "extracted_characters": 3892,
+      "extracted_characters": 1913,
       "english_tokens": 159,
       "cjk_characters": 1078,
       "included": true,
@@ -188,61 +194,44 @@
   "english": [
     {
       "minimum_consecutive_units": 5,
-      "total_units": 4188,
-      "union_covered_units": 21,
-      "union_coverage_percent": 0.5014,
-      "maximum_single_source_percent": 0.2627,
+      "total_units": 2138,
+      "union_covered_units": 23,
+      "union_coverage_percent": 1.0758,
+      "maximum_single_source_percent": 0.4677,
       "by_source": [
         {
-          "source": "references/papers/rodriguez2025_acoustic_imaging.pdf",
-          "covered_units": 11,
-          "coverage_percent": 0.2627,
-          "match_start_count": 3,
-          "examples": [
-            "recordings of a dji air",
-            "c is the speed of",
-            "is the speed of sound"
-          ]
-        },
-        {
-          "source": "references/papers/valin2007_robust_localization.pdf",
-          "covered_units": 11,
-          "coverage_percent": 0.2627,
-          "match_start_count": 3,
-          "examples": [
-            "c is the speed of",
-            "is the speed of sound",
-            "in noisy and reverberant environments"
-          ]
-        },
-        {
-          "source": "references/papers/salvati_2017_gsg_arxiv_v4.pdf",
-          "covered_units": 6,
-          "coverage_percent": 0.1433,
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 10,
+          "coverage_percent": 0.4677,
           "match_start_count": 2,
           "examples": [
-            "c is the speed of",
-            "is the speed of sound"
+            "microphone array direction of arrival",
+            "c 343 m s the"
           ]
         },
         {
           "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
+          "covered_units": 8,
+          "coverage_percent": 0.3742,
+          "match_start_count": 4,
+          "examples": [
+            "and direction finding of small",
+            "direction finding of small unmanned",
+            "finding of small unmanned aerial",
+            "of small unmanned aerial vehicles"
+          ]
+        },
+        {
+          "source": "references/papers/grinstein2024_srp_review.pdf",
           "covered_units": 5,
-          "coverage_percent": 0.1194,
+          "coverage_percent": 0.2339,
           "match_start_count": 1,
           "examples": [
-            "and direction finding of small"
+            "and steered response power srp"
           ]
         },
         {
           "source": "references/papers/brumann2024_auxiliary.pdf",
-          "covered_units": 0,
-          "coverage_percent": 0.0,
-          "match_start_count": 0,
-          "examples": []
-        },
-        {
-          "source": "references/papers/grinstein2024_srp_review.pdf",
           "covered_units": 0,
           "coverage_percent": 0.0,
           "match_start_count": 0,
@@ -263,7 +252,28 @@
           "examples": []
         },
         {
+          "source": "references/papers/rodriguez2025_acoustic_imaging.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
           "source": "references/papers/safavi2025_ddl.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/salvati_2017_gsg_arxiv_v4.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/valin2007_robust_localization.pdf",
           "covered_units": 0,
           "coverage_percent": 0.0,
           "match_start_count": 0,
@@ -308,11 +318,27 @@
     },
     {
       "minimum_consecutive_units": 8,
-      "total_units": 4188,
-      "union_covered_units": 0,
-      "union_coverage_percent": 0.0,
-      "maximum_single_source_percent": 0.0,
+      "total_units": 2138,
+      "union_covered_units": 8,
+      "union_coverage_percent": 0.3742,
+      "maximum_single_source_percent": 0.3742,
       "by_source": [
+        {
+          "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
+          "covered_units": 8,
+          "coverage_percent": 0.3742,
+          "match_start_count": 1,
+          "examples": [
+            "and direction finding of small unmanned aerial vehicles"
+          ]
+        },
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
         {
           "source": "references/papers/brumann2024_auxiliary.pdf",
           "covered_units": 0,
@@ -377,13 +403,6 @@
           "examples": []
         },
         {
-          "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
-          "covered_units": 0,
-          "coverage_percent": 0.0,
-          "match_start_count": 0,
-          "examples": []
-        },
-        {
           "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/赛题一题目-发布版-更新方位角定义.pdf",
           "covered_units": 0,
           "coverage_percent": 0.0,
@@ -415,11 +434,18 @@
     },
     {
       "minimum_consecutive_units": 12,
-      "total_units": 4188,
+      "total_units": 2138,
       "union_covered_units": 0,
       "union_coverage_percent": 0.0,
       "maximum_single_source_percent": 0.0,
       "by_source": [
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
         {
           "source": "references/papers/brumann2024_auxiliary.pdf",
           "covered_units": 0,
@@ -524,61 +550,44 @@
   "english_docx_crosscheck": [
     {
       "minimum_consecutive_units": 5,
-      "total_units": 4177,
-      "union_covered_units": 21,
-      "union_coverage_percent": 0.5028,
-      "maximum_single_source_percent": 0.2633,
+      "total_units": 2110,
+      "union_covered_units": 23,
+      "union_coverage_percent": 1.09,
+      "maximum_single_source_percent": 0.4739,
       "by_source": [
         {
-          "source": "references/papers/rodriguez2025_acoustic_imaging.pdf",
-          "covered_units": 11,
-          "coverage_percent": 0.2633,
-          "match_start_count": 3,
-          "examples": [
-            "recordings of a dji air",
-            "c is the speed of",
-            "is the speed of sound"
-          ]
-        },
-        {
-          "source": "references/papers/valin2007_robust_localization.pdf",
-          "covered_units": 11,
-          "coverage_percent": 0.2633,
-          "match_start_count": 3,
-          "examples": [
-            "c is the speed of",
-            "is the speed of sound",
-            "in noisy and reverberant environments"
-          ]
-        },
-        {
-          "source": "references/papers/salvati_2017_gsg_arxiv_v4.pdf",
-          "covered_units": 6,
-          "coverage_percent": 0.1436,
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 10,
+          "coverage_percent": 0.4739,
           "match_start_count": 2,
           "examples": [
-            "c is the speed of",
-            "is the speed of sound"
+            "microphone array direction of arrival",
+            "c 343 m s the"
           ]
         },
         {
           "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
+          "covered_units": 8,
+          "coverage_percent": 0.3791,
+          "match_start_count": 4,
+          "examples": [
+            "and direction finding of small",
+            "direction finding of small unmanned",
+            "finding of small unmanned aerial",
+            "of small unmanned aerial vehicles"
+          ]
+        },
+        {
+          "source": "references/papers/grinstein2024_srp_review.pdf",
           "covered_units": 5,
-          "coverage_percent": 0.1197,
+          "coverage_percent": 0.237,
           "match_start_count": 1,
           "examples": [
-            "and direction finding of small"
+            "and steered response power srp"
           ]
         },
         {
           "source": "references/papers/brumann2024_auxiliary.pdf",
-          "covered_units": 0,
-          "coverage_percent": 0.0,
-          "match_start_count": 0,
-          "examples": []
-        },
-        {
-          "source": "references/papers/grinstein2024_srp_review.pdf",
           "covered_units": 0,
           "coverage_percent": 0.0,
           "match_start_count": 0,
@@ -599,7 +608,28 @@
           "examples": []
         },
         {
+          "source": "references/papers/rodriguez2025_acoustic_imaging.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
           "source": "references/papers/safavi2025_ddl.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/salvati_2017_gsg_arxiv_v4.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/valin2007_robust_localization.pdf",
           "covered_units": 0,
           "coverage_percent": 0.0,
           "match_start_count": 0,
@@ -644,11 +674,27 @@
     },
     {
       "minimum_consecutive_units": 8,
-      "total_units": 4177,
-      "union_covered_units": 0,
-      "union_coverage_percent": 0.0,
-      "maximum_single_source_percent": 0.0,
+      "total_units": 2110,
+      "union_covered_units": 8,
+      "union_coverage_percent": 0.3791,
+      "maximum_single_source_percent": 0.3791,
       "by_source": [
+        {
+          "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
+          "covered_units": 8,
+          "coverage_percent": 0.3791,
+          "match_start_count": 1,
+          "examples": [
+            "and direction finding of small unmanned aerial vehicles"
+          ]
+        },
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
         {
           "source": "references/papers/brumann2024_auxiliary.pdf",
           "covered_units": 0,
@@ -713,13 +759,6 @@
           "examples": []
         },
         {
-          "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
-          "covered_units": 0,
-          "coverage_percent": 0.0,
-          "match_start_count": 0,
-          "examples": []
-        },
-        {
           "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/赛题一题目-发布版-更新方位角定义.pdf",
           "covered_units": 0,
           "coverage_percent": 0.0,
@@ -751,11 +790,18 @@
     },
     {
       "minimum_consecutive_units": 12,
-      "total_units": 4177,
+      "total_units": 2110,
       "union_covered_units": 0,
       "union_coverage_percent": 0.0,
       "maximum_single_source_percent": 0.0,
       "by_source": [
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
         {
           "source": "references/papers/brumann2024_auxiliary.pdf",
           "covered_units": 0,
@@ -860,11 +906,18 @@
   "chinese_translation": [
     {
       "minimum_consecutive_units": 13,
-      "total_units": 6491,
+      "total_units": 3107,
       "union_covered_units": 0,
       "union_coverage_percent": 0.0,
       "maximum_single_source_percent": 0.0,
       "by_source": [
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
         {
           "source": "references/papers/brumann2024_auxiliary.pdf",
           "covered_units": 0,
@@ -967,11 +1020,18 @@
     },
     {
       "minimum_consecutive_units": 20,
-      "total_units": 6491,
+      "total_units": 3107,
       "union_covered_units": 0,
       "union_coverage_percent": 0.0,
       "maximum_single_source_percent": 0.0,
       "by_source": [
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
         {
           "source": "references/papers/brumann2024_auxiliary.pdf",
           "covered_units": 0,
@@ -1074,11 +1134,362 @@
     },
     {
       "minimum_consecutive_units": 30,
-      "total_units": 6491,
+      "total_units": 3107,
       "union_covered_units": 0,
       "union_coverage_percent": 0.0,
       "maximum_single_source_percent": 0.0,
       "by_source": [
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/brumann2024_auxiliary.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/grinstein2024_srp_review.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/gupta2025_droneaudioset.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/jekaterynczuk2025_uavirbase.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/rodriguez2025_acoustic_imaging.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/safavi2025_ddl.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/salvati_2017_gsg_arxiv_v4.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/valin2007_robust_localization.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/yang2025_neural_drone.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/赛题一题目-发布版-更新方位角定义.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/赛题一：说明文档.docx",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/附件1：声像派产品手册.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/附件4：试验说明文档.docx",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        }
+      ]
+    }
+  ],
+  "chinese_docx_crosscheck": [
+    {
+      "minimum_consecutive_units": 13,
+      "total_units": 3107,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0,
+      "by_source": [
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/brumann2024_auxiliary.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/grinstein2024_srp_review.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/gupta2025_droneaudioset.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/jekaterynczuk2025_uavirbase.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/rodriguez2025_acoustic_imaging.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/safavi2025_ddl.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/salvati_2017_gsg_arxiv_v4.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/valin2007_robust_localization.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/yang2025_neural_drone.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/赛题一题目-发布版-更新方位角定义.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/赛题一：说明文档.docx",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/附件1：声像派产品手册.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/附件4：试验说明文档.docx",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        }
+      ]
+    },
+    {
+      "minimum_consecutive_units": 20,
+      "total_units": 3107,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0,
+      "by_source": [
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/brumann2024_auxiliary.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/grinstein2024_srp_review.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/gupta2025_droneaudioset.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/jekaterynczuk2025_uavirbase.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/rodriguez2025_acoustic_imaging.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/safavi2025_ddl.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/salvati_2017_gsg_arxiv_v4.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/valin2007_robust_localization.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "references/papers/yang2025_neural_drone.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/赛题一题目-发布版-更新方位角定义.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/赛题一：说明文档.docx",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/附件1：声像派产品手册.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
+        {
+          "source": "赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/附件4：试验说明文档.docx",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        }
+      ]
+    },
+    {
+      "minimum_consecutive_units": 30,
+      "total_units": 3107,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0,
+      "by_source": [
+        {
+          "source": "references/improved/echohawk_2606.29589v2.pdf",
+          "covered_units": 0,
+          "coverage_percent": 0.0,
+          "match_start_count": 0,
+          "examples": []
+        },
         {
           "source": "references/papers/brumann2024_auxiliary.pdf",
           "covered_units": 0,
