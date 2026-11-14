@@ -1,3 +1,14 @@
+## 最新论文修订稿
+
+2026-11-15已补齐导师稿编辑意见修订版的中文译稿及中英文PDF。当前版本以此处为准：
+
+| 版本 | Word | PDF | 在线阅读 |
+| --- | --- | --- | --- |
+| 英文修订稿 | [下载](paper/editor_revision_2026-11-13/DCCR_Editor_Revised.docx) | [下载](paper/editor_revision_2026-11-13/DCCR_Editor_Revised.pdf) | [正文](paper/editor_revision_2026-11-13/manuscript_en.md) |
+| 中文完整译稿 | [下载](paper/editor_revision_2026-11-13/DCCR_Chinese_Revised.docx) | [下载](paper/editor_revision_2026-11-13/DCCR_Chinese_Revised.pdf) | [正文](paper/editor_revision_2026-11-13/manuscript_zh.md) |
+
+两稿均为5页、2幅图、3张数据表、9个公式和12条参考文献。修订补充声学机理、测向原理、联合判决和误差分析，未新增实测实验。详见[修订包说明](paper/editor_revision_2026-11-13/README.md)。`paper/English_Main.*`、`paper/Chinese_Translation.*`及根目录`START_HERE.pdf`保留为此前版本，不是本次交付文件。
+
 ## 主题
 低慢小无人机声学探测定位算法
 

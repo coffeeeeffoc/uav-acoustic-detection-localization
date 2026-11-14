@@ -1,0 +1,68 @@
+{
+  "verified_on": "2026-11-15",
+  "scope": "Supervisor-based English revision, complete Chinese companion, and native Word PDF exports",
+  "translated_paragraphs": 76,
+  "structure_per_language": {
+    "figures": 2,
+    "data_tables": 3,
+    "equations": 9,
+    "references": 12
+  },
+  "files": {
+    "DCCR_Editor_Revised.docx": {
+      "sha256": "20ab9fb1262a6a2067852598e061b62cf475cdac5986a6088ebf4da8a36eb098",
+      "bytes": 582569
+    },
+    "DCCR_Editor_Revised.pdf": {
+      "sha256": "d3204e5cda323a35690ee682c54eccfbc8f11e347d1d40aa1d77ecb8826383f2",
+      "bytes": 532236,
+      "pages": 5,
+      "references_begin_page": 5,
+      "paragraphs_matched": 90,
+      "data_table_cells_matched": 104,
+      "visual_review_pages": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "DCCR_Chinese_Revised.docx": {
+      "sha256": "1d829d4901474134614f8f995b78147004711cab67e19a6408d1bd66583738a5",
+      "bytes": 581640
+    },
+    "DCCR_Chinese_Revised.pdf": {
+      "sha256": "cfae6b8547e6bedebaf2f1e2bebc4cba9e4792639cb853b4c68e91db931f31a0",
+      "bytes": 593641,
+      "pages": 5,
+      "references_begin_page": 5,
+      "paragraphs_matched": 90,
+      "data_table_cells_matched": 104,
+      "visual_review_pages": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  },
+  "checks": {
+    "translation_coverage": "passed",
+    "translated_numerical_tokens": "passed",
+    "data_table_numerical_tokens": "passed",
+    "equation_table_xml_identical": "passed",
+    "reference_texts_identical": "passed",
+    "author_emails_and_funding_preserved": "passed",
+    "docx_to_pdf_text_coverage": "passed; Unicode, whitespace and case normalized",
+    "visual_review": "all 10 rendered pages inspected; figures, equations, tables and CJK text readable",
+    "pdf_renderer": "Microsoft Word ExportAsFixedFormat",
+    "inspection_renderer": "Poppler pdftoppm"
+  },
+  "limitations": [
+    "No model training, original-recording experiment rerun or new field experiment in this revision.",
+    "No formal similarity/plagiarism report or journal submission check.",
+    "English Word is the revision source; Markdown is a reading copy and older paper builders do not reproduce these files."
+  ]
+}

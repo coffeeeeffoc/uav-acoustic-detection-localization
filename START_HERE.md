@@ -4,12 +4,14 @@
 
 ## 正式论文
 
-| 版本 | Word | PDF | 可重建源稿 |
+| 版本 | Word | PDF | 在线阅读 |
 |---|---|---|---|
-| 英文主稿，5 页 | [English_Main.docx](paper/English_Main.docx) | [English_Main.pdf](paper/English_Main.pdf) | [field_en.md](paper/field_en.md) |
-| 中文完整译稿，5 页 | [Chinese_Translation.docx](paper/Chinese_Translation.docx) | [Chinese_Translation.pdf](paper/Chinese_Translation.pdf) | [field_zh.md](paper/field_zh.md) |
+| 英文编辑意见修订稿，5页 | [Word](paper/editor_revision_2026-11-13/DCCR_Editor_Revised.docx) | [PDF](paper/editor_revision_2026-11-13/DCCR_Editor_Revised.pdf) | [正文](paper/editor_revision_2026-11-13/manuscript_en.md) |
+| 中文完整译稿，5页 | [Word](paper/editor_revision_2026-11-13/DCCR_Chinese_Revised.docx) | [PDF](paper/editor_revision_2026-11-13/DCCR_Chinese_Revised.pdf) | [正文](paper/editor_revision_2026-11-13/manuscript_zh.md) |
 
-两稿均包含 9 个公式、4 张表、3 幅图和 15 条参考文献，按 `模板/wordtemplates.doc` 的实际 A4 页面及双栏样式排版，图形紧凑跨栏、四张表采用单栏。论文围绕研究问题、算法、实验和局限展开。作者顺序为 Ju Luo、Yuqian Zhou，两人单位均为南京航空航天大学，城市为南京；尚未提供邮编和通信邮箱，未限定目标期刊。
+当前交付为2026-11-13英文修订稿及2026-11-15补齐的中文译稿和PDF。两稿均包含9个公式、3张数据表、2幅图和12条参考文献，沿用导师稿的A4双栏排版。英文正文较导师附件增加约930词，补充声学机理、测向原理、联合判决及误差分析。作者顺序、南京航空航天大学计算机科学与技术学院单位信息、两位作者邮箱、通讯作者标记和基金致谢均来自导师稿。见[修订包说明与重建方式](paper/editor_revision_2026-11-13/README.md)。
+
+`paper/English_Main.*`、`paper/Chinese_Translation.*`、`paper/field_*.md`及根目录`START_HERE.pdf`为2026-11-08及此前材料，保留供追溯；不要将旧版生成脚本的输出误作当前导师稿修订版。
 
 ## 数据和主要结果
 
@@ -44,10 +46,11 @@ DCCR 检出 514/600（85.7%），背景虚警 3/200（1.5%）。各方法独立�
 | 全部逐窗输出与候选评分 | [predictions.csv](results/field/predictions.csv)、[candidates.csv](results/field/candidates.csv) |
 | 统计汇总与结果摘要清单 | [summary.json](results/field/summary.json)、[artifact_manifest.json](results/field/artifact_manifest.json) |
 | 已执行的只读结果核验 | [verification.json](results/field/verification.json)、[verify_field.py](code/verify_field.py) |
-| 论文一致性与导出检查 | [delivery_verification.json](results/document_qa/field/delivery_verification.json) |
+| 当前论文一致性与导出检查 | [verification.json](paper/editor_revision_2026-11-13/verification.json) |
+| 旧版论文一致性与导出检查 | [delivery_verification.json](results/document_qa/field/delivery_verification.json) |
 | 参考文献复核与正式稿修订 | [复核报告](research/real_data/reference_audit_2026-11-08.md)、[修订与核验记录](results/document_qa/reference_revision_2026-11-08/REVISION_REPORT.md) |
 | 图形源文件 | `figures/field/`，中英文 PNG 与矢量 PDF |
-| 参考文献资料 | `references/`；本稿引用映射为 [field_citation_map.json](paper/field_citation_map.json) |
+| 参考文献资料 | `references/`；当前12条参考文献以[修订稿](paper/editor_revision_2026-11-13/manuscript_en.md)为准，[field_citation_map.json](paper/field_citation_map.json)对应旧版15条参考文献 |
 
 原始录音没有被修改或重新合成。已完成全部 1921 个原始资料文件的 SHA256 检查、16 项冻结文件检查、7 项评价产物检查，以及全部角偏差、检测标志、配对和统计重算。最终文档逐页检查记录与四份文件哈希存于文档核验报告。
 
@@ -55,4 +58,4 @@ DCCR 检出 514/600（85.7%），背景虚警 3/200（1.5%）。各方法独立�
 
 旧仿真稿及旧入口说明移至 [archive/](archive/README.md)。旧仿真实验的数据、模型及冻结记录保留，供追溯使用，其数值不属于当前实测论文的结果。
 
-当前文件是完整研究稿。正式投稿前仍需补充邮编、通信邮箱及目标刊会要求的声明，当前已应用提供的模板。2026-11-08 版的[修订核验记录](results/document_qa/template_revision/REVISION_REPORT.md)和[相似文字初检](results/similarity_precheck/REPORT.md)单独保存。尚未执行正式相似度检测，不能声称已满足指定重复率阈值。录音公开分发应遵守原始提供方的条件；本目录不另行授予公开再分发许可。
+当前文件是完整研究稿。正式投稿前仍需按目标刊会要求确认邮编及相关声明；通信邮箱已采用导师稿信息，当前沿用导师稿模板。2026-11-08版的[修订核验记录](results/document_qa/template_revision/REVISION_REPORT.md)和[相似文字初检](results/similarity_precheck/REPORT.md)单独保存，不能视为对本次新增正文的检查。尚未执行正式相似度检测，不能声称已满足指定重复率阈值。录音公开分发应遵守原始提供方的条件；本目录不另行授予公开再分发许可。
