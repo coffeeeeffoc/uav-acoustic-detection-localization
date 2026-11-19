@@ -47,6 +47,8 @@ DCCR 检出 514/600（85.7%），背景虚警 3/200（1.5%）。各方法独立�
 | 统计汇总与结果摘要清单 | [summary.json](results/field/summary.json)、[artifact_manifest.json](results/field/artifact_manifest.json) |
 | 已执行的只读结果核验 | [verification.json](results/field/verification.json)、[verify_field.py](code/verify_field.py) |
 | 当前论文一致性与导出检查 | [verification.json](paper/editor_revision_2026-11-13/verification.json) |
+| 导师稿基准与修订过程 | [修订记录](results/document_qa/editor_revision_2026-11-13/REVISION_REPORT.md) |
+| 2026-11-15 投稿前预审 | [预审报告与核验材料](results/manuscript_audit_2026-11-15/REPORT.md) |
 | 旧版论文一致性与导出检查 | [delivery_verification.json](results/document_qa/field/delivery_verification.json) |
 | 参考文献复核与正式稿修订 | [复核报告](research/real_data/reference_audit_2026-11-08.md)、[修订与核验记录](results/document_qa/reference_revision_2026-11-08/REVISION_REPORT.md) |
 | 图形源文件 | `figures/field/`，中英文 PNG 与矢量 PDF |

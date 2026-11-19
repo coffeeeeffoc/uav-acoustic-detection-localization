@@ -1,0 +1,66 @@
+{
+  "word/document.xml": {
+    "bytes": 74054,
+    "sha256": "3467b09df8bf50a9fef8b1f70ea00708924893c82e9fc59ae0124c642aef8515"
+  },
+  "word/styles.xml": {
+    "bytes": 19037,
+    "sha256": "df037f1c0a53fb4f6ff0b224d556ab20eb4ccba3ad678ff781d9b31c83622f39"
+  },
+  "word/comments.xml": {
+    "bytes": 49655,
+    "sha256": "2f3d3b55f94b257dd7d815f20e63a5b0b3cac68a52d32063fccd19e33f45ad6a"
+  },
+  "word/media/image2.png": {
+    "bytes": 70418,
+    "sha256": "ca59a59d6a2a34e0d4be63ac7f47e553392ca4966dd53b7d25a657aefaa5b55b"
+  },
+  "word/media/image3.png": {
+    "bytes": 36025,
+    "sha256": "44e939eaf66ea7c0be53e87042ba720ed6ec7e156b2dece1ff04b2bd52b5f2a9"
+  },
+  "word/numbering.xml": {
+    "bytes": 14613,
+    "sha256": "dc623ba2677c7b175efd692f990a543e43df78fd80a2e17d1ff1c753a4bb0d29"
+  },
+  "word/settings.xml": {
+    "bytes": 548,
+    "sha256": "489bcd613843c32a8b1b184a7c42c1030d70a781147997f7821aa6a54e0b3e57"
+  },
+  "word/fontTable.xml": {
+    "bytes": 1736,
+    "sha256": "316f0be3401b7f9ab8e37db7c408c327d363731d6180fedc1fd47cd4b8db1e6c"
+  },
+  "word/theme/theme1.xml": {
+    "bytes": 2257,
+    "sha256": "8c817dba7260b1c6e49fc7937dd857b5f42d834bc8c33769d788ea824cb2c29f"
+  },
+  "word/_rels/document.xml.rels": {
+    "bytes": 1488,
+    "sha256": "c1c9f31cf9379495feb55b08a37d814f2e56306282554c2e55ad897513ef4f86"
+  },
+  "docProps/custom.xml": {
+    "bytes": 525,
+    "sha256": "8e683fd02d76f61039c5f7b21e749290dd4f19bdc2e324092ebdeccb80156c7f"
+  },
+  "docProps/core.xml": {
+    "bytes": 775,
+    "sha256": "d6f6ab8cf6a33b7fe789b2a8c4cb8482ee01f3feb40bc201542df8ca311f61c1"
+  },
+  "docProps/app.xml": {
+    "bytes": 457,
+    "sha256": "9eef052a8a2d7739efe47f7b78f12ed0c4e3381151b88aaa2fbf4cd25546a04d"
+  },
+  "_rels/.rels": {
+    "bytes": 720,
+    "sha256": "3823de16366678a094490aa4983c96c800dd02d98852331736bf558c1f6ebfcf"
+  },
+  "[Content_Types].xml": {
+    "bytes": 1716,
+    "sha256": "50c748fa20ee5575b14051a51a54c18ed1b302098e559a393dbe6eea74f171a4"
+  },
+  "word/media/image1.png": {
+    "bytes": 131528,
+    "sha256": "b3a1d53018b6790f32dad8dbfbc83f41642eb3ad0247c0ec93ad6a7fd3ace370"
+  }
+}

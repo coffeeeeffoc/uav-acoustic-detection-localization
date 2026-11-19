@@ -1,0 +1,288 @@
+{
+  "official_template_sha256": "4da34d4be2478f2376dbbd87c98527fcc1e88375f7ef6f174ca7a91819014f18",
+  "official_template_matches_local": true,
+  "official_template": {
+    "geometry": [
+      {
+        "width_mm": 210.01,
+        "height_mm": 297.0,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "1",
+        "column_gap": null
+      },
+      {
+        "width_mm": 210.01,
+        "height_mm": 297.0,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "2",
+        "column_gap": "720"
+      },
+      {
+        "width_mm": 210.01,
+        "height_mm": 297.0,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "2",
+        "column_gap": "720"
+      },
+      {
+        "width_mm": 210.01,
+        "height_mm": 297.0,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "1",
+        "column_gap": null
+      },
+      {
+        "width_mm": 210.01,
+        "height_mm": 297.0,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "2",
+        "column_gap": "360"
+      },
+      {
+        "width_mm": 210.01,
+        "height_mm": 297.0,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "1",
+        "column_gap": null
+      }
+    ],
+    "styles": {
+      "paper title": {
+        "font": "Times New Roman",
+        "size": 24.0,
+        "base": null
+      },
+      "Body Text": {
+        "font": null,
+        "size": null,
+        "base": "Normal"
+      },
+      "Abstract": {
+        "font": "Times New Roman",
+        "size": 9.0,
+        "base": null
+      },
+      "Heading 1": {
+        "font": null,
+        "size": null,
+        "base": "Normal"
+      },
+      "references": {
+        "font": "Times New Roman",
+        "size": 8.0,
+        "base": null
+      }
+    },
+    "first_paragraph_runs": [
+      [
+        "",
+        null,
+        null
+      ],
+      [
+        "Paper Title",
+        null,
+        14.0
+      ],
+      [
+        "",
+        null,
+        14.0
+      ]
+    ]
+  },
+  "english": {
+    "geometry": [
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "1",
+        "column_gap": "720"
+      },
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "2",
+        "column_gap": "720"
+      },
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "1",
+        "column_gap": "720"
+      },
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "2",
+        "column_gap": "360"
+      },
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "1",
+        "column_gap": "720"
+      }
+    ],
+    "styles": {
+      "paper title": {
+        "font": null,
+        "size": 24.0,
+        "base": null
+      },
+      "Body Text": {
+        "font": null,
+        "size": null,
+        "base": "Normal"
+      },
+      "Abstract": {
+        "font": null,
+        "size": 9.0,
+        "base": null
+      },
+      "Heading 1": {
+        "font": null,
+        "size": null,
+        "base": "Normal"
+      },
+      "references": {
+        "font": null,
+        "size": 8.0,
+        "base": null
+      }
+    },
+    "first_paragraph_runs": [
+      [
+        "Acoustic Detection and Direction Fi",
+        null,
+        14.0
+      ]
+    ]
+  },
+  "chinese": {
+    "geometry": [
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "1",
+        "column_gap": "720"
+      },
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "2",
+        "column_gap": "720"
+      },
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "1",
+        "column_gap": "720"
+      },
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "2",
+        "column_gap": "360"
+      },
+      {
+        "width_mm": 210.06,
+        "height_mm": 296.93,
+        "top_mm": 25.4,
+        "bottom_mm": 25.4,
+        "left_mm": 19.05,
+        "right_mm": 19.05,
+        "columns": "1",
+        "column_gap": "720"
+      }
+    ],
+    "styles": {
+      "paper title": {
+        "font": null,
+        "size": 24.0,
+        "base": null
+      },
+      "Body Text": {
+        "font": null,
+        "size": null,
+        "base": "Normal"
+      },
+      "Abstract": {
+        "font": null,
+        "size": 9.0,
+        "base": null
+      },
+      "Heading 1": {
+        "font": null,
+        "size": null,
+        "base": "Normal"
+      },
+      "references": {
+        "font": null,
+        "size": 8.0,
+        "base": null
+      }
+    },
+    "first_paragraph_runs": [
+      [
+        "基于方向条件相干谱排序的无人机声学探测与测向",
+        "Times New Roman",
+        14.0
+      ]
+    ]
+  }
+}

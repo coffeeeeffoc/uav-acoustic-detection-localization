@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "documents": [
+    {
+      "language": "en",
+      "docx": "paper/English_Main.docx",
+      "pdf": "paper/English_Main.pdf",
+      "pages": 5,
+      "figures": 3,
+      "equations": 9,
+      "data_tables": 4,
+      "references": 12,
+      "pdf_images": 12,
+      "fonts_embedded": {
+        "BAAAAA+TimesNewRomanPS-BoldMT": true,
+        "CAAAAA+TimesNewRomanPSMT": true,
+        "DAAAAA+TimesNewRomanPS-BoldItalicMT": true,
+        "EAAAAA+TimesNewRomanPS-ItalicMT": true,
+        "FAAAAA+OpenSymbol": true
+      },
+      "template_geometry_verified": true,
+      "template_design_parts_preserved": true
+    },
+    {
+      "language": "zh",
+      "docx": "paper/Chinese_Translation.docx",
+      "pdf": "paper/Chinese_Translation.pdf",
+      "pages": 5,
+      "figures": 3,
+      "equations": 9,
+      "data_tables": 4,
+      "references": 12,
+      "pdf_images": 12,
+      "fonts_embedded": {
+        "BAAAAA+SimSun": true,
+        "CAAAAA+TimesNewRomanPSMT": true,
+        "DAAAAA+TimesNewRomanPS-BoldMT": true,
+        "EAAAAA+SimSun": true,
+        "FAAAAA+TimesNewRomanPS-ItalicMT": true,
+        "GAAAAA+OpenSymbol": true,
+        "HAAAAA+SimSun": true
+      },
+      "template_geometry_verified": true,
+      "template_design_parts_preserved": true
+    }
+  ],
+  "bilingual_tables_identical": true,
+  "bilingual_equations_identical": true,
+  "citation_order_verified": true,
+  "task_response_language_absent": true,
+  "frozen_files_unchanged": 16,
+  "evaluation_artifacts_unchanged": 7,
+  "visual_review": "visual_review.json",
+  "limitations": [
+    "No external similarity service used",
+    "No journal acceptance or hardware real-time claim"
+  ]
+}

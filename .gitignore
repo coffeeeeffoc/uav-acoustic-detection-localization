@@ -11,3 +11,17 @@ __pycache__/
 *.mp4
 /data/synthetic/**/*.npz
 /赛题信息/第四届“声华杯”赛题一附件（发布版）-0609更新/
+
+# Local attachment downloads and manuscript QA renders
+/.codex-remote-attachments/
+/results/document_qa/template_revision/*/page-*.png
+/results/document_qa/template_revision/*/English_Main.pdf
+/results/document_qa/template_revision/*/Chinese_Translation.pdf
+/results/document_qa/template_revision/reference-render/wordtemplates.pdf
+/results/document_qa/bilingual_revision_2026-11-15/*.png
+/results/document_qa/bilingual_revision_2026-11-15/pre_commit_*.txt
+/results/document_qa/editor_revision_2026-11-13/*-[0-9].png
+/results/document_qa/editor_revision_2026-11-13/revised_final.pdf
+/results/document_qa/reference_audit_2026-11-08/*-page-*.png
+/results/manuscript_audit_2026-11-15/*_all_pages.png
+/results/manuscript_audit_2026-11-15/isaics_official_word_template.doc

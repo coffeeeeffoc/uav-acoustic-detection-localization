@@ -1,0 +1,123 @@
+{
+  "body_vs_complete_source_text": [
+    {
+      "minimum_consecutive_units": 8,
+      "total_units": 3115,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0
+    },
+    {
+      "minimum_consecutive_units": 12,
+      "total_units": 3115,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0
+    }
+  ],
+  "reference_metadata_manual_resolutions": [
+    {
+      "reference": 1,
+      "status": "verified_from_publisher_search_record_and_local_original",
+      "doi": "10.12141/j.issn.1000-565X.220277",
+      "source_url": "https://api.crossref.org/works/10.12141%2Fj.issn.1000-565X.220277",
+      "error": "HTTP Error 404: Not Found",
+      "publisher_url": "https://www.sciopen.com/article/10.12141/j.issn.1000-565X.220277",
+      "local_original": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
+      "note": "Crossref endpoint returned unavailable; publication title/year/volume/pages checked against the original."
+    },
+    {
+      "reference": 9,
+      "status": "metadata_retrieved",
+      "doi": "10.23919/EUSIPCO63237.2025.11226465",
+      "source_url": "https://api.crossref.org/works/10.23919%2FEUSIPCO63237.2025.11226465",
+      "title": [
+        "Neural Drone Localization Exploiting Signal Synthesis of Real-World Audio Data"
+      ],
+      "container": [
+        "2025 33rd European Signal Processing Conference (EUSIPCO)"
+      ],
+      "authors": [
+        {
+          "given": "Ximei",
+          "family": "Yang",
+          "sequence": "first",
+          "affiliation": [
+            {
+              "name": "Fraunhofer Institute for Digital Media Technology IDMT,Oldenburg Branch for Hearing, Speech and Audio Technology HSA,Germany"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Patrick A.",
+          "family": "Naylor",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Imperial College London,Dept. of Electrical and Electronic Engineering,UK"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Simon",
+          "family": "Doclo",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Fraunhofer Institute for Digital Media Technology IDMT,Oldenburg Branch for Hearing, Speech and Audio Technology HSA,Germany"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        },
+        {
+          "given": "Joerg",
+          "family": "Bitzer",
+          "sequence": "additional",
+          "affiliation": [
+            {
+              "name": "Fraunhofer Institute for Digital Media Technology IDMT,Oldenburg Branch for Hearing, Speech and Audio Technology HSA,Germany"
+            }
+          ],
+          "role": [
+            {
+              "vocabulary": "crossref",
+              "role": "author"
+            }
+          ]
+        }
+      ],
+      "published": {
+        "date-parts": [
+          [
+            2025,
+            9,
+            8
+          ]
+        ]
+      },
+      "volume": null,
+      "issue": null,
+      "page": "256-560",
+      "article_number": null,
+      "citation": "X. Yang, P. A. Naylor, S. Doclo, and J. Bitzer, \"Neural Drone Localization Exploiting Signal Synthesis of Real-World Audio Data,\" in Proc. 33rd European Signal Processing Conference (EUSIPCO), pp. 256–260, 2025. doi: 10.23919/EUSIPCO63237.2025.11226465.",
+      "note": "Crossref page field 256-560 is erroneous. Official EUSIPCO PDF and local original have printed pages 256-260; manuscript is correct."
+    }
+  ]
+}

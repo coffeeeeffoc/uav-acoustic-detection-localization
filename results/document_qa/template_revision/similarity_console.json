@@ -1,0 +1,133 @@
+{
+  "included_sources": 15,
+  "total_sources": 16,
+  "pdf_crosscheck": {
+    "pages": 5,
+    "unique_markdown_tokens": 786,
+    "missing_from_pdf": []
+  },
+  "english": [
+    {
+      "minimum_consecutive_units": 5,
+      "total_units": 2138,
+      "union_covered_units": 23,
+      "union_coverage_percent": 1.0758,
+      "maximum_single_source_percent": 0.4677
+    },
+    {
+      "minimum_consecutive_units": 8,
+      "total_units": 2138,
+      "union_covered_units": 8,
+      "union_coverage_percent": 0.3742,
+      "maximum_single_source_percent": 0.3742
+    },
+    {
+      "minimum_consecutive_units": 12,
+      "total_units": 2138,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0
+    }
+  ],
+  "english_docx_crosscheck": [
+    {
+      "minimum_consecutive_units": 5,
+      "total_units": 2110,
+      "union_covered_units": 23,
+      "union_coverage_percent": 1.09,
+      "maximum_single_source_percent": 0.4739
+    },
+    {
+      "minimum_consecutive_units": 8,
+      "total_units": 2110,
+      "union_covered_units": 8,
+      "union_coverage_percent": 0.3791,
+      "maximum_single_source_percent": 0.3791
+    },
+    {
+      "minimum_consecutive_units": 12,
+      "total_units": 2110,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0
+    }
+  ],
+  "chinese_translation": [
+    {
+      "minimum_consecutive_units": 13,
+      "total_units": 3107,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0
+    },
+    {
+      "minimum_consecutive_units": 20,
+      "total_units": 3107,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0
+    },
+    {
+      "minimum_consecutive_units": 30,
+      "total_units": 3107,
+      "union_covered_units": 0,
+      "union_coverage_percent": 0.0,
+      "maximum_single_source_percent": 0.0
+    }
+  ],
+  "english_matches": [
+    {
+      "source": "参考资料/无人机声学定位技术综述_陈鹏.pdf",
+      "covered_units": 8,
+      "coverage_percent": 0.3742,
+      "match_start_count": 1,
+      "examples": [
+        "and direction finding of small unmanned aerial vehicles"
+      ]
+    },
+    {
+      "source": "references/improved/echohawk_2606.29589v2.pdf",
+      "covered_units": 0,
+      "coverage_percent": 0.0,
+      "match_start_count": 0,
+      "examples": []
+    },
+    {
+      "source": "references/papers/brumann2024_auxiliary.pdf",
+      "covered_units": 0,
+      "coverage_percent": 0.0,
+      "match_start_count": 0,
+      "examples": []
+    },
+    {
+      "source": "references/papers/grinstein2024_srp_review.pdf",
+      "covered_units": 0,
+      "coverage_percent": 0.0,
+      "match_start_count": 0,
+      "examples": []
+    }
+  ],
+  "chinese_matches": [
+    {
+      "source": "references/improved/echohawk_2606.29589v2.pdf",
+      "covered_units": 0,
+      "coverage_percent": 0.0,
+      "match_start_count": 0,
+      "examples": []
+    },
+    {
+      "source": "references/papers/brumann2024_auxiliary.pdf",
+      "covered_units": 0,
+      "coverage_percent": 0.0,
+      "match_start_count": 0,
+      "examples": []
+    },
+    {
+      "source": "references/papers/grinstein2024_srp_review.pdf",
+      "covered_units": 0,
+      "coverage_percent": 0.0,
+      "match_start_count": 0,
+      "examples": []
+    }
+  ]
+}
